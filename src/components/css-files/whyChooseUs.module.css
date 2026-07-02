@@ -1,0 +1,73 @@
+.whyChooseUsSection {
+  padding-top: 3rem;
+}
+
+.intro {
+  margin-bottom: 2.5rem;
+}
+
+.featuresContainer {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.2rem;
+}
+
+.featureCard {
+  padding: 1.7rem;
+  border-radius: 1.7rem;
+  background: var(--card-surface);
+  border: 1px solid var(--line-soft);
+  box-shadow: var(--shadow-soft);
+  text-align: left;
+  transition:
+    transform 0.28s ease,
+    box-shadow 0.28s ease,
+    border-color 0.28s ease;
+}
+
+.featureCard:hover {
+  transform: translateY(-6px);
+  border-color: var(--card-hover-border);
+  box-shadow: var(--shadow-hover);
+}
+
+.iconWrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.15rem;
+  height: 3.15rem;
+  margin-bottom: 1.15rem;
+  border-radius: 1.1rem;
+  background: linear-gradient(135deg, var(--brand-100), var(--success-100));
+  color: var(--brand-500);
+  font-size: 1.35rem;
+}
+
+.featureTitle {
+  margin: 0 0 0.7rem;
+  font-size: 1.3rem;
+  line-height: 1.2;
+}
+
+.featureDescription {
+  margin: 0;
+  color: var(--ink-700);
+  line-height: 1.75;
+}
+
+@media (max-width: 1024px) {
+  .featuresContainer {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .featuresContainer {
+    grid-template-columns: 1fr;
+  }
+
+  .featureCard {
+    text-align: center;
+  }
+}

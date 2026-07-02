@@ -1,0 +1,162 @@
+/* === General Styles === */
+
+.services-section {
+  padding: 50px 20px;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.services-heading {
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.services-subheading {
+  font-size: 1.2rem;
+  margin-bottom: 40px;
+  color: #666;
+}
+
+.services-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.service-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 30px;
+  width: 300px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+}
+
+.service-icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+}
+
+.service-title {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.service-description {
+  font-size: 1rem;
+  color: #555;
+}
+
+.services-know-more-heading {
+  font-size: 1.8rem;
+  margin-top: 50px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* === Find here button === */
+.know-more-button,
+.close-modal {
+  background-color: #ff5722;
+  color: #fff;
+  border: none;
+  padding: 12px 30px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.know-more-button:hover,
+.close-modal:hover {
+  background-color: #e64a19;
+}
+
+.know-more-button.enlarged,
+.close-modal.enlarged {
+  transform: scale(1.2);
+}
+
+/* === Read More Link === */
+.read-more-link {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: #007BFF;
+  text-decoration: underline;
+  cursor: pointer;
+  display: inline;
+}
+
+.read-more-link:hover {
+  color: #0056b3;
+}
+
+/* === Modal === */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px #00000040;
+  max-width: 900px;
+  padding: 30px;
+  text-align: left;
+  width: 80%;
+  max-height: 600px;
+  overflow: scroll;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.modal-content p {
+  font-size: 1rem;
+  color: #555;
+  margin: 20px 0;
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+  .services-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .service-card {
+    width: 80%;
+  }
+
+  .services-heading {
+    font-size: 2rem;
+  }
+
+  .services-know-more-heading {
+    font-size: 1.5rem;
+  }
+}

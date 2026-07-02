@@ -1,0 +1,114 @@
+.service-showcase {
+  position: relative;
+}
+
+.service-showcase--soft {
+  background: var(--service-showcase-soft);
+}
+
+.service-showcase--feature {
+  padding-top: 3rem;
+  padding-bottom: 3.5rem;
+}
+
+.service-showcase__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.2rem;
+}
+
+.service-showcase__grid--compact {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.service-showcase__feature {
+  display: flex;
+  justify-content: center;
+}
+
+.service-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 100%;
+  padding: 1.75rem;
+  border-radius: 1.7rem;
+  background: var(--card-surface-strong);
+  border: 1px solid var(--line-soft);
+  box-shadow: var(--shadow-soft);
+  text-align: left;
+  transition:
+    transform 0.28s ease,
+    box-shadow 0.28s ease,
+    border-color 0.28s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-7px);
+  border-color: var(--card-hover-border);
+  box-shadow: var(--shadow-hover);
+}
+
+.service-card--feature {
+  max-width: 820px;
+  flex-direction: row;
+  align-items: center;
+  gap: 1.35rem;
+  background: var(--service-feature-bg);
+}
+
+.service-card__feature-copy {
+  flex: 1;
+}
+
+.service-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.35rem;
+  height: 3.35rem;
+  margin-bottom: 1rem;
+  border-radius: 1.15rem;
+  background: linear-gradient(135deg, var(--brand-100), var(--accent-100));
+  color: var(--brand-500);
+  font-size: 1.35rem;
+  flex-shrink: 0;
+}
+
+.service-card--feature .service-card__icon {
+  margin-bottom: 0;
+  width: 4.15rem;
+  height: 4.15rem;
+  font-size: 1.65rem;
+}
+
+.service-card__title {
+  margin: 0 0 0.75rem;
+  font-size: 1.28rem;
+  line-height: 1.22;
+}
+
+.service-card__description {
+  margin: 0;
+  color: var(--ink-700);
+  line-height: 1.8;
+}
+
+@media (max-width: 1024px) {
+  .service-showcase__grid,
+  .service-showcase__grid--compact {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .service-card--feature {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 680px) {
+  .service-showcase__grid,
+  .service-showcase__grid--compact {
+    grid-template-columns: 1fr;
+  }
+}

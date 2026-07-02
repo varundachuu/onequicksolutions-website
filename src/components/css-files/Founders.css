@@ -1,0 +1,184 @@
+.founder-container {
+  position: relative;
+}
+
+.leaders-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2.25rem;
+}
+
+.team-card,
+.employee-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1.35rem;
+  border-radius: 1.7rem;
+  background: var(--card-surface-strong);
+  border: 1px solid var(--line-soft);
+  box-shadow: var(--shadow-soft);
+  text-align: left;
+  transition:
+    transform 0.28s ease,
+    box-shadow 0.28s ease,
+    border-color 0.28s ease;
+}
+
+.team-card:hover,
+.employee-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--card-hover-border);
+  box-shadow: var(--shadow-hover);
+}
+
+.team-image-shell {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 1.35rem;
+  margin-bottom: 1rem;
+}
+
+.team-image {
+  display: block;
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  transition: transform 0.55s ease;
+}
+
+.team-card:hover .team-image,
+.employee-card:hover .team-image {
+  transform: scale(1.04);
+}
+
+.team-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.42rem 0.8rem;
+  border-radius: 999px;
+  background: var(--brand-100);
+  color: var(--brand-500);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.team-name {
+  margin: 1rem 0 0.3rem;
+  font-size: 1.22rem;
+}
+
+.team-title {
+  margin: 0 0 1rem;
+  color: var(--ink-700);
+  line-height: 1.65;
+}
+
+.team-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: auto;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--accent-500);
+  font-size: 0.96rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.team-strip-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.team-strip-kicker {
+  color: var(--ink-500);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.team-strip-title {
+  margin: 0.45rem 0 0;
+  font-size: 1.65rem;
+}
+
+.employees-scrollable {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(260px, 300px);
+  gap: 1rem;
+  overflow-x: auto;
+  padding-bottom: 0.45rem;
+  scroll-snap-type: x proximity;
+}
+
+.employees-scrollable::-webkit-scrollbar {
+  height: 8px;
+}
+
+.employees-scrollable::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border-radius: 999px;
+}
+
+.employee-card {
+  scroll-snap-align: start;
+}
+
+.employee-card .team-image {
+  height: 220px;
+}
+
+.scroll-buttons {
+  display: flex;
+  gap: 0.7rem;
+}
+
+.scroll-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.85rem;
+  height: 2.85rem;
+  border: 1px solid var(--line-soft);
+  border-radius: 999px;
+  background: var(--card-surface);
+  color: var(--ink-900);
+  cursor: pointer;
+  box-shadow: var(--shadow-tight);
+  transition:
+    transform 0.24s ease,
+    background-color 0.24s ease;
+}
+
+.scroll-button:hover {
+  transform: translateY(-2px);
+  background: var(--surface-soft);
+}
+
+@media (max-width: 1024px) {
+  .leaders-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .team-strip-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .employees-scrollable {
+    grid-auto-columns: minmax(250px, 86vw);
+  }
+}
