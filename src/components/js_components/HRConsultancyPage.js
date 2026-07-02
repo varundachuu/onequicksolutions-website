@@ -180,27 +180,6 @@ function HRConsultancyPage() {
                 Explore the Recruitment Process
               </button>
             </div>
-
-            <div className="hr-page-hero__highlights">
-              {heroHighlights.map((item) => {
-                const Icon = item.icon;
-
-                return (
-                  <article
-                    key={item.title}
-                    className="hr-page-highlight-card surface-panel interactive-panel"
-                  >
-                    <span className="hr-page-icon-badge">
-                      <Icon />
-                    </span>
-                    <div>
-                      <strong>{item.title}</strong>
-                      <p>{item.copy}</p>
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
           </div>
 
           <div className="hr-page-hero__visual surface-panel">
@@ -244,6 +223,27 @@ function HRConsultancyPage() {
                 ))}
               </ul>
             </div>
+          </div>
+
+          <div className="hr-page-hero__highlights">
+            {heroHighlights.map((item) => {
+              const Icon = item.icon;
+
+              return (
+                <article
+                  key={item.title}
+                  className="hr-page-highlight-card surface-panel interactive-panel"
+                >
+                  <span className="hr-page-icon-badge">
+                    <Icon />
+                  </span>
+                  <div className="hr-page-highlight-card__body">
+                    <strong>{item.title}</strong>
+                    <p>{item.copy}</p>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </div>
       </section>
