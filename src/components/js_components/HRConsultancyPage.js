@@ -112,6 +112,7 @@ const hiringSignals = [
   "Structured reminders for interviews and joining",
   "Recruitment dashboards and performance visibility",
 ];
+const consultancyPortalUrl = "https://hr.onequicksolutions.com/?userType=consultancy";
 
 const scrollToLocalSection = (sectionId) => {
   const target = document.getElementById(sectionId);
@@ -146,6 +147,10 @@ function HRConsultancyPage() {
     scrollToLocalSection("contact");
   };
 
+  const openConsultancyPortal = () => {
+    window.open(consultancyPortalUrl, "_blank", "noopener,noreferrer");
+  };
+
   return (
     <div className="hr-page">
       <section className="section-shell hr-page-hero">
@@ -170,6 +175,14 @@ function HRConsultancyPage() {
                 onClick={goToContact}
               >
                 Share Your Hiring Requirement
+                <FaArrowRight />
+              </button>
+              <button
+                type="button"
+                className="hr-page-button hr-page-button--secondary"
+                onClick={openConsultancyPortal}
+              >
+                Open HR Consultancy Portal
                 <FaArrowRight />
               </button>
               <button
@@ -383,6 +396,14 @@ function HRConsultancyPage() {
               <button
                 type="button"
                 className="hr-page-button hr-page-button--primary"
+                onClick={openConsultancyPortal}
+              >
+                Open HR Consultancy Portal
+                <FaArrowRight />
+              </button>
+              <button
+                type="button"
+                className="hr-page-button hr-page-button--secondary"
                 onClick={goToContact}
               >
                 Start the Conversation
