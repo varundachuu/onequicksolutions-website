@@ -144,6 +144,14 @@ function Header({ theme, onToggleTheme }) {
     setIsMenuOpen(false);
   }, [location.pathname, location.hash]);
 
+  useEffect(() => {
+    document.body.classList.toggle("menu-open", isMenuOpen);
+
+    return () => {
+      document.body.classList.remove("menu-open");
+    };
+  }, [isMenuOpen]);
+
   const renderNavButton = (link, className) => {
     const isPrimary = link.id === "contact";
     const isActive =

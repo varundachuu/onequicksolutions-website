@@ -195,10 +195,11 @@
 
 .side-modal {
   position: fixed;
-  inset: 0;
+  inset: var(--header-offset) 0 0 0;
   z-index: 999;
   display: flex;
   justify-content: flex-end;
+  align-items: stretch;
   background: var(--modal-backdrop);
   backdrop-filter: blur(8px);
   opacity: 0;
@@ -217,8 +218,10 @@
 
 .modal-content {
   width: min(86vw, 24rem);
-  height: 100%;
-  padding: 1.4rem;
+  height: calc(100dvh - var(--header-offset));
+  padding: 1.2rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   background: var(--drawer-bg);
   box-shadow: var(--drawer-shadow);
   transform: translateX(100%);
@@ -271,6 +274,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.7rem;
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
 }
 
 .modal-nav-button {
@@ -283,9 +287,19 @@
   box-shadow: var(--drawer-nav-shadow);
 }
 
+.modal-nav-button--primary {
+  background: linear-gradient(135deg, var(--nav-primary-start), var(--nav-primary-end));
+  color: #ffffff;
+  box-shadow: 0 14px 24px rgba(37, 99, 235, 0.24);
+}
+
 body {
   margin: 0;
   padding-top: var(--header-offset);
+}
+
+body.menu-open {
+  overflow: hidden;
 }
 
 @media (max-width: 1320px) {
@@ -320,6 +334,15 @@ body {
   .menu-toggle {
     display: inline-flex;
   }
+
+  .modal-top {
+    display: none;
+  }
+
+  .modal-content {
+    width: min(92vw, 24rem);
+    padding-top: 1rem;
+  }
 }
 
 @media (max-width: 640px) {
@@ -328,13 +351,17 @@ body {
     padding-inline: 0.9rem;
   }
 
+  .header-actions {
+    gap: 0.65rem;
+  }
+
   .brand-logo-shell {
-    padding: 0.45rem 0.75rem;
+    padding: 0.38rem 0.6rem;
     border-radius: 1rem;
   }
 
   .brand-logo {
-    width: 8.2rem;
+    width: 7.4rem;
   }
 
   .menu-toggle {
@@ -351,7 +378,9 @@ body {
   }
 
   .modal-content {
-    width: min(100vw, 22rem);
+    width: 100%;
+    height: calc(100dvh - var(--header-offset));
+    padding: 0.9rem;
+    box-shadow: none;
   }
-
 }

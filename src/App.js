@@ -19,6 +19,7 @@ import OtherServices from "./components/js_components/Other-Services.js"; // Pro
 import Products from "./components/js_components/Products.js";           // Product section
 import WhyChooseUs from "./components/js_components/whyChooseUs.js";
 import ScrollToTop from "./components/js_components/ScrollToTop.js";
+import MascotAssistant from "./components/js_components/MascotAssistant.js";
 import HRConsultancyPage from "./components/js_components/HRConsultancyPage.js";
 
 // Assets
@@ -196,6 +197,8 @@ function AppShell() {
           <Route path="/contact" element={<ContactUs />} />
         </Routes>
       </main>
+
+      <MascotAssistant theme={theme} onToggleTheme={toggleTheme} />
 
       {showScrollToTop && <ScrollToTop onClick={scrollToTop} />}
 
