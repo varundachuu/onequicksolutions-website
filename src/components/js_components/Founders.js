@@ -73,7 +73,14 @@ const Founders = () => {
     <article key={person.name} className={className}>
       <div className="team-image-shell">
         {person.image ? (
-          <img src={person.image} alt={person.name} className="team-image" />
+          <img
+            src={person.image}
+            alt={person.name}
+            className="team-image"
+            loading="lazy"
+            decoding="async"
+            fetchPriority="low"
+          />
         ) : (
           <div className="team-image-placeholder" aria-label={`${person.name} photo placeholder`}>
             <span className="team-image-placeholder__initials">

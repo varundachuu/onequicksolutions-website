@@ -195,6 +195,8 @@ function Header({ theme, onToggleTheme }) {
               className="brand-logo"
               src="/images/logo6.jpg"
               alt="One Quick Solutions"
+              decoding="async"
+              fetchPriority="high"
             />
           </span>
           <span className="brand-tagline">

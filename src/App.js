@@ -69,19 +69,6 @@ function AppShell() {
   const location = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const heroElement = document.querySelector(".hero");
-      if (heroElement) {
-        heroElement.style.backgroundPosition = `center ${scrollY * 0.5}px`;
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
     document.documentElement.style.colorScheme = theme;
     window.localStorage.setItem(THEME_STORAGE_KEY, theme);

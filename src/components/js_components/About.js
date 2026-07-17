@@ -69,6 +69,9 @@ const AboutUs = () => {
                 src="./images/About.jpg"
                 alt="Team members collaborating around a laptop"
                 className="about-image"
+                loading="lazy"
+                decoding="async"
+                fetchPriority="low"
               />
             </div>
           </div>

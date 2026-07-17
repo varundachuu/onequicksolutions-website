@@ -418,7 +418,7 @@ main div[id] {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
-  background-attachment: fixed;
+  background-attachment: scroll;
   isolation: isolate;
 }
 

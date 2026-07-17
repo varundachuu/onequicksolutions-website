@@ -104,8 +104,18 @@ const BONK_REACTIONS = [
   },
 ];
 
+const INTRO_SESSION_KEY = "onequicksolutions-quicki-intro-seen";
+
 const randomItem = (items) => items[Math.floor(Math.random() * items.length)];
 const INTRO_MESSAGE = "Welcome to OneQuickSolutions";
+
+const shouldShowIntro = () => {
+  if (typeof window === "undefined") {
+    return true;
+  }
+
+  return window.sessionStorage.getItem(INTRO_SESSION_KEY) !== "true";
+};
 
 const getDockMetrics = () => {
   if (typeof window === "undefined") {
@@ -201,7 +211,7 @@ function QuickiBot({
 function MascotAssistant({ theme, onToggleTheme }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isPartyMode, setIsPartyMode] = useState(false);
-  const [showIntro, setShowIntro] = useState(true);
+  const [showIntro, setShowIntro] = useState(shouldShowIntro);
   const [introSettling, setIntroSettling] = useState(false);
   const [introTarget, setIntroTarget] = useState(getDockMetrics);
   const [speech, setSpeech] = useState(INTRO_MESSAGE);
@@ -301,18 +311,25 @@ function MascotAssistant({ theme, onToggleTheme }) {
     };
 
     updateIntroTarget();
-    setSpeech(INTRO_MESSAGE);
     lastScrollYRef.current = window.scrollY;
+
+    if (!showIntro) {
+      setSpeech(CONTEXT_LINES.home[0]);
+      return undefined;
+    }
+
+    window.sessionStorage.setItem(INTRO_SESSION_KEY, "true");
+    setSpeech(INTRO_MESSAGE);
 
     introSettleTimerRef.current = window.setTimeout(() => {
       setIntroSettling(true);
-    }, 1850);
+    }, 650);
 
     introHideTimerRef.current = window.setTimeout(() => {
       setShowIntro(false);
       setIntroSettling(false);
       setSpeech(CONTEXT_LINES.home[0]);
-    }, 3000);
+    }, 1300);
 
     window.addEventListener("resize", updateIntroTarget);
 
@@ -325,7 +342,7 @@ function MascotAssistant({ theme, onToggleTheme }) {
         window.clearTimeout(introHideTimerRef.current);
       }
     };
-  }, []);
+  }, [showIntro]);
 
   useEffect(() => {
     const handleScrollMotion = () => {

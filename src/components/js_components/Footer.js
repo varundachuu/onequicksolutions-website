@@ -80,7 +80,14 @@ const Footer = () => {
       <div className="footer-container">
         <div className="footer-brand">
           <div className="footer-brand-shell">
-            <img src="/images/logo6.jpg" alt="OneQuickSolutions" className="footer-logo" />
+            <img
+              src="/images/logo6.jpg"
+              alt="OneQuickSolutions"
+              className="footer-logo"
+              loading="lazy"
+              decoding="async"
+              fetchPriority="low"
+            />
           </div>
           <p className="footer-description">
             OneQuickSolutions creates polished digital systems for businesses

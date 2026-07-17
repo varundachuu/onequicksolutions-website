@@ -201,6 +201,9 @@ function HRConsultancyPage() {
                 src="/images/contact.jpg"
                 alt="Recruitment coordination workspace"
                 className="hr-page-hero__image"
+                loading="eager"
+                decoding="async"
+                fetchPriority="high"
               />
             </div>
 
@@ -220,6 +223,9 @@ function HRConsultancyPage() {
                   src="/images/logo6.jpg"
                   alt="OneQuickSolutions recruitment support"
                   className="hr-page-dashboard-image"
+                  loading="lazy"
+                  decoding="async"
+                  fetchPriority="low"
                 />
                 <div>
                   <span className="hr-page-visual-label">Recruitment dashboard</span>
