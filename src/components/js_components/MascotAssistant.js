@@ -2,47 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   FaBolt,
-  FaMagic,
   FaMoon,
   FaPaperPlane,
   FaSun,
   FaTimes,
 } from "react-icons/fa";
 import "../css-files/MascotAssistant.css";
-
-const SECTION_SHORTCUTS = [
-  {
-    id: "about",
-    type: "section",
-    label: "About",
-    line: "Story time. Let me land you on the team intro.",
-  },
-  {
-    id: "service",
-    type: "section",
-    label: "Services",
-    line: "Jumping to the service stack. This part sells hard.",
-  },
-  {
-    id: "other-services",
-    type: "section",
-    label: "Programmes",
-    line: "Teleporting to the programmes section. Extra goodies ahead.",
-  },
-  {
-    id: "contact",
-    type: "section",
-    label: "Contact",
-    line: "Bold move. Straight to the contact form.",
-  },
-  {
-    id: "hr-consultancy",
-    type: "route",
-    path: "/hr-consultancy",
-    label: "HR Consultancy",
-    line: "Switching into hiring mode. Let us visit the consultancy page.",
-  },
-];
 
 const CONTEXT_LINES = {
   home: [
@@ -725,14 +690,6 @@ function MascotAssistant({ theme, onToggleTheme }) {
     scrollToDocumentSection(target.id);
   };
 
-  const handleSurpriseJump = () => {
-    const surprise = randomItem(SECTION_SHORTCUTS);
-    setSpeech(surprise.line);
-    emitSparkles(15);
-    setIsOpen(false);
-    moveToTarget(surprise);
-  };
-
   const handleThemeFlip = () => {
     onToggleTheme();
     emitSparkles(12);
@@ -853,20 +810,6 @@ function MascotAssistant({ theme, onToggleTheme }) {
               </div>
 
               <div className="mascot-panel__actions">
-                <button
-                  type="button"
-                  className="mascot-action"
-                  onClick={handleSurpriseJump}
-                >
-                  <span className="mascot-action__icon">
-                    <FaMagic />
-                  </span>
-                  <span className="mascot-action__copy">
-                    <strong>Surprise Me</strong>
-                  </span>
-                  <span className="mascot-action__tag">Jump</span>
-                </button>
-
                 <button
                   type="button"
                   className="mascot-action"
