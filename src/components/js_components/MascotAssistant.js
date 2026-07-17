@@ -76,6 +76,30 @@ const CONTEXT_LINES = {
 };
 
 const randomItem = (items) => items[Math.floor(Math.random() * items.length)];
+const INTRO_MESSAGE = "Welcome to OneQuickSolutions";
+
+const getDockMetrics = () => {
+  if (typeof window === "undefined") {
+    return {
+      translateX: "0px",
+      translateY: "0px",
+    };
+  }
+
+  const compact = window.innerWidth <= 640;
+  const size = compact ? 68 : 80;
+  const rightOffset = compact ? 12.8 : 25.6;
+  const bottomOffset = compact ? 12.8 : 25.6;
+  const centerX = window.innerWidth / 2;
+  const centerY = window.innerHeight / 2;
+  const dockX = window.innerWidth - rightOffset - size / 2;
+  const dockY = window.innerHeight - bottomOffset - size / 2;
+
+  return {
+    translateX: `${Math.round(dockX - centerX)}px`,
+    translateY: `${Math.round(dockY - centerY)}px`,
+  };
+};
 
 const scrollToDocumentSection = (sectionId) => {
   if (sectionId === "home") {
@@ -102,12 +126,21 @@ const scrollToDocumentSection = (sectionId) => {
 function MascotAssistant({ theme, onToggleTheme }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isPartyMode, setIsPartyMode] = useState(false);
-  const [speech, setSpeech] = useState(CONTEXT_LINES.home[0]);
+  const [showIntro, setShowIntro] = useState(true);
+  const [introSettling, setIntroSettling] = useState(false);
+  const [introTarget, setIntroTarget] = useState(getDockMetrics);
+  const [speech, setSpeech] = useState(INTRO_MESSAGE);
   const [activeSection, setActiveSection] = useState("home");
   const [sparkles, setSparkles] = useState([]);
+  const [isPushing, setIsPushing] = useState(false);
+  const [scrollDirection, setScrollDirection] = useState("down");
   const navigate = useNavigate();
   const location = useLocation();
   const sparkleTimerRef = useRef(null);
+  const scrollTimerRef = useRef(null);
+  const lastScrollYRef = useRef(0);
+  const introSettleTimerRef = useRef(null);
+  const introHideTimerRef = useRef(null);
 
   useEffect(() => {
     const updateActiveSection = () => {
@@ -149,7 +182,7 @@ function MascotAssistant({ theme, onToggleTheme }) {
   }, [location.pathname]);
 
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen || showIntro) {
       return undefined;
     }
 
@@ -163,7 +196,7 @@ function MascotAssistant({ theme, onToggleTheme }) {
     return () => {
       window.clearInterval(rotationTimer);
     };
-  }, [activeSection, isOpen]);
+  }, [activeSection, isOpen, showIntro]);
 
   useEffect(() => {
     if (!isPartyMode) {
@@ -180,9 +213,76 @@ function MascotAssistant({ theme, onToggleTheme }) {
   }, [isPartyMode]);
 
   useEffect(() => {
+    const updateIntroTarget = () => {
+      setIntroTarget(getDockMetrics());
+    };
+
+    updateIntroTarget();
+    setSpeech(INTRO_MESSAGE);
+    lastScrollYRef.current = window.scrollY;
+
+    introSettleTimerRef.current = window.setTimeout(() => {
+      setIntroSettling(true);
+    }, 1850);
+
+    introHideTimerRef.current = window.setTimeout(() => {
+      setShowIntro(false);
+      setIntroSettling(false);
+      setSpeech(CONTEXT_LINES.home[0]);
+    }, 3000);
+
+    window.addEventListener("resize", updateIntroTarget);
+
+    return () => {
+      window.removeEventListener("resize", updateIntroTarget);
+      if (introSettleTimerRef.current) {
+        window.clearTimeout(introSettleTimerRef.current);
+      }
+      if (introHideTimerRef.current) {
+        window.clearTimeout(introHideTimerRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleScrollMotion = () => {
+      const nextScrollY = window.scrollY;
+      const delta = nextScrollY - lastScrollYRef.current;
+      lastScrollYRef.current = nextScrollY;
+
+      if (showIntro || Math.abs(delta) < 4) {
+        return;
+      }
+
+      setScrollDirection(delta > 0 ? "down" : "up");
+      setIsPushing(true);
+
+      if (scrollTimerRef.current) {
+        window.clearTimeout(scrollTimerRef.current);
+      }
+
+      scrollTimerRef.current = window.setTimeout(() => {
+        setIsPushing(false);
+      }, 220);
+    };
+
+    window.addEventListener("scroll", handleScrollMotion, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScrollMotion);
+      if (scrollTimerRef.current) {
+        window.clearTimeout(scrollTimerRef.current);
+      }
+    };
+  }, [showIntro]);
+
+  useEffect(() => {
     return () => {
       if (sparkleTimerRef.current) {
         window.clearTimeout(sparkleTimerRef.current);
+      }
+      if (scrollTimerRef.current) {
+        window.clearTimeout(scrollTimerRef.current);
       }
     };
   }, []);
@@ -272,148 +372,186 @@ function MascotAssistant({ theme, onToggleTheme }) {
   };
 
   return (
-    <aside
-      className={[
-        "mascot-assistant",
-        isOpen ? "mascot-assistant--open" : "",
-        isPartyMode ? "mascot-assistant--party" : "",
-      ]
-        .filter(Boolean)
-        .join(" ")}
-      aria-label="Quicki assistant"
-    >
-      <div className="mascot-assistant__speech" aria-live="polite">
-        <span className="mascot-assistant__speech-label">Quicki</span>
-        <p>{speech}</p>
-      </div>
-
-      <div className="mascot-assistant__dock">
-        {isOpen && (
-          <div className="mascot-panel">
-            <div className="mascot-panel__header">
-              <div>
-                <p className="mascot-panel__eyebrow">Digital Sidekick</p>
-                <h3>Quicki&apos;s chaos console</h3>
-              </div>
-              <button
-                type="button"
-                className="mascot-panel__close"
-                onClick={() => setIsOpen(false)}
-                aria-label="Close mascot panel"
-              >
-                <FaTimes />
-              </button>
+    <>
+      {showIntro && (
+        <div
+          className={[
+            "mascot-intro",
+            introSettling ? "mascot-intro--settling" : "",
+          ]
+            .filter(Boolean)
+            .join(" ")}
+          style={{
+            "--intro-dx": introTarget.translateX,
+            "--intro-dy": introTarget.translateY,
+          }}
+          aria-live="polite"
+        >
+          <div className="mascot-intro__stage">
+            <div className="mascot-intro__speech">
+              <span className="mascot-intro__label">Quicki</span>
+              <p>{INTRO_MESSAGE}</p>
             </div>
 
-            <div className="mascot-panel__actions">
-              <button
-                type="button"
-                className="mascot-action"
-                onClick={handleSurpriseJump}
-              >
-                <span className="mascot-action__icon">
-                  <FaMagic />
-                </span>
-                <span>
-                  <strong>Surprise Me</strong>
-                  <small>Randomly jump to a strong section.</small>
-                </span>
-              </button>
-
-              <button
-                type="button"
-                className="mascot-action"
-                onClick={handleThemeFlip}
-              >
-                <span className="mascot-action__icon">
-                  {theme === "light" ? <FaMoon /> : <FaSun />}
-                </span>
-                <span>
-                  <strong>Theme Flip</strong>
-                  <small>Let Quicki toggle the mood instantly.</small>
-                </span>
-              </button>
-
-              <button
-                type="button"
-                className="mascot-action"
-                onClick={handlePartyMode}
-              >
-                <span className="mascot-action__icon">
-                  <FaBolt />
-                </span>
-                <span>
-                  <strong>{isPartyMode ? "Calm It Down" : "Party Mode"}</strong>
-                  <small>Fire spark bursts and extra mascot energy.</small>
-                </span>
-              </button>
-
-              <button
-                type="button"
-                className="mascot-action mascot-action--primary"
-                onClick={handleContactWarp}
-              >
-                <span className="mascot-action__icon">
-                  <FaPaperPlane />
-                </span>
-                <span>
-                  <strong>Contact Warp</strong>
-                  <small>Jump straight to the conversation starter.</small>
-                </span>
-              </button>
-            </div>
-          </div>
-        )}
-
-        <div className="mascot-assistant__anchor">
-          <div className="mascot-assistant__sparkles" aria-hidden="true">
-            {sparkles.map((sparkle) => (
-              <span
-                key={sparkle.id}
-                className="mascot-sparkle"
-                style={{
-                  "--sparkle-x": sparkle.x,
-                  "--sparkle-y": sparkle.y,
-                  "--sparkle-size": sparkle.size,
-                  "--sparkle-rotation": sparkle.rotation,
-                  "--sparkle-delay": sparkle.delay,
-                  "--sparkle-color": `hsl(${sparkle.hue} 92% 62%)`,
-                }}
+            <div className="mascot-intro__visual" aria-hidden="true">
+              <span className="mascot-trigger__halo mascot-trigger__halo--intro" />
+              <img
+                src="/images/quicki-mascot.png"
+                alt=""
+                className="mascot-intro__image"
               />
-            ))}
+            </div>
           </div>
-
-          <button
-            type="button"
-            className="mascot-trigger"
-            onClick={() => {
-              const nextOpen = !isOpen;
-              setIsOpen(nextOpen);
-
-              if (nextOpen) {
-                setSpeech("Console open. Pick a shortcut or unleash the chaos.");
-                emitSparkles(10);
-              } else {
-                setSpeech(
-                  activeSection === "contact"
-                    ? "I will hang here quietly near the finish line."
-                    : randomItem(CONTEXT_LINES[activeSection] ?? CONTEXT_LINES.home)
-                );
-              }
-            }}
-            aria-expanded={isOpen}
-            aria-label={isOpen ? "Close Quicki assistant" : "Open Quicki assistant"}
-          >
-            <span className="mascot-trigger__halo" aria-hidden="true" />
-            <img
-              src="/images/quicki-mascot.png"
-              alt="Quicki mascot"
-              className="mascot-trigger__image"
-            />
-          </button>
         </div>
-      </div>
-    </aside>
+      )}
+
+      <aside
+        className={[
+          "mascot-assistant",
+          showIntro ? "mascot-assistant--hidden" : "",
+          isOpen ? "mascot-assistant--open" : "",
+          isPartyMode ? "mascot-assistant--party" : "",
+          isPushing ? `mascot-assistant--scroll-${scrollDirection}` : "",
+        ]
+          .filter(Boolean)
+          .join(" ")}
+        aria-label="Quicki assistant"
+      >
+        <div className="mascot-assistant__speech" aria-live="polite">
+          <span className="mascot-assistant__speech-label">Quicki</span>
+          <p>{speech}</p>
+        </div>
+
+        <div className="mascot-assistant__dock">
+          {isOpen && (
+            <div className="mascot-panel">
+              <div className="mascot-panel__header">
+                <div>
+                  <p className="mascot-panel__eyebrow">Digital Sidekick</p>
+                  <h3>Quicki&apos;s chaos console</h3>
+                </div>
+                <button
+                  type="button"
+                  className="mascot-panel__close"
+                  onClick={() => setIsOpen(false)}
+                  aria-label="Close mascot panel"
+                >
+                  <FaTimes />
+                </button>
+              </div>
+
+              <div className="mascot-panel__actions">
+                <button
+                  type="button"
+                  className="mascot-action"
+                  onClick={handleSurpriseJump}
+                >
+                  <span className="mascot-action__icon">
+                    <FaMagic />
+                  </span>
+                  <span>
+                    <strong>Surprise Me</strong>
+                    <small>Randomly jump to a strong section.</small>
+                  </span>
+                </button>
+
+                <button
+                  type="button"
+                  className="mascot-action"
+                  onClick={handleThemeFlip}
+                >
+                  <span className="mascot-action__icon">
+                    {theme === "light" ? <FaMoon /> : <FaSun />}
+                  </span>
+                  <span>
+                    <strong>Theme Flip</strong>
+                    <small>Let Quicki toggle the mood instantly.</small>
+                  </span>
+                </button>
+
+                <button
+                  type="button"
+                  className="mascot-action"
+                  onClick={handlePartyMode}
+                >
+                  <span className="mascot-action__icon">
+                    <FaBolt />
+                  </span>
+                  <span>
+                    <strong>{isPartyMode ? "Calm It Down" : "Party Mode"}</strong>
+                    <small>Fire spark bursts and extra mascot energy.</small>
+                  </span>
+                </button>
+
+                <button
+                  type="button"
+                  className="mascot-action mascot-action--primary"
+                  onClick={handleContactWarp}
+                >
+                  <span className="mascot-action__icon">
+                    <FaPaperPlane />
+                  </span>
+                  <span>
+                    <strong>Contact Warp</strong>
+                    <small>Jump straight to the conversation starter.</small>
+                  </span>
+                </button>
+              </div>
+            </div>
+          )}
+
+          <div className="mascot-assistant__anchor">
+            <span className="mascot-assistant__push-trail" aria-hidden="true" />
+
+            <div className="mascot-assistant__sparkles" aria-hidden="true">
+              {sparkles.map((sparkle) => (
+                <span
+                  key={sparkle.id}
+                  className="mascot-sparkle"
+                  style={{
+                    "--sparkle-x": sparkle.x,
+                    "--sparkle-y": sparkle.y,
+                    "--sparkle-size": sparkle.size,
+                    "--sparkle-rotation": sparkle.rotation,
+                    "--sparkle-delay": sparkle.delay,
+                    "--sparkle-color": `hsl(${sparkle.hue} 92% 62%)`,
+                  }}
+                />
+              ))}
+            </div>
+
+            <button
+              type="button"
+              className="mascot-trigger"
+              onClick={() => {
+                const nextOpen = !isOpen;
+                setIsOpen(nextOpen);
+
+                if (nextOpen) {
+                  setSpeech("Console open. Pick a shortcut or unleash the chaos.");
+                  emitSparkles(10);
+                } else {
+                  setSpeech(
+                    activeSection === "contact"
+                      ? "I will hang here quietly near the finish line."
+                      : randomItem(CONTEXT_LINES[activeSection] ?? CONTEXT_LINES.home)
+                  );
+                }
+              }}
+              aria-expanded={isOpen}
+              aria-label={isOpen ? "Close Quicki assistant" : "Open Quicki assistant"}
+            >
+              <span className="mascot-trigger__halo" aria-hidden="true" />
+              <img
+                src="/images/quicki-mascot.png"
+                alt="Quicki mascot"
+                className="mascot-trigger__image"
+              />
+            </button>
+          </div>
+        </div>
+      </aside>
+    </>
   );
 }
 

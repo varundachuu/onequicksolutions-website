@@ -18,7 +18,6 @@ import Services from "./components/js_components/services.js";
 import OtherServices from "./components/js_components/Other-Services.js"; // Programmes
 import Products from "./components/js_components/Products.js";           // Product section
 import WhyChooseUs from "./components/js_components/whyChooseUs.js";
-import ScrollToTop from "./components/js_components/ScrollToTop.js";
 import MascotAssistant from "./components/js_components/MascotAssistant.js";
 import HRConsultancyPage from "./components/js_components/HRConsultancyPage.js";
 
@@ -66,7 +65,6 @@ const scrollToDocumentSection = (sectionId) => {
 };
 
 function AppShell() {
-  const [showScrollToTop, setShowScrollToTop] = useState(false);
   const [theme, setTheme] = useState(getInitialTheme);
   const location = useLocation();
 
@@ -77,7 +75,6 @@ function AppShell() {
       if (heroElement) {
         heroElement.style.backgroundPosition = `center ${scrollY * 0.5}px`;
       }
-      setShowScrollToTop(scrollY > 100);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -103,10 +100,6 @@ function AppShell() {
     window.scrollTo(0, 0);
     return undefined;
   }, [location.pathname, location.hash]);
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
 
   const toggleTheme = () => {
     setTheme((currentTheme) =>
@@ -199,8 +192,6 @@ function AppShell() {
       </main>
 
       <MascotAssistant theme={theme} onToggleTheme={toggleTheme} />
-
-      {showScrollToTop && <ScrollToTop onClick={scrollToTop} />}
 
       <Footer />
     </div>
