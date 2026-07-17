@@ -404,7 +404,7 @@ function MascotAssistant({ theme, onToggleTheme }) {
             aria-expanded={isOpen}
             aria-label={isOpen ? "Close Quicki assistant" : "Open Quicki assistant"}
           >
-            <span className="mascot-trigger__orb" />
+            <span className="mascot-trigger__halo" aria-hidden="true" />
             <img
               src="/images/quicki-mascot.png"
               alt="Quicki mascot"
