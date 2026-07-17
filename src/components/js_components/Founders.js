@@ -3,18 +3,35 @@ import { FaArrowRight } from "react-icons/fa";
 import "../css-files/Founders.css";
 
 const team = {
-  leaders: [
+  founders: [
     {
       image: "./images/Profile-Images/varun1.jpg",
       name: "Varun",
       title: "Managing Director",
-      badge: "Leadership",
+      badge: "Founder",
     },
     {
       image: "./images/Profile-Images/Yogesh4.jpg",
       name: "Yogesh",
       title: "Chief Executive Officer",
-      badge: "Strategy",
+      badge: "Founder",
+    },
+  ],
+  partners: [
+    {
+      name: "Chirag",
+      title: "Working Partner",
+      badge: "Partner",
+    },
+    {
+      name: "Gowtham",
+      title: "Working Partner",
+      badge: "Partner",
+    },
+    {
+      name: "Santhosh",
+      title: "Working Partner",
+      badge: "Partner",
     },
   ],
 };
@@ -44,10 +61,27 @@ const Founders = () => {
     return () => window.clearTimeout(timerId);
   }, []);
 
+  const getInitials = (name) =>
+    name
+      .split(" ")
+      .map((part) => part.charAt(0))
+      .join("")
+      .slice(0, 2)
+      .toUpperCase();
+
   const renderCard = (person, className) => (
     <article key={person.name} className={className}>
       <div className="team-image-shell">
-        <img src={person.image} alt={person.name} className="team-image" />
+        {person.image ? (
+          <img src={person.image} alt={person.name} className="team-image" />
+        ) : (
+          <div className="team-image-placeholder" aria-label={`${person.name} photo placeholder`}>
+            <span className="team-image-placeholder__initials">
+              {getInitials(person.name)}
+            </span>
+            <span className="team-image-placeholder__label">Photo coming soon</span>
+          </div>
+        )}
       </div>
       <span className="team-badge">{person.badge}</span>
       <h3 className="team-name">{person.name}</h3>
@@ -71,8 +105,26 @@ const Founders = () => {
           </p>
         </div>
 
-        <div className="leaders-grid">
-          {team.leaders.map((person) => renderCard(person, "team-card"))}
+        <div className="team-group">
+          <div className="team-group-header">
+            <span className="team-group-kicker">Leadership</span>
+            <h3 className="team-group-title">Founders</h3>
+          </div>
+
+          <div className="leaders-grid">
+            {team.founders.map((person) => renderCard(person, "team-card"))}
+          </div>
+        </div>
+
+        <div className="team-group">
+          <div className="team-group-header">
+            <span className="team-group-kicker">Collaborators</span>
+            <h3 className="team-group-title">Working Partners</h3>
+          </div>
+
+          <div className="partners-grid">
+            {team.partners.map((person) => renderCard(person, "employee-card"))}
+          </div>
         </div>
       </div>
     </section>
