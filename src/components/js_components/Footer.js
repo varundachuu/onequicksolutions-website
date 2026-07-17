@@ -48,7 +48,7 @@ function Footer() {
               className="footer-logo"
               loading="lazy"
               decoding="async"
-              fetchPriority="low"
+              fetchpriority="low"
               width="464"
               height="98"
             />

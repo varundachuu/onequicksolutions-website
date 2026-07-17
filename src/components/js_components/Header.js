@@ -125,7 +125,7 @@ function Header({ theme, onToggleTheme }) {
               src="/images/logo6.jpg"
               alt="OneQuickSolutions logo"
               decoding="async"
-              fetchPriority="high"
+              fetchpriority="high"
               width="464"
               height="98"
             />

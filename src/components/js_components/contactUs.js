@@ -11,9 +11,15 @@ import "react-toastify/dist/ReactToastify.css";
 import "../css-files/contactUs.css";
 
 const emailJsConfig = {
-  serviceId: process.env.REACT_APP_EMAILJS_SERVICE_ID,
-  templateId: process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
-  publicKey: process.env.REACT_APP_EMAILJS_PUBLIC_KEY,
+  serviceId:
+    import.meta.env.VITE_EMAILJS_SERVICE_ID ||
+    import.meta.env.REACT_APP_EMAILJS_SERVICE_ID,
+  templateId:
+    import.meta.env.VITE_EMAILJS_TEMPLATE_ID ||
+    import.meta.env.REACT_APP_EMAILJS_TEMPLATE_ID,
+  publicKey:
+    import.meta.env.VITE_EMAILJS_PUBLIC_KEY ||
+    import.meta.env.REACT_APP_EMAILJS_PUBLIC_KEY,
 };
 
 const contactMethods = [

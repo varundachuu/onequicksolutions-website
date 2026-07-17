@@ -73,7 +73,7 @@ function AboutUs() {
                 className="about-image"
                 loading="lazy"
                 decoding="async"
-                fetchPriority="low"
+                fetchpriority="low"
               />
             </div>
           </div>

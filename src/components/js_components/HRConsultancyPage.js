@@ -204,7 +204,7 @@ function HRConsultancyPage() {
                   className="hr-page-hero__image"
                   loading="eager"
                   decoding="async"
-                  fetchPriority="high"
+                  fetchpriority="high"
                 />
               </div>
 
@@ -226,7 +226,7 @@ function HRConsultancyPage() {
                     className="hr-page-dashboard-image"
                     loading="lazy"
                     decoding="async"
-                    fetchPriority="low"
+                    fetchpriority="low"
                   />
                   <div>
                     <span className="hr-page-visual-label">Recruitment workflow</span>

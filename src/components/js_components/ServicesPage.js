@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import PageHero from "./PageHero";
 import Services from "./services";
+import ProductSpotlight from "./ProductSpotlight";
 import Products from "./Products";
 import Features from "./Features";
 import Industries from "./Industries";
@@ -51,6 +52,7 @@ function ServicesPage() {
       />
 
       <Services variant="page" />
+      <ProductSpotlight />
       <Products />
       <Features />
       <Industries />

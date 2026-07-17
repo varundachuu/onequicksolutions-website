@@ -1,6 +1,6 @@
 # OneQuickSolutions Website
 
-Marketing website for OneQuickSolutions, built with React.
+Marketing website for OneQuickSolutions, built with React and Vite.
 
 ## Local setup
 
@@ -15,7 +15,7 @@ npm install
 3. Start the app:
 
 ```bash
-npm start
+npm run dev
 ```
 
 ## Environment variables
@@ -23,17 +23,23 @@ npm start
 Create a `.env` file with:
 
 ```env
-REACT_APP_EMAILJS_SERVICE_ID=your_service_id
-REACT_APP_EMAILJS_TEMPLATE_ID=your_template_id
-REACT_APP_EMAILJS_PUBLIC_KEY=your_public_key
+VITE_EMAILJS_SERVICE_ID=your_service_id
+VITE_EMAILJS_TEMPLATE_ID=your_template_id
+VITE_EMAILJS_PUBLIC_KEY=your_public_key
 ```
 
-The contact form will stay visible, but it will not submit until these values are configured.
+Legacy `REACT_APP_*` variable names are still supported during the migration, but `VITE_*` is the long-term format.
 
 ## Production build
 
 ```bash
 npm run build
+```
+
+## Preview the production build locally
+
+```bash
+npm run preview
 ```
 
 ## GitHub replacement workflow

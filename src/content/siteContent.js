@@ -170,6 +170,42 @@ export const processSteps = [
   },
 ];
 
+export const productSpotlights = [
+  {
+    title: "HR Management Portal",
+    label: "Featured product",
+    summary:
+      "A structured recruitment workspace that helps OneQuickSolutions support employers, consultancy operations, and candidates through one organized hiring flow.",
+    description:
+      "Built from our live HR platform project, this product brings company access, candidate onboarding, application flows, recruiter coordination, and hiring visibility into a cleaner digital system.",
+    bullets: [
+      "Role-based entry points for companies and candidates",
+      "Candidate registration, consent, and guided application workflows",
+      "A company dashboard prepared for hiring visibility and future growth",
+    ],
+    tags: ["HR management", "Recruitment portal", "Candidate workflow"],
+  },
+];
+
+export const hiringEntryCards = [
+  {
+    audience: "For companies",
+    title: "Start hiring with OneQuickSolutions",
+    description:
+      "Open the company login to manage hiring needs, review candidate activity, and move faster with a more organized recruitment flow.",
+    buttonLabel: "Hire Here",
+    href: "https://hr.onequicksolutions.com/?userType=company",
+  },
+  {
+    audience: "For candidates",
+    title: "Create your profile and start applying",
+    description:
+      "Open the candidate login to register, complete your details, and apply for opportunities through the OneQuickSolutions hiring portal.",
+    buttonLabel: "Apply Here",
+    href: "https://hr.onequicksolutions.com/?userType=candidate",
+  },
+];
+
 export const technologyGroups = [
   {
     icon: "frontend",

@@ -3,6 +3,7 @@ import HomeHero from "./HomeHero";
 import WhyChooseUs from "./whyChooseUs";
 import AboutUs from "./About";
 import Services from "./services";
+import ProductSpotlight from "./ProductSpotlight";
 import Products from "./Products";
 import Features from "./Features";
 import Industries from "./Industries";
@@ -46,6 +47,7 @@ function HomePage() {
       <WhyChooseUs />
       <AboutUs />
       <Services variant="home" />
+      <ProductSpotlight />
       <Products />
       <Features />
       <Industries />

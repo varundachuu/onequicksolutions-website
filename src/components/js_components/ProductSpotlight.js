@@ -1,0 +1,88 @@
+import React from "react";
+import { FaArrowRight, FaBriefcase, FaBuilding, FaUserTie } from "react-icons/fa";
+import { hiringEntryCards, productSpotlights } from "../../content/siteContent";
+import "../css-files/ContentSections.css";
+
+const audienceIconMap = {
+  "For companies": FaBuilding,
+  "For candidates": FaUserTie,
+};
+
+function ProductSpotlight() {
+  const product = productSpotlights[0];
+
+  return (
+    <section id="products" className="section-shell product-spotlight-section">
+      <div className="section-inner">
+        <div className="section-intro">
+          <span className="section-kicker">Products</span>
+          <h2 className="section-title">A live HR Management product built for practical hiring flow</h2>
+          <p className="section-copy">
+            Beyond services, OneQuickSolutions is also building focused digital
+            products. This HR Management portal is designed to make hiring feel
+            clearer, faster, and more organized for both businesses and candidates.
+          </p>
+        </div>
+
+        <article className="product-spotlight surface-panel">
+          <div className="product-spotlight__copy">
+            <span className="product-spotlight__label">{product.label}</span>
+            <div className="product-spotlight__headline">
+              <span className="product-spotlight__icon" aria-hidden="true">
+                <FaBriefcase />
+              </span>
+              <div>
+                <h3>{product.title}</h3>
+                <p>{product.summary}</p>
+              </div>
+            </div>
+
+            <p className="product-spotlight__description">{product.description}</p>
+
+            <ul className="product-spotlight__list">
+              {product.bullets.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+
+            <div className="product-spotlight__tags" aria-label={`${product.title} keywords`}>
+              {product.tags.map((tag) => (
+                <span key={tag} className="product-spotlight__tag">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="product-entry-grid">
+            {hiringEntryCards.map((card) => {
+              const Icon = audienceIconMap[card.audience] ?? FaBriefcase;
+
+              return (
+                <article key={card.audience} className="product-entry-card interactive-panel">
+                  <span className="product-entry-card__audience">{card.audience}</span>
+                  <span className="product-entry-card__icon" aria-hidden="true">
+                    <Icon />
+                  </span>
+                  <h3>{card.title}</h3>
+                  <p>{card.description}</p>
+                  <a
+                    className="product-entry-card__button"
+                    href={card.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {card.buttonLabel}
+                    <FaArrowRight />
+                  </a>
+                </article>
+              );
+            })}
+          </div>
+        </article>
+      </div>
+    </section>
+  );
+}
+
+export default ProductSpotlight;

@@ -76,7 +76,7 @@ function Founders() {
             className="team-image"
             loading="lazy"
             decoding="async"
-            fetchPriority="low"
+            fetchpriority="low"
           />
         ) : (
           <div className="team-image-placeholder" aria-label={`${person.name} photo placeholder`}>
