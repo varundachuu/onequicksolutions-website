@@ -123,6 +123,48 @@ const scrollToDocumentSection = (sectionId) => {
   });
 };
 
+function QuickiBot({
+  variant = "dock",
+  isPartyMode = false,
+  isPushing = false,
+  scrollDirection = "down",
+  isTalking = false,
+}) {
+  return (
+    <div
+      className={[
+        "quicki-bot",
+        `quicki-bot--${variant}`,
+        isPartyMode ? "quicki-bot--party" : "",
+        isTalking ? "quicki-bot--talking" : "",
+        isPushing ? `quicki-bot--scroll-${scrollDirection}` : "",
+      ]
+        .filter(Boolean)
+        .join(" ")}
+      aria-hidden="true"
+    >
+      <span className="quicki-bot__aura" />
+      <span className="quicki-bot__shadow" />
+      <span className="quicki-bot__antenna" />
+      <span className="quicki-bot__arm quicki-bot__arm--left" />
+      <span className="quicki-bot__arm quicki-bot__arm--right" />
+      <div className="quicki-bot__body">
+        <div className="quicki-bot__visor">
+          <span className="quicki-bot__eye quicki-bot__eye--left">
+            <span className="quicki-bot__pupil" />
+          </span>
+          <span className="quicki-bot__eye quicki-bot__eye--right">
+            <span className="quicki-bot__pupil" />
+          </span>
+        </div>
+        <span className="quicki-bot__mouth" />
+        <span className="quicki-bot__core" />
+      </div>
+      <span className="quicki-bot__hover-ring" />
+    </div>
+  );
+}
+
 function MascotAssistant({ theme, onToggleTheme }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isPartyMode, setIsPartyMode] = useState(false);
@@ -394,11 +436,12 @@ function MascotAssistant({ theme, onToggleTheme }) {
             </div>
 
             <div className="mascot-intro__visual" aria-hidden="true">
-              <span className="mascot-trigger__halo mascot-trigger__halo--intro" />
-              <img
-                src="/images/quicki-mascot.png"
-                alt=""
-                className="mascot-intro__image"
+              <QuickiBot
+                variant="intro"
+                isPartyMode={isPartyMode}
+                isPushing={false}
+                scrollDirection={scrollDirection}
+                isTalking
               />
             </div>
           </div>
@@ -541,11 +584,12 @@ function MascotAssistant({ theme, onToggleTheme }) {
               aria-expanded={isOpen}
               aria-label={isOpen ? "Close Quicki assistant" : "Open Quicki assistant"}
             >
-              <span className="mascot-trigger__halo" aria-hidden="true" />
-              <img
-                src="/images/quicki-mascot.png"
-                alt="Quicki mascot"
-                className="mascot-trigger__image"
+              <QuickiBot
+                variant="dock"
+                isPartyMode={isPartyMode}
+                isPushing={isPushing}
+                scrollDirection={scrollDirection}
+                isTalking={isOpen || isPushing}
               />
             </button>
           </div>

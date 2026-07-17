@@ -78,16 +78,8 @@
 
 .mascot-intro__visual {
   position: relative;
-  width: clamp(5.2rem, 7vw, 6.25rem);
-}
-
-.mascot-intro__image {
-  position: relative;
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-  z-index: 1;
-  animation: mascot-bob 3.3s ease-in-out infinite;
+  display: grid;
+  place-items: center;
 }
 
 .mascot-assistant__speech {
@@ -283,55 +275,275 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 5rem;
-  min-width: 5rem;
-  padding: 0.15rem;
+  width: auto;
+  min-width: 0;
+  padding: 0;
   border: none;
   background: transparent;
   cursor: pointer;
-  filter: drop-shadow(0 16px 22px rgba(17, 38, 86, 0.18));
   transition:
     transform 0.18s ease,
     filter 0.18s ease;
 }
 
-.mascot-trigger__halo {
+.quicki-bot {
+  --quicki-size: 4.95rem;
+  position: relative;
+  display: block;
+  width: var(--quicki-size);
+  aspect-ratio: 1 / 1.15;
+  transform-origin: center bottom;
+}
+
+.quicki-bot--intro {
+  --quicki-size: clamp(5.3rem, 7vw, 6.35rem);
+}
+
+.quicki-bot__aura {
   position: absolute;
-  inset: 18% 16% 10%;
+  inset: 18% 15% 8%;
   border-radius: 50%;
   background:
-    radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.18) 28%, transparent 62%),
-    radial-gradient(circle at 52% 58%, rgba(79, 125, 240, 0.28), rgba(43, 89, 195, 0.12) 48%, transparent 76%);
-  filter: blur(10px);
-  opacity: 0.95;
-  transform: translateY(6%);
-}
-
-.mascot-trigger__halo--intro {
-  inset: 14% 12% 8%;
+    radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.2) 32%, transparent 64%),
+    radial-gradient(circle at 50% 58%, rgba(79, 125, 240, 0.3), rgba(43, 89, 195, 0.12) 52%, transparent 82%);
   filter: blur(14px);
+  opacity: 0.95;
 }
 
-.mascot-trigger__image {
+.quicki-bot__shadow {
+  position: absolute;
+  left: 50%;
+  bottom: 0.08rem;
+  width: 68%;
+  height: 10%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(15, 23, 42, 0.32), rgba(15, 23, 42, 0));
+  filter: blur(4px);
+  transform: translateX(-50%);
+  animation: quicki-shadow-bob 4.6s ease-in-out infinite;
+}
+
+.quicki-bot__antenna {
   position: relative;
-  width: 100%;
-  height: auto;
-  object-fit: contain;
+  position: absolute;
+  left: 50%;
+  top: 0.18rem;
+  width: 0.28rem;
+  height: 1rem;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #bcd4ff, #5d84f4);
+  transform: translateX(-50%);
+  box-shadow: 0 0 10px rgba(93, 132, 244, 0.26);
+  animation: quicki-antenna-sway 3.8s ease-in-out infinite;
+}
+
+.quicki-bot__antenna::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -0.3rem;
+  width: 0.62rem;
+  height: 0.62rem;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ffffff, #93c5fd 55%, #2563eb 100%);
+  transform: translateX(-50%);
+  box-shadow: 0 0 14px rgba(96, 165, 250, 0.45);
+}
+
+.quicki-bot__arm {
+  position: absolute;
+  top: 1.45rem;
+  width: 0.9rem;
+  height: 1.55rem;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #dbeafe, #5f84f3 62%, #29418f 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  z-index: 0;
+  transition: transform 0.18s ease;
+}
+
+.quicki-bot__arm::after {
+  content: "";
+  position: absolute;
+  bottom: -0.18rem;
+  left: 50%;
+  width: 0.68rem;
+  height: 0.68rem;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ffffff, #c7d2fe 58%, #5b7ff1 100%);
+  transform: translateX(-50%);
+}
+
+.quicki-bot__arm--left {
+  left: 0.28rem;
+  transform-origin: 76% 14%;
+  transform: rotate(28deg);
+  animation: quicki-wave-left 3.2s ease-in-out infinite;
+}
+
+.quicki-bot__arm--right {
+  right: 0.28rem;
+  transform-origin: 24% 14%;
+  transform: rotate(-28deg);
+  animation: quicki-wave-right 3.2s ease-in-out infinite;
+}
+
+.quicki-bot__body {
+  position: absolute;
+  inset: 0.9rem 0.58rem 0.42rem;
+  border-radius: 38% 38% 44% 44%;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(219, 234, 254, 0.98) 42%, rgba(96, 130, 244, 0.96) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.82);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.96),
+    0 12px 24px rgba(41, 65, 143, 0.22);
+  overflow: hidden;
   z-index: 1;
   animation: mascot-bob 4.6s ease-in-out infinite;
 }
 
-.mascot-assistant--open .mascot-trigger__image,
-.mascot-assistant--party .mascot-trigger__image {
-  animation-duration: 2.8s;
+.quicki-bot__body::before {
+  content: "";
+  position: absolute;
+  inset: 0.2rem 0.22rem 0.55rem;
+  border-radius: 35% 35% 44% 44%;
+  border: 1px solid rgba(255, 255, 255, 0.35);
 }
 
-.mascot-assistant--party .mascot-trigger__halo {
+.quicki-bot__visor {
+  position: absolute;
+  left: 0.46rem;
+  right: 0.46rem;
+  top: 0.44rem;
+  height: 1.2rem;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #0f1f46, #183574);
+  box-shadow:
+    inset 0 1px 0 rgba(186, 230, 253, 0.2),
+    0 8px 18px rgba(15, 23, 42, 0.16);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.34rem;
+}
+
+.quicki-bot__eye {
+  position: relative;
+  width: 0.52rem;
+  height: 0.72rem;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #7dd3fc, #dbeafe);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.quicki-bot__eye::after {
+  content: "";
+  position: absolute;
+  inset: -5% 0 0;
+  background: linear-gradient(180deg, rgba(24, 53, 116, 0.96), rgba(24, 53, 116, 0.84));
+  transform-origin: top center;
+  animation: quicki-blink 5.3s ease-in-out infinite;
+}
+
+.quicki-bot__pupil {
+  width: 0.2rem;
+  height: 0.2rem;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.85);
+  transition: transform 0.18s ease;
+}
+
+.quicki-bot__mouth {
+  position: absolute;
+  left: 50%;
+  top: 2.2rem;
+  width: 0.7rem;
+  height: 0.18rem;
+  border-radius: 999px;
+  background: #163a75;
+  transform: translateX(-50%);
+  transform-origin: center top;
+}
+
+.quicki-bot__core {
+  position: absolute;
+  left: 50%;
+  bottom: 0.52rem;
+  width: 0.72rem;
+  height: 0.72rem;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  background: radial-gradient(circle at 35% 35%, #ffffff, #7dd3fc 48%, #2563eb 82%);
+  box-shadow: 0 0 18px rgba(96, 165, 250, 0.55);
+  animation: quicki-core-pulse 2.2s ease-in-out infinite;
+}
+
+.quicki-bot__hover-ring {
+  position: absolute;
+  left: 50%;
+  bottom: 0.08rem;
+  width: 72%;
+  height: 0.42rem;
+  border-radius: 999px;
+  border: 2px solid rgba(125, 211, 252, 0.52);
+  transform: translateX(-50%);
+  box-shadow: 0 0 18px rgba(96, 165, 250, 0.28);
+  animation: quicki-ring-pulse 2.8s ease-in-out infinite;
+}
+
+.quicki-bot--talking .quicki-bot__mouth {
+  animation: quicki-talk 0.78s ease-in-out infinite;
+}
+
+.quicki-bot--talking .quicki-bot__arm--left,
+.quicki-bot--talking .quicki-bot__arm--right {
+  animation-duration: 1.6s;
+}
+
+.quicki-bot--scroll-up .quicki-bot__pupil {
+  transform: translateY(-0.08rem);
+}
+
+.quicki-bot--scroll-down .quicki-bot__pupil {
+  transform: translateY(0.08rem);
+}
+
+.quicki-bot--scroll-up .quicki-bot__arm--left {
+  transform: rotate(50deg) translateY(-0.1rem);
+}
+
+.quicki-bot--scroll-up .quicki-bot__arm--right {
+  transform: rotate(-50deg) translateY(-0.1rem);
+}
+
+.quicki-bot--scroll-down .quicki-bot__arm--left {
+  transform: rotate(10deg) translateY(0.12rem);
+}
+
+.quicki-bot--scroll-down .quicki-bot__arm--right {
+  transform: rotate(-10deg) translateY(0.12rem);
+}
+
+.quicki-bot--party .quicki-bot__aura {
   background:
-    radial-gradient(circle at 28% 20%, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.2) 28%, transparent 60%),
-    radial-gradient(circle at 50% 58%, rgba(79, 125, 240, 0.34), rgba(216, 180, 254, 0.18) 54%, transparent 80%);
-  opacity: 1;
-  filter: blur(13px);
+    radial-gradient(circle at 30% 22%, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.18) 30%, transparent 62%),
+    radial-gradient(circle at 50% 58%, rgba(167, 139, 250, 0.34), rgba(96, 165, 250, 0.18) 56%, transparent 82%);
+}
+
+.quicki-bot--party .quicki-bot__core,
+.quicki-bot--party .quicki-bot__antenna::before {
+  background: radial-gradient(circle at 35% 35%, #ffffff, #c4b5fd 45%, #7c3aed 82%);
+  box-shadow: 0 0 20px rgba(167, 139, 250, 0.58);
+}
+
+.quicki-bot--party .quicki-bot__hover-ring {
+  border-color: rgba(196, 181, 253, 0.66);
+  box-shadow: 0 0 18px rgba(167, 139, 250, 0.34);
 }
 
 .mascot-assistant--scroll-down .mascot-trigger {
@@ -405,6 +617,115 @@
 
   50% {
     transform: translateY(-7px);
+  }
+}
+
+@keyframes quicki-shadow-bob {
+  0%,
+  100% {
+    transform: translateX(-50%) scaleX(1);
+    opacity: 0.26;
+  }
+
+  50% {
+    transform: translateX(-50%) scaleX(0.9);
+    opacity: 0.18;
+  }
+}
+
+@keyframes quicki-antenna-sway {
+  0%,
+  100% {
+    transform: translateX(-50%) rotate(0deg);
+  }
+
+  25% {
+    transform: translateX(-50%) rotate(-5deg);
+  }
+
+  75% {
+    transform: translateX(-50%) rotate(5deg);
+  }
+}
+
+@keyframes quicki-wave-left {
+  0%,
+  100% {
+    transform: rotate(28deg);
+  }
+
+  25% {
+    transform: rotate(12deg) translateY(0.04rem);
+  }
+
+  60% {
+    transform: rotate(40deg) translateY(-0.04rem);
+  }
+}
+
+@keyframes quicki-wave-right {
+  0%,
+  100% {
+    transform: rotate(-28deg);
+  }
+
+  25% {
+    transform: rotate(-12deg) translateY(0.04rem);
+  }
+
+  60% {
+    transform: rotate(-40deg) translateY(-0.04rem);
+  }
+}
+
+@keyframes quicki-blink {
+  0%,
+  44%,
+  52%,
+  100% {
+    transform: scaleY(0);
+  }
+
+  46%,
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes quicki-core-pulse {
+  0%,
+  100% {
+    transform: translateX(-50%) scale(1);
+    box-shadow: 0 0 18px rgba(96, 165, 250, 0.55);
+  }
+
+  50% {
+    transform: translateX(-50%) scale(1.12);
+    box-shadow: 0 0 24px rgba(96, 165, 250, 0.72);
+  }
+}
+
+@keyframes quicki-ring-pulse {
+  0%,
+  100% {
+    transform: translateX(-50%) scaleX(1);
+    opacity: 0.72;
+  }
+
+  50% {
+    transform: translateX(-50%) scaleX(1.08);
+    opacity: 1;
+  }
+}
+
+@keyframes quicki-talk {
+  0%,
+  100% {
+    transform: translateX(-50%) scaleY(1);
+  }
+
+  50% {
+    transform: translateX(-50%) scaleY(2.2);
   }
 }
 
@@ -510,9 +831,8 @@
     height: 2.45rem;
   }
 
-  .mascot-trigger {
-    width: 4.25rem;
-    min-width: 4.25rem;
+  .quicki-bot--dock {
+    --quicki-size: 4.25rem;
   }
 
   .mascot-intro__speech {
