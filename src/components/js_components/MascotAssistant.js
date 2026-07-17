@@ -26,7 +26,7 @@ const CONTEXT_LINES = {
     "These service cards are conversion territory. Good place to linger.",
     "Need a faster path from services to contact? I can do that.",
   ],
-  "other-services": [
+  programs: [
     "Programmes spotted. I call this the bonus round.",
     "There is more down here than people expect. Nice scroll.",
   ],
@@ -45,7 +45,7 @@ const SECTION_LABELS = {
   about: "About",
   features: "Technologies",
   service: "Services",
-  "other-services": "Programmes",
+  programs: "Programmes",
   contact: "Contact",
   "hr-consultancy": "HR Consultancy",
 };
@@ -332,7 +332,7 @@ function MascotAssistant({ theme, onToggleTheme }) {
 
       const headerHeight =
         document.querySelector(".header")?.offsetHeight ?? 0;
-      const sections = ["about", "features", "service", "other-services", "contact"];
+      const sections = ["about", "features", "service", "products", "programs", "contact"];
       let currentSection = "home";
 
       sections.forEach((sectionId) => {

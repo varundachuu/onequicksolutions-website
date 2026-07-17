@@ -7,6 +7,7 @@ import Products from "./Products";
 import Features from "./Features";
 import Industries from "./Industries";
 import Portfolio from "./Portfolio";
+import OtherServices from "./Other-Services";
 import FaqSection from "./FaqSection";
 import { faqItems } from "../../content/siteContent";
 import "../css-files/ContentSections.css";
@@ -53,6 +54,7 @@ function ServicesPage() {
 
       <Services variant="page" />
       <ProductSpotlight />
+      <OtherServices />
       <Products />
       <Features />
       <Industries />

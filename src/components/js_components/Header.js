@@ -5,11 +5,35 @@ import { FaBars, FaMoon, FaSun, FaTimes } from "react-icons/fa";
 
 const NAV_LINKS = [
   { name: "Home", path: "/" },
-  { name: "Services", path: "/services" },
   { name: "About", path: "/about" },
+  { name: "Services", path: "/services" },
+  { name: "Products", path: "/services", hash: "#products", sectionId: "products" },
+  { name: "Programs", path: "/services", hash: "#programs", sectionId: "programs" },
   { name: "HR Consultancy", path: "/hr-consultancy" },
   { name: "Contact", path: "/contact" },
 ];
+
+const scrollToDocumentSection = (sectionId) => {
+  if (sectionId === "home") {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    return;
+  }
+
+  const target = document.getElementById(sectionId);
+  const headerHeight = document.querySelector(".header")?.offsetHeight ?? 0;
+
+  if (!target) {
+    return;
+  }
+
+  const topPosition =
+    target.getBoundingClientRect().top + window.scrollY - headerHeight - 16;
+
+  window.scrollTo({
+    top: Math.max(topPosition, 0),
+    behavior: "smooth",
+  });
+};
 
 function Header({ theme, onToggleTheme }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -28,13 +52,28 @@ function Header({ theme, onToggleTheme }) {
     setIsMenuOpen(false);
   };
 
-  const handleNavClick = (path) => {
-    if (path === "/") {
+  const handleNavClick = (link) => {
+    if (link.path === "/" && !link.hash) {
       goHome();
       return;
     }
 
-    navigate(path);
+    if (link.hash) {
+      if (location.pathname === link.path && location.hash === link.hash) {
+        scrollToDocumentSection(link.sectionId);
+        setIsMenuOpen(false);
+        return;
+      }
+
+      navigate({
+        pathname: link.path,
+        hash: link.hash,
+      });
+      setIsMenuOpen(false);
+      return;
+    }
+
+    navigate(link.path);
     setIsMenuOpen(false);
   };
 
@@ -82,11 +121,18 @@ function Header({ theme, onToggleTheme }) {
 
   const renderNavButton = (link, className) => {
     const isPrimary = link.path === "/contact";
-    const isActive = location.pathname === link.path;
+    const isActive = link.hash
+      ? location.pathname === link.path && location.hash === link.hash
+      : link.path === "/"
+        ? location.pathname === "/" && !location.hash
+        : link.path === "/services"
+          ? location.pathname === "/services" && !location.hash
+          : location.pathname === link.path;
+    const linkKey = link.hash ? `${link.path}${link.hash}` : link.path;
 
     return (
       <button
-        key={link.path}
+        key={linkKey}
         type="button"
         className={[
           className,
@@ -95,7 +141,7 @@ function Header({ theme, onToggleTheme }) {
         ]
           .filter(Boolean)
           .join(" ")}
-        onClick={() => handleNavClick(link.path)}
+        onClick={() => handleNavClick(link)}
       >
         {link.name}
       </button>

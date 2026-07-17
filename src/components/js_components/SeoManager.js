@@ -96,7 +96,7 @@ const routeSeo = {
         url: `${SITE_URL}/`,
         image: DEFAULT_IMAGE,
         description:
-          "Software development, website development, mobile apps, SaaS, AI, analytics, cloud solutions, HR consulting, and E-Shikshana training support.",
+          "Software development, website development, mobile apps, SaaS, AI, analytics, cloud solutions, HR consulting, product experiences, and training programmes.",
         provider: {
           "@id": ORGANIZATION_ID,
         },
@@ -110,7 +110,7 @@ const routeSeo = {
     title:
       "Software Development Services | OneQuickSolutions",
     description:
-      "Explore OneQuickSolutions services for custom software development, websites, mobile apps, SaaS, AI, analytics, cloud solutions, UI/UX design, HR consulting, and training support.",
+      "Explore OneQuickSolutions services for custom software development, websites, mobile apps, SaaS, AI, analytics, cloud solutions, UI/UX design, HR consulting, plus linked product and training programme sections.",
     canonical: `${SITE_URL}/services`,
     schema: [
       organizationSchema,
@@ -119,7 +119,7 @@ const routeSeo = {
         "@context": "https://schema.org",
         "@type": "Service",
         name: "Software Development Services",
-        serviceType: "Custom software, SaaS, web, mobile, AI, analytics, cloud, UI/UX, HR consulting, and training services",
+        serviceType: "Custom software, SaaS, web, mobile, AI, analytics, cloud, UI/UX, and HR consulting services",
         provider: {
           "@id": ORGANIZATION_ID,
         },

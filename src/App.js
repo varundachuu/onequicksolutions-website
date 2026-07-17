@@ -46,7 +46,7 @@ function AppShell() {
   }, [theme]);
 
   useEffect(() => {
-    if (location.pathname === "/" && location.hash) {
+    if (location.hash) {
       const targetId = location.hash.replace("#", "");
       const timerId = window.setTimeout(() => {
         const target = document.getElementById(targetId);

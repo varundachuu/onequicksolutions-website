@@ -116,19 +116,6 @@ export const serviceItems = [
     ],
     tags: ["Recruitment support", "Hiring workflows", "HR consulting"],
   },
-  {
-    slug: "e-shikshana-training",
-    icon: "education",
-    title: "E-Shikshana Training & Education",
-    summary:
-      "E-Shikshana is our training and enablement initiative for teams, learners, and institutions that need practical, accessible learning support.",
-    bullets: [
-      "Structured learning programmes for technical upskilling",
-      "Digital-first training experiences and guided enablement",
-      "Support for institutions, teams, and early-stage learners",
-    ],
-    tags: ["Training", "Education", "Skill development"],
-  },
 ];
 
 export const processSteps = [

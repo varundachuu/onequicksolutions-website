@@ -26,7 +26,7 @@ const programmes = [
 function OtherServices() {
   return (
     <section
-      id="other-services"
+      id="programs"
       className="service-showcase service-showcase--soft section-shell"
     >
       <div className="section-inner">
