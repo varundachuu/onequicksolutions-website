@@ -104,6 +104,59 @@ const BONK_REACTIONS = [
   },
 ];
 
+const PARTY_IDLE_LINES = [
+  "Party mode is live. Tap me for a neon mocktail refill.",
+  "Quicki is on fizz duty. One click and I will take a sip.",
+  "This is the tasteful chaos setting. Slightly ridiculous, still branded.",
+];
+
+const PARTY_REACTIONS = [
+  {
+    badge: "SIP",
+    line: "First sip landed. Neon mocktail quality is unexpectedly elite.",
+  },
+  {
+    badge: "GLOW",
+    line: "Second sip. My eyes now have startup-founder confidence.",
+  },
+  {
+    badge: "VIBE",
+    line: "Okay yes, now we are in full rooftop robot vibes.",
+  },
+  {
+    badge: "DANCE",
+    line: "Turbo fizz engaged. Shoulder shuffle activated immediately.",
+  },
+  {
+    badge: "DJ",
+    line: "I can hear the gradients dancing. This feels extremely correct.",
+  },
+];
+
+const PARTY_FLAVORS = [
+  {
+    name: "Neon Lime",
+    primary: "#63f29c",
+    secondary: "#1ed7c7",
+    shadow: "rgba(30, 215, 199, 0.42)",
+    hue: 152,
+  },
+  {
+    name: "Berry Glow",
+    primary: "#9d7cff",
+    secondary: "#5aa8ff",
+    shadow: "rgba(125, 92, 255, 0.42)",
+    hue: 268,
+  },
+  {
+    name: "Solar Citrus",
+    primary: "#ffcb57",
+    secondary: "#ff7e62",
+    shadow: "rgba(255, 126, 98, 0.4)",
+    hue: 28,
+  },
+];
+
 const INTRO_SESSION_KEY = "onequicksolutions-quicki-intro-seen";
 
 const randomItem = (items) => items[Math.floor(Math.random() * items.length)];
@@ -170,6 +223,9 @@ function QuickiBot({
   isTalking = false,
   isBonked = false,
   bonkCycle = 0,
+  isSipping = false,
+  isDancing = false,
+  drinkFlavor = PARTY_FLAVORS[0],
 }) {
   return (
     <div
@@ -181,9 +237,16 @@ function QuickiBot({
         isBonked ? "quicki-bot--bonked" : "",
         isBonked ? `quicki-bot--bonked-${bonkCycle % 2}` : "",
         isPushing ? `quicki-bot--scroll-${scrollDirection}` : "",
+        isSipping ? "quicki-bot--sipping" : "",
+        isDancing ? "quicki-bot--dancing" : "",
       ]
         .filter(Boolean)
         .join(" ")}
+      style={{
+        "--quicki-party-primary": drinkFlavor.primary,
+        "--quicki-party-secondary": drinkFlavor.secondary,
+        "--quicki-party-shadow": drinkFlavor.shadow,
+      }}
       aria-hidden="true"
     >
       <span className="quicki-bot__aura" />
@@ -191,6 +254,11 @@ function QuickiBot({
       <span className="quicki-bot__antenna" />
       <span className="quicki-bot__arm quicki-bot__arm--left" />
       <span className="quicki-bot__arm quicki-bot__arm--right" />
+      <span className="quicki-bot__drink">
+        <span className="quicki-bot__drink-glass" />
+        <span className="quicki-bot__drink-liquid" />
+        <span className="quicki-bot__drink-straw" />
+      </span>
       <div className="quicki-bot__body">
         <div className="quicki-bot__visor">
           <span className="quicki-bot__eye quicki-bot__eye--left">
@@ -203,6 +271,11 @@ function QuickiBot({
         <span className="quicki-bot__mouth" />
         <span className="quicki-bot__core" />
       </div>
+      <span className="quicki-bot__party-bars" aria-hidden="true">
+        <span />
+        <span />
+        <span />
+      </span>
       <span className="quicki-bot__hover-ring" />
     </div>
   );
@@ -220,20 +293,34 @@ function MascotAssistant({ theme, onToggleTheme }) {
   const [isPushing, setIsPushing] = useState(false);
   const [scrollDirection, setScrollDirection] = useState("down");
   const [isBonked, setIsBonked] = useState(false);
-  const [bonkBadge, setBonkBadge] = useState("OW");
   const [bonkCycle, setBonkCycle] = useState(0);
+  const [isReactionBadgeVisible, setIsReactionBadgeVisible] = useState(false);
+  const [reactionBadge, setReactionBadge] = useState("OW");
+  const [reactionBadgeTone, setReactionBadgeTone] = useState("bonk");
+  const [reactionCycle, setReactionCycle] = useState(0);
+  const [partyFlavorIndex, setPartyFlavorIndex] = useState(0);
+  const [isSipping, setIsSipping] = useState(false);
+  const [isDancing, setIsDancing] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const triggerRef = useRef(null);
   const sparkleTimerRef = useRef(null);
   const scrollTimerRef = useRef(null);
   const lastScrollYRef = useRef(0);
   const introSettleTimerRef = useRef(null);
   const introHideTimerRef = useRef(null);
   const bonkTimerRef = useRef(null);
+  const badgeTimerRef = useRef(null);
   const bonkResetTimerRef = useRef(null);
   const bonkCountRef = useRef(0);
   const lastBonkAtRef = useRef(0);
+  const partySipTimerRef = useRef(null);
+  const partyDanceTimerRef = useRef(null);
+  const partyResetTimerRef = useRef(null);
+  const partyCountRef = useRef(0);
+  const lastPartyAtRef = useRef(0);
   const activeLabel = SECTION_LABELS[activeSection] ?? "Home";
+  const activeDrinkFlavor = PARTY_FLAVORS[partyFlavorIndex] ?? PARTY_FLAVORS[0];
 
   useEffect(() => {
     const updateActiveSection = () => {
@@ -275,11 +362,13 @@ function MascotAssistant({ theme, onToggleTheme }) {
   }, [location.pathname]);
 
   useEffect(() => {
-    if (isOpen || showIntro) {
+    if (isOpen || showIntro || isBonked || isSipping) {
       return undefined;
     }
 
-    const lines = CONTEXT_LINES[activeSection] ?? CONTEXT_LINES.home;
+    const lines = isPartyMode
+      ? PARTY_IDLE_LINES
+      : CONTEXT_LINES[activeSection] ?? CONTEXT_LINES.home;
     setSpeech(lines[0]);
 
     const rotationTimer = window.setInterval(() => {
@@ -289,7 +378,7 @@ function MascotAssistant({ theme, onToggleTheme }) {
     return () => {
       window.clearInterval(rotationTimer);
     };
-  }, [activeSection, isOpen, showIntro]);
+  }, [activeSection, isBonked, isOpen, isPartyMode, isSipping, showIntro]);
 
   useEffect(() => {
     if (!isPartyMode) {
@@ -304,6 +393,58 @@ function MascotAssistant({ theme, onToggleTheme }) {
       window.clearInterval(partyTimer);
     };
   }, [isPartyMode]);
+
+  useEffect(() => {
+    const trigger = triggerRef.current;
+
+    if (!trigger) {
+      return undefined;
+    }
+
+    const resetLook = () => {
+      trigger.style.setProperty("--quicki-look-x", "0rem");
+      trigger.style.setProperty("--quicki-look-y", "0rem");
+    };
+
+    if (!isPartyMode || showIntro) {
+      resetLook();
+      return undefined;
+    }
+
+    let animationFrameId = 0;
+
+    const handlePointerMove = (event) => {
+      const offsetX = ((event.clientX / window.innerWidth) - 0.5) * 0.22;
+      const offsetY = ((event.clientY / window.innerHeight) - 0.5) * 0.18;
+
+      if (animationFrameId) {
+        window.cancelAnimationFrame(animationFrameId);
+      }
+
+      animationFrameId = window.requestAnimationFrame(() => {
+        trigger.style.setProperty("--quicki-look-x", `${offsetX.toFixed(3)}rem`);
+        trigger.style.setProperty("--quicki-look-y", `${offsetY.toFixed(3)}rem`);
+      });
+    };
+
+    const handleWindowLeave = () => {
+      resetLook();
+    };
+
+    window.addEventListener("pointermove", handlePointerMove, { passive: true });
+    window.addEventListener("blur", handleWindowLeave);
+    document.addEventListener("mouseleave", handleWindowLeave);
+
+    return () => {
+      if (animationFrameId) {
+        window.cancelAnimationFrame(animationFrameId);
+      }
+      resetLook();
+      window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("blur", handleWindowLeave);
+      document.removeEventListener("mouseleave", handleWindowLeave);
+    };
+  }, [isPartyMode, showIntro]);
 
   useEffect(() => {
     const updateIntroTarget = () => {
@@ -387,8 +528,20 @@ function MascotAssistant({ theme, onToggleTheme }) {
       if (bonkTimerRef.current) {
         window.clearTimeout(bonkTimerRef.current);
       }
+      if (badgeTimerRef.current) {
+        window.clearTimeout(badgeTimerRef.current);
+      }
       if (bonkResetTimerRef.current) {
         window.clearTimeout(bonkResetTimerRef.current);
+      }
+      if (partySipTimerRef.current) {
+        window.clearTimeout(partySipTimerRef.current);
+      }
+      if (partyDanceTimerRef.current) {
+        window.clearTimeout(partyDanceTimerRef.current);
+      }
+      if (partyResetTimerRef.current) {
+        window.clearTimeout(partyResetTimerRef.current);
       }
     };
   }, []);
@@ -419,10 +572,27 @@ function MascotAssistant({ theme, onToggleTheme }) {
 
   const restoreContextSpeech = () => {
     setSpeech(
-      activeSection === "contact"
+      isPartyMode
+        ? randomItem(PARTY_IDLE_LINES)
+        : activeSection === "contact"
         ? "I will hang here quietly near the finish line."
         : randomItem(CONTEXT_LINES[activeSection] ?? CONTEXT_LINES.home)
     );
+  };
+
+  const showReactionBadge = (badge, tone = "bonk") => {
+    if (badgeTimerRef.current) {
+      window.clearTimeout(badgeTimerRef.current);
+    }
+
+    setReactionBadge(badge);
+    setReactionBadgeTone(tone);
+    setIsReactionBadgeVisible(true);
+    setReactionCycle((current) => current + 1);
+
+    badgeTimerRef.current = window.setTimeout(() => {
+      setIsReactionBadgeVisible(false);
+    }, 920);
   };
 
   const triggerBonkReaction = () => {
@@ -443,7 +613,7 @@ function MascotAssistant({ theme, onToggleTheme }) {
     }
 
     const reaction = BONK_REACTIONS[nextCount - 1] ?? BONK_REACTIONS[0];
-    setBonkBadge(reaction.badge);
+    showReactionBadge(reaction.badge, "bonk");
     setSpeech(reaction.line);
     setIsBonked(true);
     setBonkCycle((current) => current + 1);
@@ -463,6 +633,64 @@ function MascotAssistant({ theme, onToggleTheme }) {
       bonkCountRef.current = 0;
       lastBonkAtRef.current = 0;
     }, 1700);
+  };
+
+  const triggerPartyReaction = () => {
+    const now = Date.now();
+    const nextCount =
+      now - lastPartyAtRef.current < 4200
+        ? Math.min(partyCountRef.current + 1, PARTY_REACTIONS.length)
+        : 1;
+    const nextFlavorIndex = (partyFlavorIndex + 1) % PARTY_FLAVORS.length;
+    const nextFlavor = PARTY_FLAVORS[nextFlavorIndex] ?? PARTY_FLAVORS[0];
+    const reaction = PARTY_REACTIONS[nextCount - 1] ?? PARTY_REACTIONS[0];
+
+    partyCountRef.current = nextCount;
+    lastPartyAtRef.current = now;
+
+    if (partySipTimerRef.current) {
+      window.clearTimeout(partySipTimerRef.current);
+    }
+    if (partyDanceTimerRef.current) {
+      window.clearTimeout(partyDanceTimerRef.current);
+    }
+    if (partyResetTimerRef.current) {
+      window.clearTimeout(partyResetTimerRef.current);
+    }
+
+    setPartyFlavorIndex(nextFlavorIndex);
+    setSpeech(`${reaction.line} ${nextFlavor.name} just got poured.`);
+    setIsSipping(true);
+    showReactionBadge(reaction.badge, "party");
+    emitSparkles(12 + nextCount * 2, {
+      hueStart: nextFlavor.hue,
+      hueRange: 36,
+      spreadX: 150,
+      spreadY: 120,
+    });
+
+    if (nextCount >= 4) {
+      setIsDancing(true);
+      emitSparkles(20, {
+        hueStart: nextFlavor.hue,
+        hueRange: 70,
+        spreadX: 210,
+        spreadY: 170,
+      });
+    }
+
+    partySipTimerRef.current = window.setTimeout(() => {
+      setIsSipping(false);
+    }, 720);
+
+    partyDanceTimerRef.current = window.setTimeout(() => {
+      setIsDancing(false);
+    }, nextCount >= 4 ? 1180 : 820);
+
+    partyResetTimerRef.current = window.setTimeout(() => {
+      partyCountRef.current = 0;
+      lastPartyAtRef.current = 0;
+    }, 4600);
   };
 
   const handleClosePanel = () => {
@@ -518,12 +746,27 @@ function MascotAssistant({ theme, onToggleTheme }) {
   const handlePartyMode = () => {
     const nextPartyState = !isPartyMode;
     setIsPartyMode(nextPartyState);
+    setPartyFlavorIndex(0);
+    setIsSipping(false);
+    setIsDancing(false);
+    partyCountRef.current = 0;
+    lastPartyAtRef.current = 0;
     emitSparkles(nextPartyState ? 18 : 10);
     setSpeech(
       nextPartyState
-        ? "Party mode unlocked. Tiny chaos, excellent vibes."
+        ? "Party mode unlocked. Quicki mixed a neon mocktail and is feeling brave."
         : "Back to business mode. Quicki is behaving again."
     );
+
+    if (partySipTimerRef.current) {
+      window.clearTimeout(partySipTimerRef.current);
+    }
+    if (partyDanceTimerRef.current) {
+      window.clearTimeout(partyDanceTimerRef.current);
+    }
+    if (partyResetTimerRef.current) {
+      window.clearTimeout(partyResetTimerRef.current);
+    }
   };
 
   const handleContactWarp = () => {
@@ -672,16 +915,19 @@ function MascotAssistant({ theme, onToggleTheme }) {
           <div className="mascot-assistant__anchor">
             <span className="mascot-assistant__push-trail" aria-hidden="true" />
             <span
-              key={bonkCycle}
+              key={reactionCycle}
               className={[
                 "mascot-assistant__bonk-badge",
-                isBonked ? "mascot-assistant__bonk-badge--visible" : "",
+                isReactionBadgeVisible
+                  ? "mascot-assistant__bonk-badge--visible"
+                  : "",
+                `mascot-assistant__bonk-badge--${reactionBadgeTone}`,
               ]
                 .filter(Boolean)
                 .join(" ")}
               aria-hidden="true"
             >
-              {bonkBadge}
+              {reactionBadge}
             </span>
 
             <div className="mascot-assistant__sparkles" aria-hidden="true">
@@ -702,6 +948,7 @@ function MascotAssistant({ theme, onToggleTheme }) {
             </div>
 
             <button
+              ref={triggerRef}
               type="button"
               className={[
                 "mascot-trigger",
@@ -711,7 +958,11 @@ function MascotAssistant({ theme, onToggleTheme }) {
                 .filter(Boolean)
                 .join(" ")}
               onClick={() => {
-                triggerBonkReaction();
+                if (isPartyMode) {
+                  triggerPartyReaction();
+                } else {
+                  triggerBonkReaction();
+                }
 
                 if (!isOpen) {
                   setIsOpen(true);
@@ -719,16 +970,25 @@ function MascotAssistant({ theme, onToggleTheme }) {
                 }
               }}
               aria-expanded={isOpen}
-              aria-label={isOpen ? "Bonk Quicki assistant" : "Open Quicki assistant"}
+              aria-label={
+                isPartyMode
+                  ? "Tap Quicki party mode"
+                  : isOpen
+                    ? "Bonk Quicki assistant"
+                    : "Open Quicki assistant"
+              }
             >
               <QuickiBot
                 variant="dock"
                 isPartyMode={isPartyMode}
                 isPushing={isPushing}
                 scrollDirection={scrollDirection}
-                isTalking={isPushing || isPartyMode}
+                isTalking={isPushing || isPartyMode || isSipping}
                 isBonked={isBonked}
                 bonkCycle={bonkCycle}
+                isSipping={isSipping}
+                isDancing={isDancing}
+                drinkFlavor={activeDrinkFlavor}
               />
             </button>
           </div>

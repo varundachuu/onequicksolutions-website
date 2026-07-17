@@ -328,6 +328,10 @@
 }
 
 .mascot-trigger {
+  --quicki-look-x: 0rem;
+  --quicki-look-y: 0rem;
+  --quicki-scroll-pupil-y: 0rem;
+  --quicki-bonk-pupil-y: 0rem;
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -473,6 +477,76 @@
   animation: quicki-wave-right 3.2s ease-in-out infinite;
 }
 
+.quicki-bot__drink {
+  position: absolute;
+  right: 0.18rem;
+  top: 2.15rem;
+  width: 1.05rem;
+  height: 1.52rem;
+  opacity: 0;
+  transform: rotate(14deg) translateY(0.18rem) scale(0.8);
+  transform-origin: 38% 85%;
+  pointer-events: none;
+  transition:
+    opacity 0.22s ease,
+    transform 0.28s ease;
+  z-index: 2;
+}
+
+.quicki-bot__drink-glass,
+.quicki-bot__drink-liquid,
+.quicki-bot__drink-straw {
+  position: absolute;
+  display: block;
+}
+
+.quicki-bot__drink-glass {
+  inset: 0.18rem 0.12rem 0.12rem;
+  border-radius: 0.4rem 0.4rem 0.5rem 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.3), rgba(219, 234, 254, 0.1));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.82),
+    0 0 14px color-mix(in srgb, var(--quicki-party-shadow, rgba(30, 215, 199, 0.36)) 72%, white 10%);
+  backdrop-filter: blur(10px);
+}
+
+.quicki-bot__drink-liquid {
+  left: 0.22rem;
+  right: 0.22rem;
+  bottom: 0.28rem;
+  height: 0.74rem;
+  border-radius: 0.26rem 0.26rem 0.36rem 0.36rem;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--quicki-party-primary, #63f29c) 92%, white 8%),
+    var(--quicki-party-secondary, #1ed7c7)
+  );
+  box-shadow: 0 0 14px color-mix(in srgb, var(--quicki-party-shadow, rgba(30, 215, 199, 0.36)) 88%, white 8%);
+}
+
+.quicki-bot__drink-liquid::before {
+  content: "";
+  position: absolute;
+  left: 0.08rem;
+  right: 0.08rem;
+  top: 0.08rem;
+  height: 0.12rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.quicki-bot__drink-straw {
+  right: 0.2rem;
+  top: 0;
+  width: 0.18rem;
+  height: 0.7rem;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ffffff, var(--quicki-party-secondary, #1ed7c7));
+  transform: rotate(18deg);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.35);
+}
+
 .quicki-bot__body {
   position: absolute;
   inset: 0.9rem 0.58rem 0.42rem;
@@ -540,6 +614,14 @@
   border-radius: 50%;
   background: #ffffff;
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.85);
+  transform: translate(
+    var(--quicki-look-x, 0rem),
+    calc(
+      var(--quicki-look-y, 0rem) +
+      var(--quicki-scroll-pupil-y, 0rem) +
+      var(--quicki-bonk-pupil-y, 0rem)
+    )
+  );
   transition: transform 0.18s ease;
 }
 
@@ -566,6 +648,49 @@
   background: radial-gradient(circle at 35% 35%, #ffffff, #7dd3fc 48%, #2563eb 82%);
   box-shadow: 0 0 18px rgba(96, 165, 250, 0.55);
   animation: quicki-core-pulse 2.2s ease-in-out infinite;
+}
+
+.quicki-bot__party-bars {
+  position: absolute;
+  left: 50%;
+  bottom: 0.48rem;
+  display: flex;
+  align-items: flex-end;
+  gap: 0.18rem;
+  opacity: 0;
+  transform: translateX(-50%) translateY(0.2rem);
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease;
+  pointer-events: none;
+}
+
+.quicki-bot__party-bars span {
+  display: block;
+  width: 0.16rem;
+  border-radius: 999px;
+  background: linear-gradient(
+    180deg,
+    var(--quicki-party-primary, #63f29c),
+    var(--quicki-party-secondary, #1ed7c7)
+  );
+  box-shadow: 0 0 12px color-mix(in srgb, var(--quicki-party-shadow, rgba(30, 215, 199, 0.36)) 82%, white 12%);
+  animation: quicki-party-bars 1.1s ease-in-out infinite;
+}
+
+.quicki-bot__party-bars span:nth-child(1) {
+  height: 0.4rem;
+  animation-delay: 0s;
+}
+
+.quicki-bot__party-bars span:nth-child(2) {
+  height: 0.66rem;
+  animation-delay: 0.12s;
+}
+
+.quicki-bot__party-bars span:nth-child(3) {
+  height: 0.5rem;
+  animation-delay: 0.24s;
 }
 
 .quicki-bot__hover-ring {
@@ -604,6 +729,10 @@
   transform: translateX(-50%) scaleX(0.68);
 }
 
+.quicki-bot--bonked {
+  --quicki-bonk-pupil-y: 0.05rem;
+}
+
 .quicki-bot--bonked .quicki-bot__core {
   animation: quicki-core-pulse 2.2s ease-in-out infinite, quicki-core-flicker 0.52s ease;
 }
@@ -620,16 +749,12 @@
   animation: quicki-wave-right 3.2s ease-in-out infinite, quicki-bonk-right 0.52s ease;
 }
 
-.quicki-bot--bonked .quicki-bot__pupil {
-  transform: translateY(0.05rem);
+.quicki-bot--scroll-up {
+  --quicki-scroll-pupil-y: -0.08rem;
 }
 
-.quicki-bot--scroll-up .quicki-bot__pupil {
-  transform: translateY(-0.08rem);
-}
-
-.quicki-bot--scroll-down .quicki-bot__pupil {
-  transform: translateY(0.08rem);
+.quicki-bot--scroll-down {
+  --quicki-scroll-pupil-y: 0.08rem;
 }
 
 .quicki-bot--scroll-up .quicki-bot__arm--left {
@@ -651,18 +776,81 @@
 .quicki-bot--party .quicki-bot__aura {
   background:
     radial-gradient(circle at 30% 22%, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.18) 30%, transparent 62%),
-    radial-gradient(circle at 50% 58%, rgba(167, 139, 250, 0.34), rgba(96, 165, 250, 0.18) 56%, transparent 82%);
+    radial-gradient(circle at 50% 58%, rgba(95, 146, 255, 0.28), rgba(152, 132, 255, 0.18) 56%, transparent 82%);
+}
+
+.quicki-bot--party .quicki-bot__drink,
+.quicki-bot--party .quicki-bot__party-bars {
+  opacity: 1;
+  transform: translateX(0) translateY(0);
+}
+
+.quicki-bot--party .quicki-bot__visor {
+  background: linear-gradient(180deg, #13224d, #234796);
+}
+
+.quicki-bot--party .quicki-bot__eye {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--quicki-party-primary, #63f29c) 55%, white 45%),
+    color-mix(in srgb, var(--quicki-party-secondary, #1ed7c7) 30%, #dbeafe 70%)
+  );
 }
 
 .quicki-bot--party .quicki-bot__core,
 .quicki-bot--party .quicki-bot__antenna::before {
-  background: radial-gradient(circle at 35% 35%, #ffffff, #c4b5fd 45%, #7c3aed 82%);
-  box-shadow: 0 0 20px rgba(167, 139, 250, 0.58);
+  background: radial-gradient(
+    circle at 35% 35%,
+    #ffffff,
+    color-mix(in srgb, var(--quicki-party-primary, #63f29c) 42%, white 58%) 45%,
+    var(--quicki-party-secondary, #1ed7c7) 82%
+  );
+  box-shadow: 0 0 20px color-mix(in srgb, var(--quicki-party-shadow, rgba(30, 215, 199, 0.36)) 86%, white 12%);
 }
 
 .quicki-bot--party .quicki-bot__hover-ring {
-  border-color: rgba(196, 181, 253, 0.66);
-  box-shadow: 0 0 18px rgba(167, 139, 250, 0.34);
+  border-color: color-mix(in srgb, var(--quicki-party-primary, #63f29c) 56%, white 44%);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--quicki-party-shadow, rgba(30, 215, 199, 0.36)) 78%, white 16%);
+}
+
+.quicki-bot--party .quicki-bot__mouth {
+  background: color-mix(in srgb, var(--quicki-party-secondary, #1ed7c7) 72%, #183574 28%);
+}
+
+.quicki-bot--sipping .quicki-bot__drink {
+  animation: quicki-sip 0.72s cubic-bezier(0.2, 0.85, 0.24, 1);
+}
+
+.quicki-bot--sipping .quicki-bot__arm--right {
+  transform: rotate(-58deg) translateY(-0.12rem);
+}
+
+.quicki-bot--sipping .quicki-bot__mouth {
+  animation: quicki-sip-mouth 0.72s ease;
+}
+
+.quicki-bot--dancing .quicki-bot__body {
+  animation: mascot-bob 4.6s ease-in-out infinite, quicki-dance-body 0.88s ease-in-out 2;
+}
+
+.quicki-bot--dancing .quicki-bot__arm--left {
+  animation: quicki-wave-left 1s ease-in-out infinite, quicki-dance-left 0.72s ease-in-out 2;
+}
+
+.quicki-bot--dancing .quicki-bot__arm--right {
+  animation: quicki-wave-right 1s ease-in-out infinite, quicki-dance-right 0.72s ease-in-out 2;
+}
+
+.quicki-bot--dancing .quicki-bot__party-bars span {
+  animation-duration: 0.42s;
+}
+
+.quicki-bot--dancing .quicki-bot__hover-ring {
+  animation: quicki-ring-pulse 0.92s ease-in-out infinite;
+}
+
+.quicki-bot--dancing .quicki-bot__core {
+  animation: quicki-core-pulse 0.96s ease-in-out infinite;
 }
 
 .mascot-assistant--scroll-down .mascot-trigger {
@@ -735,6 +923,15 @@
   opacity: 0;
   transform: translateY(0.45rem) scale(0.7) rotate(-10deg);
   pointer-events: none;
+}
+
+.mascot-assistant__bonk-badge--party {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--brand-400) 78%, #ffffff 22%),
+    #32d7be
+  );
+  box-shadow: 0 10px 22px rgba(50, 215, 190, 0.28);
 }
 
 .mascot-assistant__bonk-badge--visible {
@@ -876,6 +1073,19 @@
   }
 }
 
+@keyframes quicki-party-bars {
+  0%,
+  100% {
+    transform: scaleY(0.7);
+    opacity: 0.72;
+  }
+
+  50% {
+    transform: scaleY(1.18);
+    opacity: 1;
+  }
+}
+
 @keyframes quicki-bonk-shake {
   0% {
     transform: translateX(0) rotate(0deg) scale(1);
@@ -955,6 +1165,84 @@
 
   60% {
     opacity: 0.82;
+  }
+}
+
+@keyframes quicki-sip {
+  0% {
+    transform: rotate(14deg) translateY(0.18rem) scale(0.8);
+  }
+
+  28% {
+    transform: rotate(-14deg) translate(-0.48rem, -0.62rem) scale(0.96);
+  }
+
+  62% {
+    transform: rotate(-18deg) translate(-0.56rem, -0.72rem) scale(1);
+  }
+
+  100% {
+    transform: rotate(14deg) translateY(0.18rem) scale(0.8);
+  }
+}
+
+@keyframes quicki-sip-mouth {
+  0%,
+  100% {
+    transform: translateX(-50%) scaleX(1) scaleY(1);
+  }
+
+  45% {
+    transform: translateX(-50%) scaleX(0.6) scaleY(1.9);
+  }
+}
+
+@keyframes quicki-dance-body {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  25% {
+    transform: translateY(-0.22rem) rotate(-7deg);
+  }
+
+  50% {
+    transform: translateY(0.12rem) rotate(7deg);
+  }
+
+  75% {
+    transform: translateY(-0.16rem) rotate(-5deg);
+  }
+}
+
+@keyframes quicki-dance-left {
+  0%,
+  100% {
+    transform: rotate(28deg);
+  }
+
+  35% {
+    transform: rotate(70deg) translateY(-0.1rem);
+  }
+
+  65% {
+    transform: rotate(6deg) translateY(0.08rem);
+  }
+}
+
+@keyframes quicki-dance-right {
+  0%,
+  100% {
+    transform: rotate(-28deg);
+  }
+
+  35% {
+    transform: rotate(-70deg) translateY(-0.1rem);
+  }
+
+  65% {
+    transform: rotate(-8deg) translateY(0.08rem);
   }
 }
 
