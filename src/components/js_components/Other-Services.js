@@ -1,5 +1,5 @@
 import React from "react";
-import { FaBookOpen, FaBrain, FaCogs } from "react-icons/fa";
+import { FaBookOpen, FaBrain } from "react-icons/fa";
 import "../css-files/services.css";
 
 const programmes = [
@@ -14,12 +14,6 @@ const programmes = [
     description:
       "Structured programmes for beginners building strong technical and analytical fundamentals.",
     icon: FaBrain,
-  },
-  {
-    title: "Custom SaaS enablement",
-    description:
-      "Training and implementation guidance that helps teams adopt tailored platforms with confidence.",
-    icon: FaCogs,
   },
 ];
 
@@ -40,7 +34,7 @@ const OtherServices = () => {
           </p>
         </div>
 
-        <div className="service-showcase__grid service-showcase__grid--compact">
+        <div className="service-showcase__grid service-showcase__grid--compact service-showcase__grid--pair">
           {programmes.map((service) => {
             const Icon = service.icon;
 

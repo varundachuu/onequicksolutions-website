@@ -21,6 +21,11 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.service-showcase__grid--pair {
+  grid-template-columns: repeat(2, minmax(280px, 360px));
+  justify-content: center;
+}
+
 .service-showcase__feature {
   display: flex;
   justify-content: center;
@@ -96,7 +101,8 @@
 
 @media (max-width: 1024px) {
   .service-showcase__grid,
-  .service-showcase__grid--compact {
+  .service-showcase__grid--compact,
+  .service-showcase__grid--pair {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -108,7 +114,8 @@
 
 @media (max-width: 680px) {
   .service-showcase__grid,
-  .service-showcase__grid--compact {
+  .service-showcase__grid--compact,
+  .service-showcase__grid--pair {
     grid-template-columns: 1fr;
   }
 }
