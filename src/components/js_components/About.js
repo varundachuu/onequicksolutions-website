@@ -1,30 +1,31 @@
 import React from "react";
+import { FaArrowRight, FaBullseye, FaLightbulb, FaPeopleCarryBox, FaShieldHeart } from "react-icons/fa6";
 import "../css-files/About.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowRight,
-  faChartLine,
-  faCheck,
-  faHandshake,
-} from "@fortawesome/free-solid-svg-icons";
 
-const capabilityPoints = [
-  "Innovative IT solutions tailored to your business model",
-  "Custom digital delivery with dependable communication",
-  "Dedicated product, marketing, and engineering support",
-  "A practical focus on measurable business impact",
-];
-
-const highlightCards = [
+const pillars = [
   {
-    icon: faHandshake,
-    title: "Collaborative delivery",
-    description: "We work as a hands-on partner, not a distant vendor.",
+    title: "Mission",
+    description:
+      "To help businesses build digital systems that are more useful, more credible, and easier to grow with confidence.",
+    icon: FaBullseye,
   },
   {
-    icon: faChartLine,
-    title: "Built for growth",
-    description: "Every engagement is shaped to scale with your next stage.",
+    title: "Vision",
+    description:
+      "To become a trusted long-term partner for organizations that want stronger digital execution without unnecessary complexity.",
+    icon: FaLightbulb,
+  },
+  {
+    title: "Expertise",
+    description:
+      "Our work spans software, SaaS, websites, mobile, AI, analytics, cloud, recruitment support, and digital training.",
+    icon: FaPeopleCarryBox,
+  },
+  {
+    title: "Approach",
+    description:
+      "We value clear communication, practical problem solving, and business-aware delivery that continues after launch.",
+    icon: FaShieldHeart,
   },
 ];
 
@@ -37,7 +38,7 @@ const scrollToSection = (sectionId) => {
   }
 
   const topPosition =
-    section.getBoundingClientRect().top + window.scrollY - headerHeight - 14;
+    section.getBoundingClientRect().top + window.scrollY - headerHeight - 16;
 
   window.scrollTo({
     top: Math.max(topPosition, 0),
@@ -45,20 +46,21 @@ const scrollToSection = (sectionId) => {
   });
 };
 
-const AboutUs = () => {
+function AboutUs() {
   return (
     <section id="about" className="about-main-container section-shell">
       <div className="section-inner">
         <div className="section-intro section-intro--left about-intro">
-          <span className="section-kicker">About us</span>
+          <span className="section-kicker">About OneQuickSolutions</span>
           <h2 className="section-title">
-            A practical digital partner for ambitious businesses
+            We build digital solutions that connect brand trust, technical clarity, and business usefulness
           </h2>
           <p className="section-copy">
-            OneQuickSolutions helps businesses modernize how they look, launch,
-            and grow online. We combine software, web, analytics, and
-            operations thinking to create solutions that are attractive,
-            reliable, and genuinely useful.
+            OneQuickSolutions is a software development company focused on
+            helping organizations modernize how they operate, present
+            themselves, and deliver value online. We do not just build for the
+            sake of shipping. We build to solve the right problem in a way that
+            still feels strong months after launch.
           </p>
         </div>
 
@@ -66,8 +68,8 @@ const AboutUs = () => {
           <div className="about-us-left">
             <div className="about-image-shell">
               <img
-                src="./images/About.jpg"
-                alt="Team members collaborating around a laptop"
+                src="/images/About.jpg.optimized.jpg"
+                alt="OneQuickSolutions team collaboration and planning session"
                 className="about-image"
                 loading="lazy"
                 decoding="async"
@@ -78,40 +80,43 @@ const AboutUs = () => {
 
           <div className="about-us-right">
             <h3 className="about-card-title">
-              Built to connect strategy, execution, and long-term support
+              A practical partner for startups, SMEs, enterprises, and institutions
             </h3>
             <p className="about-body">
-              Our specialty is delivering business-focused digital solutions
-              that help teams operate with more clarity, speed, and confidence.
-              From SaaS ideas to polished company websites and data-driven
-              workflows, we shape each project around your actual goals instead
-              of generic deliverables.
+              Our strength is combining strategic thinking with hands-on
+              execution. That means sharper websites, better workflows, clearer
+              communication, and digital experiences that feel premium without
+              losing sight of operational reality.
             </p>
 
-            <div className="about-highlights">
-              {highlightCards.map((item) => (
-                <article key={item.title} className="about-highlight-card">
-                  <span className="about-highlight-icon">
-                    <FontAwesomeIcon icon={item.icon} />
-                  </span>
-                  <div>
-                    <h4>{item.title}</h4>
-                    <p>{item.description}</p>
-                  </div>
-                </article>
-              ))}
+            <div className="about-pillars">
+              {pillars.map((item) => {
+                const Icon = item.icon;
+
+                return (
+                  <article key={item.title} className="about-pillar-card">
+                    <span className="about-pillar-card__icon">
+                      <Icon />
+                    </span>
+                    <div>
+                      <h4>{item.title}</h4>
+                      <p>{item.description}</p>
+                    </div>
+                  </article>
+                );
+              })}
             </div>
 
-            <ul className="features-list">
-              {capabilityPoints.map((point) => (
-                <li key={point}>
-                  <span className="icon-check">
-                    <FontAwesomeIcon icon={faCheck} />
-                  </span>
-                  <span>{point}</span>
-                </li>
-              ))}
-            </ul>
+            <div className="about-metrics">
+              <div className="about-metric">
+                <strong>Business-aware delivery</strong>
+                <span>Solutions shaped around goals, users, and process fit.</span>
+              </div>
+              <div className="about-metric">
+                <strong>Cross-functional support</strong>
+                <span>Design, development, analytics, cloud, HR, and training perspectives.</span>
+              </div>
+            </div>
 
             <div className="about-actions">
               <button
@@ -119,12 +124,12 @@ const AboutUs = () => {
                 onClick={() => scrollToSection("contact")}
                 type="button"
               >
-                Get in Touch
-                <FontAwesomeIcon icon={faArrowRight} />
+                Discuss your project
+                <FaArrowRight />
               </button>
               <p className="about-note">
-                Tell us what you are building, and we will help shape the right
-                next step.
+                If you have an idea, redesign, system gap, or product goal, we
+                can help you clarify the best next step.
               </p>
             </div>
           </div>
@@ -132,6 +137,6 @@ const AboutUs = () => {
       </div>
     </section>
   );
-};
+}
 
 export default AboutUs;

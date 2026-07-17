@@ -21,11 +21,13 @@ const contactMethods = [
     icon: faEnvelope,
     label: "Email us",
     value: "onequicksolutionsinfo@gmail.com",
+    href: "mailto:onequicksolutionsinfo@gmail.com",
   },
   {
     icon: faPhone,
     label: "Call us",
     value: "+91 8073981290 / +91 9110863957",
+    href: "tel:+918073981290",
   },
   {
     icon: faClock,
@@ -35,8 +37,7 @@ const contactMethods = [
 ];
 
 export const ContactUs = () => {
-  const form = useRef();
-  const contact = useRef(null);
+  const form = useRef(null);
 
   const sendEmail = (event) => {
     event.preventDefault();
@@ -59,7 +60,7 @@ export const ContactUs = () => {
       )
       .then(
         () => {
-          toast.success("Will get back soon!");
+          toast.success("Thanks for reaching out. We will get back to you soon.");
           form.current.reset();
         },
         (error) => {
@@ -70,29 +71,49 @@ export const ContactUs = () => {
   };
 
   return (
-    <section ref={contact} id="contact" className="contact-us section-shell">
+    <section id="contact" className="contact-us section-shell">
       <div className="section-inner contact-layout">
         <div className="contact-copy">
           <span className="section-kicker">Contact us</span>
-          <h2 className="section-title">Let&apos;s plan the next step together</h2>
+          <h2 className="section-title">Tell us what you want to build, improve, or launch next</h2>
           <p className="section-copy">
-            Whether you need a sharper website, a custom SaaS workflow, or a
-            more dependable digital system, we are ready to help you define the
-            right solution.
+            Whether you need a premium website, a custom software system, a SaaS
+            platform, better reporting, recruitment support, or a training-led
+            digital initiative, we are ready to help you define the right path.
           </p>
 
           <div className="contact-methods">
-            {contactMethods.map((method) => (
-              <article key={method.label} className="contact-method-card">
-                <span className="contact-method-icon">
-                  <FontAwesomeIcon icon={method.icon} />
-                </span>
-                <div>
-                  <h3>{method.label}</h3>
-                  <p>{method.value}</p>
-                </div>
-              </article>
-            ))}
+            {contactMethods.map((method) => {
+              const content = (
+                <>
+                  <span className="contact-method-icon">
+                    <FontAwesomeIcon icon={method.icon} />
+                  </span>
+                  <div>
+                    <h3>{method.label}</h3>
+                    <p>{method.value}</p>
+                  </div>
+                </>
+              );
+
+              return method.href ? (
+                <a key={method.label} className="contact-method-card" href={method.href}>
+                  {content}
+                </a>
+              ) : (
+                <article key={method.label} className="contact-method-card">
+                  {content}
+                </article>
+              );
+            })}
+          </div>
+
+          <div className="contact-trust-note">
+            <strong>What helps us guide you faster:</strong>
+            <span>
+              Your business type, the challenge you want to solve, your target
+              timeline, and whether you need strategy, design, development, or full delivery support.
+            </span>
           </div>
         </div>
 
@@ -100,7 +121,7 @@ export const ContactUs = () => {
           <form ref={form} onSubmit={sendEmail} className="contact-form">
             <div className="form-grid">
               <div className="form-group">
-                <label htmlFor="contact-name">Name</label>
+                <label htmlFor="contact-name">Full name</label>
                 <input
                   id="contact-name"
                   type="text"
@@ -112,7 +133,7 @@ export const ContactUs = () => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="contact-email">Email</label>
+                <label htmlFor="contact-email">Business email</label>
                 <input
                   id="contact-email"
                   type="email"
@@ -124,48 +145,82 @@ export const ContactUs = () => {
               </div>
 
               <div className="form-group">
-                <label htmlFor="contact-phone">Phone</label>
+                <label htmlFor="contact-phone">Phone number</label>
                 <input
                   id="contact-phone"
                   type="tel"
                   name="user_phone"
                   placeholder="Enter your phone number"
                   autoComplete="tel"
-                  required
                 />
               </div>
 
               <div className="form-group">
-                <label htmlFor="contact-subject">Subject</label>
+                <label htmlFor="contact-company">Company or institution</label>
+                <input
+                  id="contact-company"
+                  type="text"
+                  name="company_name"
+                  placeholder="Enter your company name"
+                  autoComplete="organization"
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="contact-service">Service needed</label>
+                <select id="contact-service" name="service_interest" defaultValue="">
+                  <option value="" disabled>
+                    Select a service
+                  </option>
+                  <option>Custom Software Development</option>
+                  <option>Website Development</option>
+                  <option>Mobile App Development</option>
+                  <option>SaaS Development</option>
+                  <option>AI Solutions</option>
+                  <option>Data Analytics</option>
+                  <option>Cloud Solutions</option>
+                  <option>UI/UX Design</option>
+                  <option>HR Consulting</option>
+                  <option>E-Shikshana / Training</option>
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="contact-subject">Project focus</label>
                 <input
                   id="contact-subject"
                   type="text"
                   name="subject"
-                  placeholder="Tell us what you need"
+                  placeholder="Tell us what you want to improve"
                 />
               </div>
 
               <div className="form-group full-width">
-                <label htmlFor="contact-message">Message</label>
+                <label htmlFor="contact-message">Project details</label>
                 <textarea
                   id="contact-message"
                   name="message"
-                  placeholder="Share your goals, timeline, or the challenge you are solving"
+                  placeholder="Share your goals, current challenge, expected timeline, or the kind of solution you have in mind"
                   required
                 />
               </div>
             </div>
 
-            <button type="submit" className="contact-button">
-              Send Message
-            </button>
+            <div className="contact-form__footer">
+              <p className="contact-form__privacy">
+                We use your message only to respond to your enquiry and plan the right next step.
+              </p>
+              <button type="submit" className="contact-button">
+                Send your enquiry
+              </button>
+            </div>
           </form>
         </div>
       </div>
 
       <ToastContainer
         position="top-right"
-        autoClose={3000}
+        autoClose={3200}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick

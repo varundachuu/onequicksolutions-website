@@ -1,20 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { FaArrowRight } from "react-icons/fa";
+import React from "react";
+import { FaArrowRight } from "react-icons/fa6";
 import "../css-files/Founders.css";
 
 const team = {
   founders: [
     {
-      image: "./images/Profile-Images/varun1.jpg",
+      image: "/images/Profile-Images/varun1.jpg",
       name: "Varun",
-      title: "Managing Director",
+      title: "Founder and Managing Director",
       badge: "Founder",
+      description:
+        "Focused on business direction, delivery momentum, and helping clients turn ideas into structured digital outcomes.",
     },
     {
-      image: "./images/Profile-Images/Yogesh4.jpg",
+      image: "/images/Profile-Images/Yogesh4.jpg",
       name: "Yogesh",
-      title: "Chief Executive Officer",
+      title: "Founder and Chief Executive Officer",
       badge: "Founder",
+      description:
+        "Brings execution focus, collaboration leadership, and a practical approach to growth-oriented digital delivery.",
     },
   ],
   partners: [
@@ -45,7 +49,7 @@ const scrollToContact = () => {
   }
 
   const topPosition =
-    section.getBoundingClientRect().top + window.scrollY - headerHeight - 14;
+    section.getBoundingClientRect().top + window.scrollY - headerHeight - 16;
 
   window.scrollTo({
     top: Math.max(topPosition, 0),
@@ -53,14 +57,7 @@ const scrollToContact = () => {
   });
 };
 
-const Founders = () => {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const timerId = window.setTimeout(() => setIsVisible(true), 180);
-    return () => window.clearTimeout(timerId);
-  }, []);
-
+function Founders() {
   const getInitials = (name) =>
     name
       .split(" ")
@@ -75,7 +72,7 @@ const Founders = () => {
         {person.image ? (
           <img
             src={person.image}
-            alt={person.name}
+            alt={`${person.name} from OneQuickSolutions`}
             className="team-image"
             loading="lazy"
             decoding="async"
@@ -93,6 +90,7 @@ const Founders = () => {
       <span className="team-badge">{person.badge}</span>
       <h3 className="team-name">{person.name}</h3>
       <p className="team-title">{person.title}</p>
+      {person.description && <p className="team-description">{person.description}</p>}
       <button type="button" className="team-cta" onClick={scrollToContact}>
         Connect with our team
         <FaArrowRight />
@@ -101,14 +99,15 @@ const Founders = () => {
   );
 
   return (
-    <section className={`founder-container section-shell ${isVisible ? "visible" : ""}`}>
+    <section className="founder-container section-shell">
       <div className="section-inner">
         <div className="section-intro">
-          <span className="section-kicker">Our team</span>
-          <h2 className="section-title">The people leading OneQuickSolutions</h2>
+          <span className="section-kicker">Leadership and partners</span>
+          <h2 className="section-title">The people guiding OneQuickSolutions forward</h2>
           <p className="section-copy">
-            Varun and Yogesh lead our work with a practical mix of business
-            direction, execution focus, and long-term growth thinking.
+            Our leadership combines business direction, execution focus, and
+            collaborative delivery support so projects can move from concept to
+            credible digital outcome with less friction.
           </p>
         </div>
 
@@ -125,7 +124,7 @@ const Founders = () => {
 
         <div className="team-group">
           <div className="team-group-header">
-            <span className="team-group-kicker">Collaborators</span>
+            <span className="team-group-kicker">Delivery support</span>
             <h3 className="team-group-title">Working Partners</h3>
           </div>
 
@@ -136,6 +135,6 @@ const Founders = () => {
       </div>
     </section>
   );
-};
+}
 
 export default Founders;

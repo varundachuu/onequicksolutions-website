@@ -19,8 +19,8 @@ const CONTEXT_LINES = {
     "A good intro builds trust. I can zip you to the offers too.",
   ],
   features: [
-    "Feature cards looking sharp. Want a faster route to contact?",
-    "Capabilities unlocked. I can jump you deeper down the page.",
+    "Technology capabilities are lined up here. Want the service breakdown next?",
+    "This section shows the tools and delivery strengths behind the work.",
   ],
   service: [
     "These service cards are conversion territory. Good place to linger.",
@@ -43,7 +43,7 @@ const CONTEXT_LINES = {
 const SECTION_LABELS = {
   home: "Home",
   about: "About",
-  features: "Features",
+  features: "Technologies",
   service: "Services",
   "other-services": "Programmes",
   contact: "Contact",

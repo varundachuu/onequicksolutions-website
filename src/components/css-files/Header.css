@@ -5,6 +5,24 @@
   box-sizing: border-box;
 }
 
+.skip-link {
+  position: fixed;
+  left: 1rem;
+  top: 1rem;
+  z-index: 2000;
+  padding: 0.7rem 1rem;
+  border-radius: 999px;
+  background: #0f172a;
+  color: #ffffff;
+  text-decoration: none;
+  transform: translateY(-180%);
+  transition: transform 0.2s ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
 .header {
   position: fixed;
   top: 0;
@@ -100,6 +118,7 @@
   font-weight: 600;
   padding: 0.76rem 0.95rem;
   border-radius: 999px;
+  white-space: nowrap;
   cursor: pointer;
   transition:
     transform 0.2s ease,
@@ -333,10 +352,6 @@ body.menu-open {
 
   .menu-toggle {
     display: inline-flex;
-  }
-
-  .modal-top {
-    display: none;
   }
 
   .modal-content {

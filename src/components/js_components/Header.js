@@ -1,84 +1,40 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../css-files/Header.css";
 import { FaBars, FaMoon, FaSun, FaTimes } from "react-icons/fa";
 
 const NAV_LINKS = [
-  { name: "Home", id: "home", type: "home" },
-  { name: "About", id: "about", type: "section" },
-  { name: "Features", id: "features", type: "section" },
-  { name: "Services", id: "service", type: "section" },
-  { name: "Programmes", id: "other-services", type: "section" },
-  {
-    name: "HR Consultancy",
-    id: "hr-consultancy",
-    type: "route",
-    path: "/hr-consultancy",
-  },
-  { name: "Contact Us", id: "contact", type: "section" },
+  { name: "Home", path: "/" },
+  { name: "Services", path: "/services" },
+  { name: "About", path: "/about" },
+  { name: "HR Consultancy", path: "/hr-consultancy" },
+  { name: "Contact", path: "/contact" },
 ];
-
-const scrollToDocumentSection = (sectionId) => {
-  if (sectionId === "home") {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    return;
-  }
-
-  const section = document.getElementById(sectionId);
-  const headerHeight = document.querySelector(".header")?.offsetHeight ?? 0;
-
-  if (!section) {
-    return;
-  }
-
-  const topPosition =
-    section.getBoundingClientRect().top + window.scrollY - headerHeight - 18;
-
-  window.scrollTo({
-    top: Math.max(topPosition, 0),
-    behavior: "smooth",
-  });
-};
 
 function Header({ theme, onToggleTheme }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState("home");
   const navigate = useNavigate();
   const location = useLocation();
 
   const toggleMenu = () => setIsMenuOpen((current) => !current);
 
-  const handleLinkClick = (link) => {
-    if (link.type === "route") {
-      navigate(link.path);
-      setActiveSection(link.id);
-      setIsMenuOpen(false);
-      return;
-    }
-
-    if (link.id === "home") {
-      if (location.pathname !== "/") {
-        navigate("/");
-      } else {
-        scrollToDocumentSection("home");
-      }
-
-      setActiveSection("home");
-      setIsMenuOpen(false);
-      return;
-    }
-
-    if (location.pathname !== "/") {
-      navigate({
-        pathname: "/",
-        hash: `#${link.id}`,
-      });
+  const goHome = () => {
+    if (location.pathname === "/") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
-      scrollToDocumentSection(link.id);
+      navigate("/");
+    }
+    setIsMenuOpen(false);
+  };
+
+  const handleNavClick = (path) => {
+    if (path === "/") {
+      goHome();
+      return;
     }
 
-    setActiveSection(link.id);
+    navigate(path);
     setIsMenuOpen(false);
   };
 
@@ -91,38 +47,10 @@ function Header({ theme, onToggleTheme }) {
 
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 24);
-
-      if (location.pathname !== "/") {
-        setActiveSection(
-          location.pathname === "/hr-consultancy" ? "hr-consultancy" : "home"
-        );
-        return;
-      }
-
-      const headerHeight =
-        document.querySelector(".header")?.offsetHeight ?? 0;
-      let currentSection = "home";
-
-      NAV_LINKS.forEach((link) => {
-        if (link.type !== "section") {
-          return;
-        }
-
-        const section = document.getElementById(link.id);
-        if (!section) {
-          return;
-        }
-
-        if (window.scrollY >= section.offsetTop - headerHeight - 120) {
-          currentSection = link.id;
-        }
-      });
-
-      setActiveSection(currentSection);
     };
 
     const handleResize = () => {
-      if (window.innerWidth > 1024) {
+      if (window.innerWidth > 1180) {
         setIsMenuOpen(false);
       }
     };
@@ -138,7 +66,7 @@ function Header({ theme, onToggleTheme }) {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleResize);
     };
-  }, [location.pathname]);
+  }, []);
 
   useEffect(() => {
     setIsMenuOpen(false);
@@ -153,15 +81,12 @@ function Header({ theme, onToggleTheme }) {
   }, [isMenuOpen]);
 
   const renderNavButton = (link, className) => {
-    const isPrimary = link.id === "contact";
-    const isActive =
-      link.type === "route"
-        ? location.pathname === link.path
-        : location.pathname === "/" && activeSection === link.id;
+    const isPrimary = link.path === "/contact";
+    const isActive = location.pathname === link.path;
 
     return (
       <button
-        key={link.id}
+        key={link.path}
         type="button"
         className={[
           className,
@@ -170,7 +95,7 @@ function Header({ theme, onToggleTheme }) {
         ]
           .filter(Boolean)
           .join(" ")}
-        onClick={() => handleLinkClick(link)}
+        onClick={() => handleNavClick(link.path)}
       >
         {link.name}
       </button>
@@ -183,24 +108,30 @@ function Header({ theme, onToggleTheme }) {
 
   return (
     <>
+      <a className="skip-link" href="#main-content">
+        Skip to content
+      </a>
+
       <header className={`header ${isScrolled ? "header-scrolled" : ""}`}>
         <button
           type="button"
           className="brand"
-          onClick={() => handleLinkClick(NAV_LINKS[0])}
-          aria-label="Go to home section"
+          onClick={goHome}
+          aria-label="Go to homepage"
         >
           <span className="brand-logo-shell">
             <img
               className="brand-logo"
               src="/images/logo6.jpg"
-              alt="One Quick Solutions"
+              alt="OneQuickSolutions logo"
               decoding="async"
               fetchPriority="high"
+              width="464"
+              height="98"
             />
           </span>
           <span className="brand-tagline">
-            SaaS, web, and digital transformation
+            Software development, SaaS, AI, analytics, and digital transformation
           </span>
         </button>
 
@@ -273,4 +204,3 @@ function Header({ theme, onToggleTheme }) {
 }
 
 export default Header;
-

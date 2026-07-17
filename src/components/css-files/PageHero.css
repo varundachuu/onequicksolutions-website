@@ -1,0 +1,140 @@
+.page-hero {
+  padding-top: clamp(2.5rem, 5vw, 4rem);
+}
+
+.page-hero__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(300px, 0.92fr);
+  gap: clamp(1.5rem, 4vw, 2.5rem);
+  align-items: start;
+}
+
+.page-hero__copy {
+  min-width: 0;
+}
+
+.page-hero__title {
+  max-width: 12.5ch;
+}
+
+.page-hero__description {
+  max-width: 42rem;
+}
+
+.page-hero__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1.4rem;
+}
+
+.page-hero__chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 0.78rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface-soft) 88%, white 12%);
+  border: 1px solid var(--line-soft);
+  color: var(--ink-700);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.page-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.page-hero__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.2rem;
+  padding: 0.95rem 1.5rem;
+  border-radius: 999px;
+  font-size: 0.98rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform 0.24s ease,
+    box-shadow 0.24s ease,
+    border-color 0.24s ease;
+}
+
+.page-hero__button--primary {
+  border: none;
+  background: linear-gradient(135deg, var(--brand-500), var(--brand-400));
+  color: #ffffff;
+  box-shadow: 0 18px 34px rgba(24, 77, 165, 0.22);
+}
+
+.page-hero__button--secondary {
+  border: 1px solid var(--line-strong);
+  background: var(--card-surface-strong);
+  color: var(--ink-900);
+}
+
+.page-hero__button:hover {
+  transform: translateY(-2px);
+}
+
+.page-hero__panel {
+  padding: 1.25rem;
+  border-radius: 2rem;
+}
+
+.page-hero__panel-label {
+  display: inline-flex;
+  margin-bottom: 0.7rem;
+  color: var(--brand-500);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.page-hero__panel-grid {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.page-hero__panel-card {
+  padding: 1rem;
+  border-radius: 1.35rem;
+  background: color-mix(in srgb, var(--card-surface-muted) 92%, white 8%);
+  border: 1px solid var(--line-soft);
+}
+
+.page-hero__panel-card strong {
+  display: block;
+  margin-bottom: 0.3rem;
+  color: var(--ink-900);
+}
+
+.page-hero__panel-card p {
+  margin: 0;
+  color: var(--ink-700);
+  line-height: 1.7;
+}
+
+@media (max-width: 1024px) {
+  .page-hero__layout {
+    grid-template-columns: 1fr;
+  }
+
+  .page-hero__title {
+    max-width: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .page-hero__actions {
+    flex-direction: column;
+  }
+
+  .page-hero__button {
+    width: 100%;
+  }
+}

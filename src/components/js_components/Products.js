@@ -1,39 +1,32 @@
 import React from "react";
-import { FaBoxOpen } from "react-icons/fa";
-import "../css-files/services.css";
+import { processSteps } from "../../content/siteContent";
+import "../css-files/ContentSections.css";
 
-const Products = () => {
+function Products() {
   return (
-    <section id="products" className="service-showcase service-showcase--feature section-shell">
+    <section id="process" className="section-shell process-section">
       <div className="section-inner">
         <div className="section-intro">
-          <span className="section-kicker">Product spotlight</span>
-          <h2 className="section-title">A flagship product built for real utility</h2>
+          <span className="section-kicker">Our development process</span>
+          <h2 className="section-title">A delivery approach built for clarity, quality, and better decisions</h2>
           <p className="section-copy">
-            We also create focused digital products that solve recurring
-            operational problems with a cleaner, more dependable user
-            experience.
+            We use a structured process so projects stay aligned to business
+            goals, user needs, technical quality, and long-term usefulness.
           </p>
         </div>
 
-        <div className="service-showcase__feature">
-          <article className="service-card service-card--feature">
-            <span className="service-card__icon">
-              <FaBoxOpen />
-            </span>
-            <div className="service-card__feature-copy">
-              <h3 className="service-card__title">Flagship business product</h3>
-              <p className="service-card__description">
-                A focused product experience designed to streamline key business
-                tasks, improve visibility, and give teams a more polished way
-                to manage important workflows.
-              </p>
-            </div>
-          </article>
+        <div className="process-grid">
+          {processSteps.map((item) => (
+            <article key={item.step} className="process-card surface-panel interactive-panel">
+              <span className="process-card__step">{item.step}</span>
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+            </article>
+          ))}
         </div>
       </div>
     </section>
   );
-};
+}
 
 export default Products;

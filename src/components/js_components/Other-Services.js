@@ -1,23 +1,29 @@
 import React from "react";
-import { FaBookOpen, FaBrain } from "react-icons/fa";
+import { FaBookOpen, FaChalkboardUser, FaGraduationCap } from "react-icons/fa6";
 import "../css-files/services.css";
 
 const programmes = [
   {
     title: "E-Shikshana",
     description:
-      "A digital learning programme shaped to make upskilling simpler and more engaging.",
-    icon: FaBookOpen,
+      "A digital training and education initiative designed to make upskilling more structured, practical, and accessible.",
+    icon: FaGraduationCap,
   },
   {
-    title: "Foundational courses",
+    title: "Training enablement",
     description:
-      "Structured programmes for beginners building strong technical and analytical fundamentals.",
-    icon: FaBrain,
+      "Programme support for institutions and teams that need guided digital learning, onboarding, or capability development.",
+    icon: FaChalkboardUser,
+  },
+  {
+    title: "Foundational learning support",
+    description:
+      "Learner-friendly content and programme structure for people building stronger technical and analytical fundamentals.",
+    icon: FaBookOpen,
   },
 ];
 
-const OtherServices = () => {
+function OtherServices() {
   return (
     <section
       id="other-services"
@@ -25,21 +31,21 @@ const OtherServices = () => {
     >
       <div className="section-inner">
         <div className="section-intro">
-          <span className="section-kicker">Programmes</span>
-          <h2 className="section-title">Learning and enablement that support growth</h2>
+          <span className="section-kicker">Training and education</span>
+          <h2 className="section-title">Programmes that strengthen capability after the build</h2>
           <p className="section-copy">
-            Beyond project delivery, we also build programmes that help teams
-            learn faster, adopt new systems more smoothly, and strengthen their
-            capabilities over time.
+            OneQuickSolutions also supports learning and enablement through
+            E-Shikshana and training-focused programmes that help teams and
+            learners adopt new systems with more confidence.
           </p>
         </div>
 
-        <div className="service-showcase__grid service-showcase__grid--compact service-showcase__grid--pair">
+        <div className="service-showcase__grid service-showcase__grid--compact">
           {programmes.map((service) => {
             const Icon = service.icon;
 
             return (
-              <article key={service.title} className="service-card">
+              <article key={service.title} className="service-card service-card--rich">
                 <span className="service-card__icon">
                   <Icon />
                 </span>
@@ -52,6 +58,6 @@ const OtherServices = () => {
       </div>
     </section>
   );
-};
+}
 
 export default OtherServices;

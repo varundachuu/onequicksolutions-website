@@ -3,14 +3,14 @@
 }
 
 .team-group + .team-group {
-  margin-top: 2.1rem;
+  margin-top: 2.2rem;
 }
 
 .team-group-header {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
-  margin-bottom: 1.05rem;
+  margin-bottom: 1.1rem;
 }
 
 .team-group-kicker {
@@ -23,7 +23,7 @@
 
 .team-group-title {
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 1.55rem;
 }
 
 .leaders-grid {
@@ -73,7 +73,7 @@
 .team-image {
   display: block;
   width: 100%;
-  height: 280px;
+  height: 300px;
   object-fit: cover;
   transition: transform 0.55s ease;
 }
@@ -131,13 +131,19 @@
 
 .team-name {
   margin: 1rem 0 0.3rem;
-  font-size: 1.22rem;
+  font-size: 1.24rem;
 }
 
 .team-title {
-  margin: 0 0 1rem;
+  margin: 0 0 0.75rem;
   color: var(--ink-700);
   line-height: 1.65;
+}
+
+.team-description {
+  margin: 0 0 1rem;
+  color: var(--ink-700);
+  line-height: 1.75;
 }
 
 .team-cta {
