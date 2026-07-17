@@ -85,6 +85,25 @@ const SECTION_LABELS = {
   "hr-consultancy": "HR Consultancy",
 };
 
+const BONK_REACTIONS = [
+  {
+    badge: "OW",
+    line: "Ow. That was a very direct click.",
+  },
+  {
+    badge: "HEY",
+    line: "Easy. I am a mascot, not a punching bag.",
+  },
+  {
+    badge: "RUDE",
+    line: "Quicki is filing a tiny workplace complaint.",
+  },
+  {
+    badge: "OKAY",
+    line: "All right, all right. You definitely won that round.",
+  },
+];
+
 const randomItem = (items) => items[Math.floor(Math.random() * items.length)];
 const INTRO_MESSAGE = "Welcome to OneQuickSolutions";
 
@@ -139,6 +158,8 @@ function QuickiBot({
   isPushing = false,
   scrollDirection = "down",
   isTalking = false,
+  isBonked = false,
+  bonkCycle = 0,
 }) {
   return (
     <div
@@ -147,6 +168,8 @@ function QuickiBot({
         `quicki-bot--${variant}`,
         isPartyMode ? "quicki-bot--party" : "",
         isTalking ? "quicki-bot--talking" : "",
+        isBonked ? "quicki-bot--bonked" : "",
+        isBonked ? `quicki-bot--bonked-${bonkCycle % 2}` : "",
         isPushing ? `quicki-bot--scroll-${scrollDirection}` : "",
       ]
         .filter(Boolean)
@@ -186,6 +209,9 @@ function MascotAssistant({ theme, onToggleTheme }) {
   const [sparkles, setSparkles] = useState([]);
   const [isPushing, setIsPushing] = useState(false);
   const [scrollDirection, setScrollDirection] = useState("down");
+  const [isBonked, setIsBonked] = useState(false);
+  const [bonkBadge, setBonkBadge] = useState("OW");
+  const [bonkCycle, setBonkCycle] = useState(0);
   const navigate = useNavigate();
   const location = useLocation();
   const sparkleTimerRef = useRef(null);
@@ -193,6 +219,10 @@ function MascotAssistant({ theme, onToggleTheme }) {
   const lastScrollYRef = useRef(0);
   const introSettleTimerRef = useRef(null);
   const introHideTimerRef = useRef(null);
+  const bonkTimerRef = useRef(null);
+  const bonkResetTimerRef = useRef(null);
+  const bonkCountRef = useRef(0);
+  const lastBonkAtRef = useRef(0);
   const activeLabel = SECTION_LABELS[activeSection] ?? "Home";
 
   useEffect(() => {
@@ -337,28 +367,90 @@ function MascotAssistant({ theme, onToggleTheme }) {
       if (scrollTimerRef.current) {
         window.clearTimeout(scrollTimerRef.current);
       }
+      if (bonkTimerRef.current) {
+        window.clearTimeout(bonkTimerRef.current);
+      }
+      if (bonkResetTimerRef.current) {
+        window.clearTimeout(bonkResetTimerRef.current);
+      }
     };
   }, []);
 
-  const emitSparkles = (count = 12) => {
+  const emitSparkles = (
+    count = 12,
+    { hueStart = 210, hueRange = 80, spreadX = 180, spreadY = 150 } = {}
+  ) => {
     if (sparkleTimerRef.current) {
       window.clearTimeout(sparkleTimerRef.current);
     }
 
     const generatedSparkles = Array.from({ length: count }, (_, index) => ({
       id: `${Date.now()}-${index}`,
-      x: `${Math.round((Math.random() - 0.5) * 180)}px`,
-      y: `${Math.round((Math.random() - 0.5) * 150)}px`,
+      x: `${Math.round((Math.random() - 0.5) * spreadX)}px`,
+      y: `${Math.round((Math.random() - 0.5) * spreadY)}px`,
       size: `${Math.round(8 + Math.random() * 10)}px`,
       rotation: `${Math.round(Math.random() * 180)}deg`,
       delay: `${(Math.random() * 0.12).toFixed(2)}s`,
-      hue: `${210 + Math.round(Math.random() * 80)}`,
+      hue: `${hueStart + Math.round(Math.random() * hueRange)}`,
     }));
 
     setSparkles(generatedSparkles);
     sparkleTimerRef.current = window.setTimeout(() => {
       setSparkles([]);
     }, 1100);
+  };
+
+  const restoreContextSpeech = () => {
+    setSpeech(
+      activeSection === "contact"
+        ? "I will hang here quietly near the finish line."
+        : randomItem(CONTEXT_LINES[activeSection] ?? CONTEXT_LINES.home)
+    );
+  };
+
+  const triggerBonkReaction = () => {
+    const now = Date.now();
+    const nextCount =
+      now - lastBonkAtRef.current < 1500
+        ? Math.min(bonkCountRef.current + 1, BONK_REACTIONS.length)
+        : 1;
+
+    bonkCountRef.current = nextCount;
+    lastBonkAtRef.current = now;
+
+    if (bonkTimerRef.current) {
+      window.clearTimeout(bonkTimerRef.current);
+    }
+    if (bonkResetTimerRef.current) {
+      window.clearTimeout(bonkResetTimerRef.current);
+    }
+
+    const reaction = BONK_REACTIONS[nextCount - 1] ?? BONK_REACTIONS[0];
+    setBonkBadge(reaction.badge);
+    setSpeech(reaction.line);
+    setIsBonked(true);
+    setBonkCycle((current) => current + 1);
+
+    emitSparkles(5 + nextCount * 2, {
+      hueStart: nextCount >= 3 ? 350 : 18,
+      hueRange: nextCount >= 3 ? 36 : 22,
+      spreadX: 120,
+      spreadY: 96,
+    });
+
+    bonkTimerRef.current = window.setTimeout(() => {
+      setIsBonked(false);
+    }, 520);
+
+    bonkResetTimerRef.current = window.setTimeout(() => {
+      bonkCountRef.current = 0;
+      lastBonkAtRef.current = 0;
+    }, 1700);
+  };
+
+  const handleClosePanel = () => {
+    setIsOpen(false);
+    restoreContextSpeech();
   };
 
   const moveToTarget = (target) => {
@@ -493,7 +585,7 @@ function MascotAssistant({ theme, onToggleTheme }) {
                 <button
                   type="button"
                   className="mascot-panel__close"
-                  onClick={() => setIsOpen(false)}
+                  onClick={handleClosePanel}
                   aria-label="Close mascot panel"
                 >
                   <FaTimes />
@@ -562,6 +654,18 @@ function MascotAssistant({ theme, onToggleTheme }) {
 
           <div className="mascot-assistant__anchor">
             <span className="mascot-assistant__push-trail" aria-hidden="true" />
+            <span
+              key={bonkCycle}
+              className={[
+                "mascot-assistant__bonk-badge",
+                isBonked ? "mascot-assistant__bonk-badge--visible" : "",
+              ]
+                .filter(Boolean)
+                .join(" ")}
+              aria-hidden="true"
+            >
+              {bonkBadge}
+            </span>
 
             <div className="mascot-assistant__sparkles" aria-hidden="true">
               {sparkles.map((sparkle) => (
@@ -582,24 +686,23 @@ function MascotAssistant({ theme, onToggleTheme }) {
 
             <button
               type="button"
-              className="mascot-trigger"
+              className={[
+                "mascot-trigger",
+                isBonked ? "mascot-trigger--bonked" : "",
+                isBonked ? `mascot-trigger--bonked-${bonkCycle % 2}` : "",
+              ]
+                .filter(Boolean)
+                .join(" ")}
               onClick={() => {
-                const nextOpen = !isOpen;
-                setIsOpen(nextOpen);
+                triggerBonkReaction();
 
-                if (nextOpen) {
-                  setSpeech("Console open. Pick a shortcut or unleash the chaos.");
+                if (!isOpen) {
+                  setIsOpen(true);
                   emitSparkles(10);
-                } else {
-                  setSpeech(
-                    activeSection === "contact"
-                      ? "I will hang here quietly near the finish line."
-                      : randomItem(CONTEXT_LINES[activeSection] ?? CONTEXT_LINES.home)
-                  );
                 }
               }}
               aria-expanded={isOpen}
-              aria-label={isOpen ? "Close Quicki assistant" : "Open Quicki assistant"}
+              aria-label={isOpen ? "Bonk Quicki assistant" : "Open Quicki assistant"}
             >
               <QuickiBot
                 variant="dock"
@@ -607,6 +710,8 @@ function MascotAssistant({ theme, onToggleTheme }) {
                 isPushing={isPushing}
                 scrollDirection={scrollDirection}
                 isTalking={isPushing || isPartyMode}
+                isBonked={isBonked}
+                bonkCycle={bonkCycle}
               />
             </button>
           </div>

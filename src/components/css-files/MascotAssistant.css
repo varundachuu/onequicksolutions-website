@@ -343,6 +343,34 @@
     filter 0.18s ease;
 }
 
+.mascot-trigger::before,
+.mascot-trigger::after {
+  content: "";
+  position: absolute;
+  top: 0.7rem;
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 999px;
+  border: 2px solid rgba(255, 143, 100, 0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.mascot-trigger::before {
+  left: -0.28rem;
+}
+
+.mascot-trigger::after {
+  right: -0.28rem;
+}
+
+.mascot-trigger--bonked-0::before,
+.mascot-trigger--bonked-0::after,
+.mascot-trigger--bonked-1::before,
+.mascot-trigger--bonked-1::after {
+  animation: quicki-impact-burst 0.52s ease-out;
+}
+
 .quicki-bot {
   --quicki-size: 4.95rem;
   position: relative;
@@ -562,6 +590,40 @@
   animation-duration: 1.6s;
 }
 
+.quicki-bot--bonked-0,
+.quicki-bot--bonked-1 {
+  animation: quicki-bonk-shake 0.52s cubic-bezier(0.2, 0.82, 0.26, 1);
+}
+
+.quicki-bot--bonked .quicki-bot__aura {
+  opacity: 0.82;
+}
+
+.quicki-bot--bonked .quicki-bot__mouth {
+  background: #0b2958;
+  transform: translateX(-50%) scaleX(0.68);
+}
+
+.quicki-bot--bonked .quicki-bot__core {
+  animation: quicki-core-pulse 2.2s ease-in-out infinite, quicki-core-flicker 0.52s ease;
+}
+
+.quicki-bot--bonked .quicki-bot__antenna {
+  animation: quicki-antenna-sway 3.8s ease-in-out infinite, quicki-bonk-antenna 0.52s ease;
+}
+
+.quicki-bot--bonked .quicki-bot__arm--left {
+  animation: quicki-wave-left 3.2s ease-in-out infinite, quicki-bonk-left 0.52s ease;
+}
+
+.quicki-bot--bonked .quicki-bot__arm--right {
+  animation: quicki-wave-right 3.2s ease-in-out infinite, quicki-bonk-right 0.52s ease;
+}
+
+.quicki-bot--bonked .quicki-bot__pupil {
+  transform: translateY(0.05rem);
+}
+
 .quicki-bot--scroll-up .quicki-bot__pupil {
   transform: translateY(-0.08rem);
 }
@@ -650,6 +712,34 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
+}
+
+.mascot-assistant__bonk-badge {
+  position: absolute;
+  right: 2.9rem;
+  bottom: 4.4rem;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.55rem;
+  padding: 0.26rem 0.55rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ff8f64, #f06a3f);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  box-shadow: 0 10px 20px rgba(240, 106, 63, 0.24);
+  opacity: 0;
+  transform: translateY(0.45rem) scale(0.7) rotate(-10deg);
+  pointer-events: none;
+}
+
+.mascot-assistant__bonk-badge--visible {
+  opacity: 1;
+  animation: quicki-bonk-badge 0.92s cubic-bezier(0.2, 0.82, 0.26, 1) both;
 }
 
 .mascot-sparkle {
@@ -786,6 +876,128 @@
   }
 }
 
+@keyframes quicki-bonk-shake {
+  0% {
+    transform: translateX(0) rotate(0deg) scale(1);
+  }
+
+  18% {
+    transform: translateX(-0.22rem) rotate(-9deg) scale(0.97);
+  }
+
+  38% {
+    transform: translateX(0.18rem) rotate(8deg) scale(1.01);
+  }
+
+  62% {
+    transform: translateX(-0.12rem) rotate(-6deg) scale(0.99);
+  }
+
+  100% {
+    transform: translateX(0) rotate(0deg) scale(1);
+  }
+}
+
+@keyframes quicki-bonk-left {
+  0%,
+  100% {
+    transform: rotate(28deg);
+  }
+
+  30% {
+    transform: rotate(68deg) translateY(-0.16rem);
+  }
+
+  60% {
+    transform: rotate(8deg) translateY(0.06rem);
+  }
+}
+
+@keyframes quicki-bonk-right {
+  0%,
+  100% {
+    transform: rotate(-28deg);
+  }
+
+  30% {
+    transform: rotate(-68deg) translateY(-0.16rem);
+  }
+
+  60% {
+    transform: rotate(-8deg) translateY(0.06rem);
+  }
+}
+
+@keyframes quicki-bonk-antenna {
+  0%,
+  100% {
+    transform: translateX(-50%) rotate(0deg);
+  }
+
+  30% {
+    transform: translateX(-50%) rotate(16deg);
+  }
+
+  65% {
+    transform: translateX(-50%) rotate(-10deg);
+  }
+}
+
+@keyframes quicki-core-flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  35% {
+    opacity: 0.45;
+  }
+
+  60% {
+    opacity: 0.82;
+  }
+}
+
+@keyframes quicki-impact-burst {
+  0% {
+    opacity: 0;
+    transform: scale(0.35);
+    border-color: rgba(255, 143, 100, 0.9);
+  }
+
+  30% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.32);
+    border-color: rgba(255, 211, 109, 0.1);
+  }
+}
+
+@keyframes quicki-bonk-badge {
+  0% {
+    opacity: 0;
+    transform: translateY(0.45rem) scale(0.7) rotate(-10deg);
+  }
+
+  18% {
+    opacity: 1;
+    transform: translateY(-0.1rem) scale(1.06) rotate(-7deg);
+  }
+
+  62% {
+    opacity: 1;
+    transform: translateY(-0.32rem) scale(1) rotate(-4deg);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-1rem) scale(0.92) rotate(-3deg);
+  }
+}
+
 @keyframes quicki-push-up {
   0% {
     opacity: 0;
@@ -886,6 +1098,13 @@
 
   .quicki-bot--dock {
     --quicki-size: 4.25rem;
+  }
+
+  .mascot-assistant__bonk-badge {
+    right: 2.4rem;
+    bottom: 3.95rem;
+    min-width: 2.3rem;
+    font-size: 0.66rem;
   }
 
   .mascot-intro__speech {
