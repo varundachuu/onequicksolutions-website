@@ -345,22 +345,10 @@
 
 .quicki-bot {
   --quicki-size: 4.95rem;
-  --quicki-lavender: #9d93ff;
-  --quicki-indigo: #6b74ff;
-  --quicki-teal: #0a6fb2;
-  --quicki-deep: #123d79;
-  --quicki-pink: #ec3f79;
-  --quicki-shell-gradient: conic-gradient(
-    from 205deg,
-    var(--quicki-teal) 0deg 132deg,
-    var(--quicki-lavender) 132deg 238deg,
-    var(--quicki-indigo) 238deg 320deg,
-    var(--quicki-teal) 320deg 360deg
-  );
   position: relative;
   display: block;
   width: var(--quicki-size);
-  aspect-ratio: 1 / 1.06;
+  aspect-ratio: 1 / 1.15;
   transform-origin: center bottom;
 }
 
@@ -370,21 +358,20 @@
 
 .quicki-bot__aura {
   position: absolute;
-  inset: 15% 12% 10%;
+  inset: 18% 15% 8%;
   border-radius: 50%;
   background:
-    radial-gradient(circle at 30% 28%, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.18) 34%, transparent 62%),
-    radial-gradient(circle at 35% 58%, rgba(10, 111, 178, 0.34), rgba(10, 111, 178, 0.08) 54%, transparent 82%),
-    radial-gradient(circle at 68% 40%, rgba(157, 147, 255, 0.34), rgba(107, 116, 255, 0.1) 56%, transparent 84%);
-  filter: blur(15px);
-  opacity: 0.96;
+    radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.2) 32%, transparent 64%),
+    radial-gradient(circle at 50% 58%, rgba(79, 125, 240, 0.3), rgba(43, 89, 195, 0.12) 52%, transparent 82%);
+  filter: blur(14px);
+  opacity: 0.95;
 }
 
 .quicki-bot__shadow {
   position: absolute;
   left: 50%;
-  bottom: 0.04rem;
-  width: 70%;
+  bottom: 0.08rem;
+  width: 68%;
   height: 10%;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(15, 23, 42, 0.32), rgba(15, 23, 42, 0));
@@ -393,42 +380,41 @@
   animation: quicki-shadow-bob 4.6s ease-in-out infinite;
 }
 
-.quicki-bot__spark {
+.quicki-bot__antenna {
+  position: relative;
   position: absolute;
-  left: 0.9rem;
-  top: 0.22rem;
-  width: 1rem;
+  left: 50%;
+  top: 0.18rem;
+  width: 0.28rem;
   height: 1rem;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(157, 147, 255, 0.96));
-  clip-path: polygon(50% 0%, 62% 36%, 100% 50%, 62% 64%, 50% 100%, 38% 64%, 0% 50%, 38% 36%);
-  box-shadow: 0 0 16px rgba(157, 147, 255, 0.34);
+  border-radius: 999px;
+  background: linear-gradient(180deg, #bcd4ff, #5d84f4);
+  transform: translateX(-50%);
+  box-shadow: 0 0 10px rgba(93, 132, 244, 0.26);
   animation: quicki-antenna-sway 3.8s ease-in-out infinite;
 }
 
-.quicki-bot__spark::after {
+.quicki-bot__antenna::before {
   content: "";
   position: absolute;
   left: 50%;
-  top: 50%;
-  width: 0.38rem;
-  height: 0.38rem;
-  border-radius: 999px;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.15));
+  top: -0.3rem;
+  width: 0.62rem;
+  height: 0.62rem;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ffffff, #93c5fd 55%, #2563eb 100%);
   transform: translateX(-50%);
-  opacity: 0.78;
+  box-shadow: 0 0 14px rgba(96, 165, 250, 0.45);
 }
 
 .quicki-bot__arm {
   position: absolute;
-  top: 2rem;
-  width: 1rem;
-  height: 1.7rem;
+  top: 1.45rem;
+  width: 0.9rem;
+  height: 1.55rem;
   border-radius: 999px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(236, 241, 255, 0.96));
-  border: 1px solid rgba(203, 216, 255, 0.72);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.95),
-    0 8px 16px rgba(18, 61, 121, 0.12);
+  background: linear-gradient(180deg, #dbeafe, #5f84f3 62%, #29418f 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
   z-index: 0;
   transition: transform 0.18s ease;
 }
@@ -436,231 +422,134 @@
 .quicki-bot__arm::after {
   content: "";
   position: absolute;
-  inset: auto 0.1rem -0.08rem;
-  height: 0.38rem;
-  border-radius: 999px;
-  background: linear-gradient(135deg, var(--quicki-teal), var(--quicki-lavender));
-}
-
-.quicki-bot__arm::before {
-  content: "";
-  position: absolute;
-  top: -0.12rem;
+  bottom: -0.18rem;
   left: 50%;
-  width: 0.72rem;
-  height: 0.72rem;
+  width: 0.68rem;
+  height: 0.68rem;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #ffffff, #eff4ff 72%, #dbe7ff 100%);
+  background: radial-gradient(circle at 35% 35%, #ffffff, #c7d2fe 58%, #5b7ff1 100%);
   transform: translateX(-50%);
-  box-shadow: 0 4px 10px rgba(18, 61, 121, 0.12);
 }
 
 .quicki-bot__arm--left {
-  left: 0.1rem;
-  transform-origin: 84% 14%;
-  transform: rotate(24deg);
+  left: 0.28rem;
+  transform-origin: 76% 14%;
+  transform: rotate(28deg);
   animation: quicki-wave-left 3.2s ease-in-out infinite;
 }
 
 .quicki-bot__arm--right {
-  right: 0.1rem;
-  transform-origin: 16% 14%;
-  transform: rotate(-24deg);
+  right: 0.28rem;
+  transform-origin: 24% 14%;
+  transform: rotate(-28deg);
   animation: quicki-wave-right 3.2s ease-in-out infinite;
 }
 
-.quicki-bot__shell {
+.quicki-bot__body {
   position: absolute;
-  inset: 0.86rem 0.46rem 0.36rem;
-  border-radius: 50%;
-  background: var(--quicki-shell-gradient);
+  inset: 0.9rem 0.58rem 0.42rem;
+  border-radius: 38% 38% 44% 44%;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(219, 234, 254, 0.98) 42%, rgba(96, 130, 244, 0.96) 100%);
   border: 1px solid rgba(255, 255, 255, 0.82);
   box-shadow:
-    inset 0 2px 0 rgba(255, 255, 255, 0.7),
-    0 14px 28px rgba(18, 61, 121, 0.18);
+    inset 0 1px 0 rgba(255, 255, 255, 0.96),
+    0 12px 24px rgba(41, 65, 143, 0.22);
+  overflow: hidden;
   z-index: 1;
   animation: mascot-bob 4.6s ease-in-out infinite;
 }
 
-.quicki-bot__shell::before {
+.quicki-bot__body::before {
   content: "";
   position: absolute;
-  inset: 0.3rem;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.42);
-  opacity: 0.92;
+  inset: 0.2rem 0.22rem 0.55rem;
+  border-radius: 35% 35% 44% 44%;
+  border: 1px solid rgba(255, 255, 255, 0.35);
 }
 
-.quicki-bot__tail {
+.quicki-bot__visor {
   position: absolute;
-  right: -0.02rem;
-  bottom: 0.3rem;
-  width: 1.55rem;
-  height: 1.22rem;
-  background: linear-gradient(135deg, var(--quicki-lavender), var(--quicki-indigo));
-  clip-path: polygon(0 30%, 70% 0, 58% 38%, 100% 42%, 46% 100%, 58% 62%, 0 76%);
-  transform: rotate(18deg);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.3),
-    0 8px 16px rgba(18, 61, 121, 0.16);
-  z-index: 0;
-}
-
-.quicki-bot__face {
-  position: absolute;
-  inset: 0.78rem;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #ffffff 0%, #f8fbff 54%, #edf2ff 100%);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.98),
-    inset 0 -10px 18px rgba(209, 222, 255, 0.45);
-  z-index: 2;
-}
-
-.quicki-bot__divider {
-  position: absolute;
-  left: 50%;
-  top: 0.52rem;
-  bottom: 0.68rem;
-  width: 0.22rem;
+  left: 0.46rem;
+  right: 0.46rem;
+  top: 0.44rem;
+  height: 1.2rem;
   border-radius: 999px;
-  background: linear-gradient(180deg, var(--quicki-deep), #ffffff, var(--quicki-deep));
-  transform: translateX(-50%);
-  opacity: 0.94;
-  z-index: 3;
-}
-
-.quicki-bot__bolt {
-  position: absolute;
-  top: 0.74rem;
-  width: 1.24rem;
-  height: 2.22rem;
-  z-index: 3;
-}
-
-.quicki-bot__bolt--left {
-  left: 1.15rem;
-  background: linear-gradient(180deg, #b8adff, #8f87f0);
-  clip-path: polygon(78% 0, 18% 44%, 62% 44%, 6% 100%, 74% 58%, 34% 58%);
-}
-
-.quicki-bot__bolt--right {
-  right: 1.12rem;
-  background: linear-gradient(180deg, #0f73b6, #125898);
-  clip-path: polygon(24% 0, 82% 42%, 42% 42%, 96% 100%, 26% 58%, 64% 58%);
-}
-
-.quicki-bot__eyes {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 1.55rem;
+  background: linear-gradient(180deg, #0f1f46, #183574);
+  box-shadow:
+    inset 0 1px 0 rgba(186, 230, 253, 0.2),
+    0 8px 18px rgba(15, 23, 42, 0.16);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.7rem;
-  z-index: 4;
+  gap: 0.34rem;
 }
 
 .quicki-bot__eye {
   position: relative;
-  width: 0.5rem;
-  height: 0.7rem;
+  width: 0.52rem;
+  height: 0.72rem;
   border-radius: 999px;
-  background: linear-gradient(180deg, #103978, #0d66b0 62%, #71d9ff 100%);
+  background: linear-gradient(180deg, #7dd3fc, #dbeafe);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  box-shadow: 0 0 12px rgba(113, 217, 255, 0.18);
 }
 
 .quicki-bot__eye::after {
   content: "";
   position: absolute;
-  inset: 0 0 auto 0;
-  height: 28%;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.52), rgba(255, 255, 255, 0));
-}
-
-.quicki-bot__eye::before {
-  content: "";
-  position: absolute;
   inset: -5% 0 0;
-  background: linear-gradient(180deg, rgba(12, 41, 91, 0.98), rgba(12, 41, 91, 0.88));
+  background: linear-gradient(180deg, rgba(24, 53, 116, 0.96), rgba(24, 53, 116, 0.84));
   transform-origin: top center;
   animation: quicki-blink 5.3s ease-in-out infinite;
 }
 
 .quicki-bot__pupil {
-  width: 0.17rem;
-  height: 0.17rem;
+  width: 0.2rem;
+  height: 0.2rem;
   border-radius: 50%;
   background: #ffffff;
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.85);
   transition: transform 0.18s ease;
-  z-index: 1;
-}
-
-.quicki-bot__cheek {
-  position: absolute;
-  top: 2.34rem;
-  width: 0.46rem;
-  height: 0.24rem;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--quicki-pink) 58%, white);
-  opacity: 0.82;
-  filter: blur(0.2px);
-  z-index: 4;
-}
-
-.quicki-bot__cheek--left {
-  left: 1.04rem;
-}
-
-.quicki-bot__cheek--right {
-  right: 1.04rem;
 }
 
 .quicki-bot__mouth {
   position: absolute;
   left: 50%;
-  top: 2.28rem;
-  width: 0.62rem;
-  height: 0.24rem;
-  border-radius: 0 0 999px 999px;
-  border: 0.12rem solid var(--quicki-deep);
-  border-top: 0;
-  background: transparent;
+  top: 2.2rem;
+  width: 0.7rem;
+  height: 0.18rem;
+  border-radius: 999px;
+  background: #163a75;
   transform: translateX(-50%);
   transform-origin: center top;
-  z-index: 4;
 }
 
 .quicki-bot__core {
   position: absolute;
   left: 50%;
-  bottom: 0.66rem;
-  width: 0.52rem;
-  height: 0.52rem;
+  bottom: 0.52rem;
+  width: 0.72rem;
+  height: 0.72rem;
   border-radius: 50%;
   transform: translateX(-50%);
-  background: radial-gradient(circle at 35% 35%, #ffffff, var(--quicki-pink) 40%, #ff7b5c 84%);
-  box-shadow: 0 0 18px rgba(236, 63, 121, 0.44);
+  background: radial-gradient(circle at 35% 35%, #ffffff, #7dd3fc 48%, #2563eb 82%);
+  box-shadow: 0 0 18px rgba(96, 165, 250, 0.55);
   animation: quicki-core-pulse 2.2s ease-in-out infinite;
-  z-index: 4;
 }
 
 .quicki-bot__hover-ring {
   position: absolute;
   left: 50%;
-  bottom: 0.02rem;
+  bottom: 0.08rem;
   width: 72%;
-  height: 0.36rem;
+  height: 0.42rem;
   border-radius: 999px;
-  border: 2px solid rgba(157, 147, 255, 0.48);
+  border: 2px solid rgba(125, 211, 252, 0.52);
   transform: translateX(-50%);
-  box-shadow: 0 0 18px rgba(107, 116, 255, 0.2);
+  box-shadow: 0 0 18px rgba(96, 165, 250, 0.28);
   animation: quicki-ring-pulse 2.8s ease-in-out infinite;
 }
 
@@ -682,37 +571,36 @@
 }
 
 .quicki-bot--scroll-up .quicki-bot__arm--left {
-  transform: rotate(46deg) translateY(-0.08rem);
+  transform: rotate(50deg) translateY(-0.1rem);
 }
 
 .quicki-bot--scroll-up .quicki-bot__arm--right {
-  transform: rotate(-46deg) translateY(-0.08rem);
+  transform: rotate(-50deg) translateY(-0.1rem);
 }
 
 .quicki-bot--scroll-down .quicki-bot__arm--left {
-  transform: rotate(6deg) translateY(0.12rem);
+  transform: rotate(10deg) translateY(0.12rem);
 }
 
 .quicki-bot--scroll-down .quicki-bot__arm--right {
-  transform: rotate(-6deg) translateY(0.12rem);
+  transform: rotate(-10deg) translateY(0.12rem);
 }
 
 .quicki-bot--party .quicki-bot__aura {
   background:
     radial-gradient(circle at 30% 22%, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.18) 30%, transparent 62%),
-    radial-gradient(circle at 38% 58%, rgba(10, 111, 178, 0.34), rgba(10, 111, 178, 0.08) 54%, transparent 82%),
-    radial-gradient(circle at 68% 42%, rgba(236, 63, 121, 0.34), rgba(255, 123, 92, 0.12) 52%, transparent 82%);
+    radial-gradient(circle at 50% 58%, rgba(167, 139, 250, 0.34), rgba(96, 165, 250, 0.18) 56%, transparent 82%);
 }
 
 .quicki-bot--party .quicki-bot__core,
-.quicki-bot--party .quicki-bot__spark {
-  background: linear-gradient(135deg, #ffffff, #ffd36d 42%, #ec3f79 100%);
-  box-shadow: 0 0 20px rgba(236, 63, 121, 0.4);
+.quicki-bot--party .quicki-bot__antenna::before {
+  background: radial-gradient(circle at 35% 35%, #ffffff, #c4b5fd 45%, #7c3aed 82%);
+  box-shadow: 0 0 20px rgba(167, 139, 250, 0.58);
 }
 
 .quicki-bot--party .quicki-bot__hover-ring {
-  border-color: rgba(236, 63, 121, 0.4);
-  box-shadow: 0 0 18px rgba(236, 63, 121, 0.24);
+  border-color: rgba(196, 181, 253, 0.66);
+  box-shadow: 0 0 18px rgba(167, 139, 250, 0.34);
 }
 
 .mascot-assistant--scroll-down .mascot-trigger {

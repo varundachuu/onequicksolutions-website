@@ -155,28 +155,20 @@ function QuickiBot({
     >
       <span className="quicki-bot__aura" />
       <span className="quicki-bot__shadow" />
-      <span className="quicki-bot__spark" />
+      <span className="quicki-bot__antenna" />
       <span className="quicki-bot__arm quicki-bot__arm--left" />
       <span className="quicki-bot__arm quicki-bot__arm--right" />
-      <div className="quicki-bot__shell">
-        <span className="quicki-bot__tail" />
-        <div className="quicki-bot__face">
-          <span className="quicki-bot__divider" />
-          <span className="quicki-bot__bolt quicki-bot__bolt--left" />
-          <span className="quicki-bot__bolt quicki-bot__bolt--right" />
-          <div className="quicki-bot__eyes">
-            <span className="quicki-bot__eye quicki-bot__eye--left">
-              <span className="quicki-bot__pupil" />
-            </span>
-            <span className="quicki-bot__eye quicki-bot__eye--right">
-              <span className="quicki-bot__pupil" />
-            </span>
-          </div>
-          <span className="quicki-bot__cheek quicki-bot__cheek--left" />
-          <span className="quicki-bot__cheek quicki-bot__cheek--right" />
-          <span className="quicki-bot__mouth" />
-          <span className="quicki-bot__core" />
+      <div className="quicki-bot__body">
+        <div className="quicki-bot__visor">
+          <span className="quicki-bot__eye quicki-bot__eye--left">
+            <span className="quicki-bot__pupil" />
+          </span>
+          <span className="quicki-bot__eye quicki-bot__eye--right">
+            <span className="quicki-bot__pupil" />
+          </span>
         </div>
+        <span className="quicki-bot__mouth" />
+        <span className="quicki-bot__core" />
       </div>
       <span className="quicki-bot__hover-ring" />
     </div>
