@@ -6,7 +6,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 0.75rem;
+  gap: 0.6rem;
   pointer-events: none;
   transition:
     opacity 0.28s ease,
@@ -83,10 +83,10 @@
 }
 
 .mascot-assistant__speech {
-  max-width: min(18rem, calc(100vw - 2rem));
-  padding: 0.88rem 1rem 0.9rem;
-  border-radius: 1.15rem 1.15rem 0.38rem 1.15rem;
-  background: color-mix(in srgb, var(--surface-strong) 86%, transparent);
+  max-width: min(16rem, calc(100vw - 2rem));
+  padding: 0.8rem 0.92rem 0.84rem;
+  border-radius: 1rem 1rem 0.35rem 1rem;
+  background: color-mix(in srgb, var(--surface-strong) 90%, transparent);
   border: 1px solid var(--line-soft);
   box-shadow: var(--shadow-soft);
   backdrop-filter: blur(16px);
@@ -107,48 +107,67 @@
 .mascot-assistant__speech p {
   margin: 0;
   color: var(--ink-700);
-  font-size: 0.95rem;
-  line-height: 1.5;
+  font-size: 0.9rem;
+  line-height: 1.45;
 }
 
 .mascot-assistant__dock {
+  position: relative;
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
-  gap: 0.9rem;
 }
 
 .mascot-panel {
-  width: min(21rem, calc(100vw - 2rem));
-  padding: 1rem;
-  border-radius: 1.5rem;
-  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  position: absolute;
+  right: 0.45rem;
+  bottom: calc(100% + 0.8rem);
+  z-index: 1;
+  width: min(17.5rem, calc(100vw - 1.2rem));
+  padding: 0.92rem;
+  border-radius: 1.35rem;
+  background: color-mix(in srgb, var(--surface) 95%, transparent);
   border: 1px solid var(--line-soft);
-  box-shadow: var(--shadow-hover);
-  backdrop-filter: blur(18px);
+  box-shadow:
+    0 22px 48px rgba(15, 23, 42, 0.16),
+    0 8px 18px rgba(17, 38, 86, 0.1);
+  backdrop-filter: blur(22px);
+}
+
+.mascot-panel::after {
+  content: "";
+  position: absolute;
+  right: 1.45rem;
+  bottom: -0.42rem;
+  width: 0.9rem;
+  height: 0.9rem;
+  border-right: 1px solid var(--line-soft);
+  border-bottom: 1px solid var(--line-soft);
+  background: color-mix(in srgb, var(--surface) 95%, transparent);
+  transform: rotate(45deg);
 }
 
 .mascot-panel__header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 0.95rem;
+  gap: 0.8rem;
+  margin-bottom: 0.8rem;
 }
 
 .mascot-panel__header h3 {
-  margin: 0.12rem 0 0;
+  margin: 0.08rem 0 0;
   color: var(--ink-900);
-  font-size: 1.12rem;
+  font-size: 1.02rem;
   line-height: 1.2;
 }
 
 .mascot-panel__eyebrow {
   margin: 0;
   color: var(--brand-500);
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 800;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
@@ -156,10 +175,10 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.35rem;
-  height: 2.35rem;
+  width: 2.1rem;
+  height: 2.1rem;
   border: 1px solid var(--line-soft);
-  border-radius: 0.95rem;
+  border-radius: 0.85rem;
   background: color-mix(in srgb, var(--surface-strong) 80%, transparent);
   color: var(--ink-900);
   cursor: pointer;
@@ -167,19 +186,19 @@
 
 .mascot-panel__actions {
   display: grid;
-  gap: 0.7rem;
+  gap: 0.55rem;
 }
 
 .mascot-action {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
-  gap: 0.85rem;
+  gap: 0.72rem;
   width: 100%;
-  padding: 0.85rem 0.9rem;
+  padding: 0.72rem 0.8rem;
   border: 1px solid var(--line-soft);
-  border-radius: 1.1rem;
-  background: color-mix(in srgb, var(--surface-strong) 76%, transparent);
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--surface-strong) 80%, transparent);
   color: var(--ink-900);
   cursor: pointer;
   text-align: left;
@@ -195,34 +214,42 @@
   box-shadow: var(--shadow-tight);
 }
 
-.mascot-action span {
-  display: flex;
-  flex-direction: column;
+.mascot-action__copy {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
 }
 
 .mascot-action strong {
   color: var(--ink-900);
-  font-size: 0.95rem;
-}
-
-.mascot-action small {
-  margin-top: 0.2rem;
-  color: var(--ink-700);
-  font-size: 0.8rem;
-  line-height: 1.4;
+  font-size: 0.92rem;
 }
 
 .mascot-action__icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.65rem;
-  height: 2.65rem;
-  border-radius: 0.9rem;
+  width: 2.35rem;
+  height: 2.35rem;
+  border-radius: 0.82rem;
   background: linear-gradient(135deg, color-mix(in srgb, var(--brand-100) 90%, white), #ffffff);
   color: var(--brand-500);
-  font-size: 1rem;
+  font-size: 0.95rem;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+.mascot-action__tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.28rem 0.52rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--brand-100) 88%, white);
+  color: var(--brand-500);
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .mascot-action--primary {
@@ -231,7 +258,7 @@
 }
 
 .mascot-action--primary strong,
-.mascot-action--primary small {
+.mascot-action--primary .mascot-action__tag {
   color: #ffffff;
 }
 
@@ -240,8 +267,38 @@
   color: #ffffff;
 }
 
+.mascot-panel__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.45rem;
+}
+
+.mascot-panel__status,
+.mascot-panel__meta-note {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.26rem 0.56rem;
+  border-radius: 999px;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.mascot-panel__status {
+  background: color-mix(in srgb, var(--brand-100) 84%, white);
+  color: var(--brand-500);
+}
+
+.mascot-panel__meta-note {
+  background: color-mix(in srgb, var(--surface-strong) 90%, white);
+  color: var(--ink-700);
+}
+
 .mascot-assistant__anchor {
   position: relative;
+  z-index: 2;
 }
 
 .mascot-assistant__push-trail {
@@ -787,12 +844,8 @@
     right: 0.9rem;
   }
 
-  .mascot-assistant__dock {
-    justify-content: space-between;
-  }
-
   .mascot-panel {
-    width: min(20rem, calc(100vw - 7.5rem));
+    width: min(17rem, calc(100vw - 1rem));
   }
 }
 
@@ -808,27 +861,27 @@
   }
 
   .mascot-assistant__dock {
-    flex-direction: column;
     align-items: flex-end;
-    gap: 0.55rem;
   }
 
   .mascot-panel {
-    width: min(19.2rem, calc(100vw - 1.6rem));
-    padding: 0.9rem;
+    right: 0.1rem;
+    bottom: calc(100% + 0.55rem);
+    width: min(16.25rem, calc(100vw - 1rem));
+    padding: 0.82rem;
   }
 
   .mascot-panel__header h3 {
-    font-size: 1rem;
+    font-size: 0.96rem;
   }
 
   .mascot-action {
-    padding: 0.8rem 0.82rem;
+    padding: 0.72rem 0.76rem;
   }
 
   .mascot-action__icon {
-    width: 2.45rem;
-    height: 2.45rem;
+    width: 2.2rem;
+    height: 2.2rem;
   }
 
   .quicki-bot--dock {
@@ -847,6 +900,14 @@
 
 @media (max-width: 420px) {
   .mascot-panel {
-    width: calc(100vw - 1.6rem);
+    width: calc(100vw - 1rem);
+  }
+
+  .mascot-action {
+    grid-template-columns: auto 1fr;
+  }
+
+  .mascot-action__tag {
+    display: none;
   }
 }

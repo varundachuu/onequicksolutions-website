@@ -75,6 +75,16 @@ const CONTEXT_LINES = {
   ],
 };
 
+const SECTION_LABELS = {
+  home: "Home",
+  about: "About",
+  features: "Features",
+  service: "Services",
+  "other-services": "Programmes",
+  contact: "Contact",
+  "hr-consultancy": "HR Consultancy",
+};
+
 const randomItem = (items) => items[Math.floor(Math.random() * items.length)];
 const INTRO_MESSAGE = "Welcome to OneQuickSolutions";
 
@@ -183,6 +193,7 @@ function MascotAssistant({ theme, onToggleTheme }) {
   const lastScrollYRef = useRef(0);
   const introSettleTimerRef = useRef(null);
   const introHideTimerRef = useRef(null);
+  const activeLabel = SECTION_LABELS[activeSection] ?? "Home";
 
   useEffect(() => {
     const updateActiveSection = () => {
@@ -460,18 +471,24 @@ function MascotAssistant({ theme, onToggleTheme }) {
           .join(" ")}
         aria-label="Quicki assistant"
       >
-        <div className="mascot-assistant__speech" aria-live="polite">
-          <span className="mascot-assistant__speech-label">Quicki</span>
-          <p>{speech}</p>
-        </div>
+        {!isOpen && (
+          <div className="mascot-assistant__speech" aria-live="polite">
+            <span className="mascot-assistant__speech-label">Quicki</span>
+            <p>{speech}</p>
+          </div>
+        )}
 
         <div className="mascot-assistant__dock">
           {isOpen && (
             <div className="mascot-panel">
               <div className="mascot-panel__header">
                 <div>
-                  <p className="mascot-panel__eyebrow">Digital Sidekick</p>
-                  <h3>Quicki&apos;s chaos console</h3>
+                  <p className="mascot-panel__eyebrow">Quick Actions</p>
+                  <h3>Quicki control deck</h3>
+                  <div className="mascot-panel__meta">
+                    <span className="mascot-panel__status">Viewing {activeLabel}</span>
+                    <span className="mascot-panel__meta-note">One tap away</span>
+                  </div>
                 </div>
                 <button
                   type="button"
@@ -492,10 +509,10 @@ function MascotAssistant({ theme, onToggleTheme }) {
                   <span className="mascot-action__icon">
                     <FaMagic />
                   </span>
-                  <span>
+                  <span className="mascot-action__copy">
                     <strong>Surprise Me</strong>
-                    <small>Randomly jump to a strong section.</small>
                   </span>
+                  <span className="mascot-action__tag">Jump</span>
                 </button>
 
                 <button
@@ -506,10 +523,10 @@ function MascotAssistant({ theme, onToggleTheme }) {
                   <span className="mascot-action__icon">
                     {theme === "light" ? <FaMoon /> : <FaSun />}
                   </span>
-                  <span>
+                  <span className="mascot-action__copy">
                     <strong>Theme Flip</strong>
-                    <small>Let Quicki toggle the mood instantly.</small>
                   </span>
+                  <span className="mascot-action__tag">Mood</span>
                 </button>
 
                 <button
@@ -520,10 +537,10 @@ function MascotAssistant({ theme, onToggleTheme }) {
                   <span className="mascot-action__icon">
                     <FaBolt />
                   </span>
-                  <span>
+                  <span className="mascot-action__copy">
                     <strong>{isPartyMode ? "Calm It Down" : "Party Mode"}</strong>
-                    <small>Fire spark bursts and extra mascot energy.</small>
                   </span>
+                  <span className="mascot-action__tag">Spark</span>
                 </button>
 
                 <button
@@ -534,10 +551,10 @@ function MascotAssistant({ theme, onToggleTheme }) {
                   <span className="mascot-action__icon">
                     <FaPaperPlane />
                   </span>
-                  <span>
+                  <span className="mascot-action__copy">
                     <strong>Contact Warp</strong>
-                    <small>Jump straight to the conversation starter.</small>
                   </span>
+                  <span className="mascot-action__tag">Reach</span>
                 </button>
               </div>
             </div>
@@ -589,7 +606,7 @@ function MascotAssistant({ theme, onToggleTheme }) {
                 isPartyMode={isPartyMode}
                 isPushing={isPushing}
                 scrollDirection={scrollDirection}
-                isTalking={isOpen || isPushing}
+                isTalking={isPushing || isPartyMode}
               />
             </button>
           </div>
