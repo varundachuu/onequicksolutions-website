@@ -253,6 +253,7 @@ function MascotAssistant({ theme, onToggleTheme }) {
   const [introSettling, setIntroSettling] = useState(false);
   const [introTarget, setIntroTarget] = useState(getDockMetrics);
   const [speech, setSpeech] = useState(INTRO_MESSAGE);
+  const [isSpeechVisible, setIsSpeechVisible] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [sparkles, setSparkles] = useState([]);
   const [isPushing, setIsPushing] = useState(false);
@@ -270,6 +271,7 @@ function MascotAssistant({ theme, onToggleTheme }) {
   const location = useLocation();
   const triggerRef = useRef(null);
   const sparkleTimerRef = useRef(null);
+  const speechTimerRef = useRef(null);
   const scrollTimerRef = useRef(null);
   const lastScrollYRef = useRef(0);
   const introSettleTimerRef = useRef(null);
@@ -286,6 +288,35 @@ function MascotAssistant({ theme, onToggleTheme }) {
   const lastPartyAtRef = useRef(0);
   const activeLabel = SECTION_LABELS[activeSection] ?? "Home";
   const activeDrinkFlavor = PARTY_FLAVORS[partyFlavorIndex] ?? PARTY_FLAVORS[0];
+  const assistantTone =
+    location.pathname === "/hr-consultancy" ||
+    activeSection === "home" ||
+    activeSection === "contact"
+      ? "hero"
+      : "body";
+
+  const clearSpeechTimer = () => {
+    if (speechTimerRef.current) {
+      window.clearTimeout(speechTimerRef.current);
+      speechTimerRef.current = null;
+    }
+  };
+
+  const showSpeechMessage = (message, duration = 2400) => {
+    if (typeof window === "undefined") {
+      setSpeech(message);
+      return;
+    }
+
+    clearSpeechTimer();
+    setSpeech(message);
+    setIsSpeechVisible(true);
+
+    speechTimerRef.current = window.setTimeout(() => {
+      setIsSpeechVisible(false);
+      speechTimerRef.current = null;
+    }, duration);
+  };
 
   useEffect(() => {
     const updateActiveSection = () => {
@@ -327,22 +358,22 @@ function MascotAssistant({ theme, onToggleTheme }) {
   }, [location.pathname]);
 
   useEffect(() => {
-    if (isOpen || showIntro || isBonked || isSipping) {
+    if (showIntro || isOpen) {
+      clearSpeechTimer();
+      setIsSpeechVisible(false);
+      return undefined;
+    }
+
+    if (isBonked || isSipping) {
       return undefined;
     }
 
     const lines = isPartyMode
       ? PARTY_IDLE_LINES
       : CONTEXT_LINES[activeSection] ?? CONTEXT_LINES.home;
-    setSpeech(lines[0]);
+    showSpeechMessage(randomItem(lines), activeSection === "contact" ? 2800 : 2200);
 
-    const rotationTimer = window.setInterval(() => {
-      setSpeech(randomItem(lines));
-    }, 5200);
-
-    return () => {
-      window.clearInterval(rotationTimer);
-    };
+    return undefined;
   }, [activeSection, isBonked, isOpen, isPartyMode, isSipping, showIntro]);
 
   useEffect(() => {
@@ -420,7 +451,6 @@ function MascotAssistant({ theme, onToggleTheme }) {
     lastScrollYRef.current = window.scrollY;
 
     if (!showIntro) {
-      setSpeech(CONTEXT_LINES.home[0]);
       return undefined;
     }
 
@@ -487,6 +517,9 @@ function MascotAssistant({ theme, onToggleTheme }) {
       if (sparkleTimerRef.current) {
         window.clearTimeout(sparkleTimerRef.current);
       }
+      if (speechTimerRef.current) {
+        window.clearTimeout(speechTimerRef.current);
+      }
       if (scrollTimerRef.current) {
         window.clearTimeout(scrollTimerRef.current);
       }
@@ -535,16 +568,6 @@ function MascotAssistant({ theme, onToggleTheme }) {
     }, 1100);
   };
 
-  const restoreContextSpeech = () => {
-    setSpeech(
-      isPartyMode
-        ? randomItem(PARTY_IDLE_LINES)
-        : activeSection === "contact"
-        ? "I will hang here quietly near the finish line."
-        : randomItem(CONTEXT_LINES[activeSection] ?? CONTEXT_LINES.home)
-    );
-  };
-
   const showReactionBadge = (badge, tone = "bonk") => {
     if (badgeTimerRef.current) {
       window.clearTimeout(badgeTimerRef.current);
@@ -579,7 +602,7 @@ function MascotAssistant({ theme, onToggleTheme }) {
 
     const reaction = BONK_REACTIONS[nextCount - 1] ?? BONK_REACTIONS[0];
     showReactionBadge(reaction.badge, "bonk");
-    setSpeech(reaction.line);
+    showSpeechMessage(reaction.line, 1800);
     setIsBonked(true);
     setBonkCycle((current) => current + 1);
 
@@ -624,7 +647,7 @@ function MascotAssistant({ theme, onToggleTheme }) {
     }
 
     setPartyFlavorIndex(nextFlavorIndex);
-    setSpeech(`${reaction.line} ${nextFlavor.name} just got poured.`);
+    showSpeechMessage(`${reaction.line} ${nextFlavor.name} just got poured.`, 2200);
     setIsSipping(true);
     showReactionBadge(reaction.badge, "party");
     emitSparkles(12 + nextCount * 2, {
@@ -660,7 +683,12 @@ function MascotAssistant({ theme, onToggleTheme }) {
 
   const handleClosePanel = () => {
     setIsOpen(false);
-    restoreContextSpeech();
+    showSpeechMessage(
+      isPartyMode
+        ? randomItem(PARTY_IDLE_LINES)
+        : randomItem(CONTEXT_LINES[activeSection] ?? CONTEXT_LINES.home),
+      2200
+    );
   };
 
   const moveToTarget = (target) => {
@@ -693,10 +721,11 @@ function MascotAssistant({ theme, onToggleTheme }) {
   const handleThemeFlip = () => {
     onToggleTheme();
     emitSparkles(12);
-    setSpeech(
+    showSpeechMessage(
       theme === "light"
         ? "Night shift enabled. Moodier and shinier."
-        : "Sun mode restored. Crisp and bright again."
+        : "Sun mode restored. Crisp and bright again.",
+      2200
     );
   };
 
@@ -709,10 +738,11 @@ function MascotAssistant({ theme, onToggleTheme }) {
     partyCountRef.current = 0;
     lastPartyAtRef.current = 0;
     emitSparkles(nextPartyState ? 18 : 10);
-    setSpeech(
+    showSpeechMessage(
       nextPartyState
         ? "Party mode unlocked. Quicki mixed a neon mocktail and is feeling brave."
-        : "Back to business mode. Quicki is behaving again."
+        : "Back to business mode. Quicki is behaving again.",
+      2400
     );
 
     if (partySipTimerRef.current) {
@@ -728,7 +758,7 @@ function MascotAssistant({ theme, onToggleTheme }) {
 
   const handleContactWarp = () => {
     emitSparkles(14);
-    setSpeech("Opening the contact section. Let us make something together.");
+    showSpeechMessage("Opening the contact section. Let us make something together.", 1800);
     setIsOpen(false);
     moveToTarget({ id: "contact", type: "section" });
   };
@@ -775,13 +805,22 @@ function MascotAssistant({ theme, onToggleTheme }) {
           isOpen ? "mascot-assistant--open" : "",
           isPartyMode ? "mascot-assistant--party" : "",
           isPushing ? `mascot-assistant--scroll-${scrollDirection}` : "",
+          `mascot-assistant--tone-${assistantTone}`,
         ]
           .filter(Boolean)
           .join(" ")}
         aria-label="Quicki assistant"
       >
         {!isOpen && (
-          <div className="mascot-assistant__speech" aria-live="polite">
+          <div
+            className={[
+              "mascot-assistant__speech",
+              isSpeechVisible ? "mascot-assistant__speech--visible" : "",
+            ]
+              .filter(Boolean)
+              .join(" ")}
+            aria-live="polite"
+          >
             <span className="mascot-assistant__speech-label">Quicki</span>
             <p>{speech}</p>
           </div>
