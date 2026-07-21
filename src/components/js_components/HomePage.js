@@ -1,7 +1,6 @@
 import React from "react";
 import HomeHero from "./HomeHero";
 import WhyChooseUs from "./whyChooseUs";
-import AboutUs from "./About";
 import Services from "./services";
 import ProductSpotlight from "./ProductSpotlight";
 import Products from "./Products";
@@ -9,7 +8,6 @@ import Features from "./Features";
 import Industries from "./Industries";
 import Portfolio from "./Portfolio";
 import OtherServices from "./Other-Services";
-import Founders from "./Founders";
 import ClientConfidence from "./ClientConfidence";
 import FaqSection from "./FaqSection";
 import ContactUs from "./contactUs";
@@ -45,7 +43,6 @@ function HomePage() {
         onTalkToTeam={() => scrollToDocumentSection("contact")}
       />
       <WhyChooseUs />
-      <AboutUs />
       <Services variant="home" />
       <ProductSpotlight />
       <Products />
@@ -53,7 +50,6 @@ function HomePage() {
       <Industries />
       <Portfolio onPrimaryCta={() => scrollToDocumentSection("contact")} />
       <OtherServices />
-      <Founders />
       <ClientConfidence />
       <FaqSection items={faqItems} />
       <ContactUs />

@@ -11,6 +11,8 @@ import {
 const quickLinks = [
   { label: "Home", path: "/" },
   { label: "Services", path: "/services" },
+  { label: "Products", path: "/products" },
+  { label: "Programs", path: "/programs" },
   { label: "About", path: "/about" },
   { label: "HR Consultancy", path: "/hr-consultancy" },
   { label: "Contact", path: "/contact" },

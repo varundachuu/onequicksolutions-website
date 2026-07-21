@@ -15,6 +15,8 @@ import HomePage from "./components/js_components/HomePage.js";
 import ServicesPage from "./components/js_components/ServicesPage.js";
 import AboutPage from "./components/js_components/AboutPage.js";
 import ContactPage from "./components/js_components/ContactPage.js";
+import ProductsPage from "./components/js_components/ProductsPage.js";
+import ProgramsPage from "./components/js_components/ProgramsPage.js";
 import SeoManager from "./components/js_components/SeoManager.js";
 
 const THEME_STORAGE_KEY = "onequicksolutions-theme";
@@ -83,6 +85,8 @@ function AppShell() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/services" element={<ServicesPage />} />
+          <Route path="/products" element={<ProductsPage />} />
+          <Route path="/programs" element={<ProgramsPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/hr-consultancy" element={<HRConsultancyPage />} />

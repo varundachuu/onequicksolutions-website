@@ -7,8 +7,8 @@ const NAV_LINKS = [
   { name: "Home", path: "/" },
   { name: "About", path: "/about" },
   { name: "Services", path: "/services" },
-  { name: "Products", path: "/services", hash: "#products", sectionId: "products" },
-  { name: "Programs", path: "/services", hash: "#programs", sectionId: "programs" },
+  { name: "Products", path: "/products" },
+  { name: "Programs", path: "/programs" },
   { name: "HR Consultancy", path: "/hr-consultancy" },
   { name: "Contact", path: "/contact" },
 ];

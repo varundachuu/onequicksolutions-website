@@ -146,6 +146,50 @@ const routeSeo = {
       ]),
     ],
   },
+  "/products": {
+    title: "Digital Products | OneQuickSolutions",
+    description:
+      "Explore OneQuickSolutions digital products, including our HR Management Portal, built to make business workflows clearer, more organized, and ready to grow.",
+    canonical: `${SITE_URL}/products`,
+    schema: [
+      organizationSchema,
+      websiteSchema,
+      {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        name: "OneQuickSolutions Digital Products",
+        url: `${SITE_URL}/products`,
+        description:
+          "Digital products designed by OneQuickSolutions to support practical business workflows, including HR management and recruitment coordination.",
+      },
+      buildBreadcrumbSchema([
+        { name: "Home", url: `${SITE_URL}/` },
+        { name: "Products", url: `${SITE_URL}/products` },
+      ]),
+    ],
+  },
+  "/programs": {
+    title: "Training & Education Programs | OneQuickSolutions",
+    description:
+      "Explore OneQuickSolutions training and education programs, including E-Shikshana, team enablement, and foundational learning support.",
+    canonical: `${SITE_URL}/programs`,
+    schema: [
+      organizationSchema,
+      websiteSchema,
+      {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        name: "OneQuickSolutions Training and Education Programs",
+        url: `${SITE_URL}/programs`,
+        description:
+          "Training, education, and enablement programs from OneQuickSolutions for learners, institutions, and teams.",
+      },
+      buildBreadcrumbSchema([
+        { name: "Home", url: `${SITE_URL}/` },
+        { name: "Programs", url: `${SITE_URL}/programs` },
+      ]),
+    ],
+  },
   "/about": {
     title: "About OneQuickSolutions | Software Company with Business-First Delivery",
     description:
