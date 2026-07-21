@@ -23,6 +23,7 @@ const team = {
   ],
   partners: [
     {
+      image: "/images/Profile-Images/chirag.jpg",
       name: "Chirag",
       title: "Working Partner",
       badge: "Partner",
