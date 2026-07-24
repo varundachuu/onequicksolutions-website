@@ -72,6 +72,18 @@
   line-height: 1.8;
 }
 
+.service-card__read-more {
+  margin-top: auto;
+  padding-top: 0.4rem;
+  color: var(--brand-600);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.service-card__read-more:hover {
+  color: var(--brand-800);
+}
+
 .service-card__list {
   display: grid;
   gap: 0.55rem;

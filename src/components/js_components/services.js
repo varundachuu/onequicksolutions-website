@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   FaBrain,
   FaChartColumn,
@@ -62,19 +62,27 @@ function Services({ variant = "home" }) {
                 <h3 className="service-card__title">{service.title}</h3>
                 <p className="service-card__description">{service.summary}</p>
 
-                <ul className="service-card__list">
-                  {service.bullets.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
+                {variant === "page" ? (
+                  <>
+                    <ul className="service-card__list">
+                      {service.bullets.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
 
-                <div className="service-card__tags" aria-label={`${service.title} keywords`}>
-                  {service.tags.map((tag) => (
-                    <span key={tag} className="service-card__tag">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
+                    <div className="service-card__tags" aria-label={`${service.title} keywords`}>
+                      {service.tags.map((tag) => (
+                        <span key={tag} className="service-card__tag">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </>
+                ) : (
+                  <Link className="service-card__read-more" to={`/services#${service.slug}`}>
+                    Read more
+                  </Link>
+                )}
               </article>
             );
           })}

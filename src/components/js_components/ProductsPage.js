@@ -60,7 +60,7 @@ function ProductsPage() {
         ]}
       />
 
-      <ProductSpotlight />
+      <ProductSpotlight detailed />
 
       <section className="section-shell">
         <div className="section-inner">

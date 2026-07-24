@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { FaArrowRight, FaBriefcase, FaBuilding, FaUserTie } from "react-icons/fa";
 import { hiringEntryCards, productSpotlights } from "../../content/siteContent";
 import "../css-files/ContentSections.css";
@@ -8,18 +9,51 @@ const audienceIconMap = {
   "For candidates": FaUserTie,
 };
 
-function ProductSpotlight() {
+function ProductSpotlight({ detailed = false }) {
   const product = productSpotlights[0];
+
+  if (!detailed) {
+    return (
+      <section id="products" className="section-shell product-spotlight-section">
+        <div className="section-inner">
+          <div className="section-intro">
+            <span className="section-kicker">Products</span>
+            <h2 className="section-title">Featured Products</h2>
+            <p className="section-copy">
+              Practical digital tools designed to make everyday business work easier.
+            </p>
+          </div>
+
+          <article className="product-spotlight product-spotlight--compact surface-panel">
+            <span className="product-spotlight__icon" aria-hidden="true">
+              <FaBriefcase />
+            </span>
+            <div className="product-spotlight__compact-copy">
+              <h3>HR Consultancy</h3>
+              <p>
+                Simple, structured support for sourcing candidates, coordinating
+                interviews, and managing recruitment workflows.
+              </p>
+              <Link className="product-spotlight__read-more" to="/products">
+                Read more
+                <FaArrowRight />
+              </Link>
+            </div>
+          </article>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="products" className="section-shell product-spotlight-section">
       <div className="section-inner">
         <div className="section-intro">
           <span className="section-kicker">Products</span>
-          <h2 className="section-title">A live HR Management product built for practical hiring flow</h2>
+          <h2 className="section-title">HR Consultancy Portal</h2>
           <p className="section-copy">
             Beyond services, OneQuickSolutions is also building focused digital
-            products. This HR Management portal is designed to make hiring feel
+            products. This HR consultancy portal is designed to make hiring feel
             clearer, faster, and more organized for both businesses and candidates.
           </p>
         </div>
