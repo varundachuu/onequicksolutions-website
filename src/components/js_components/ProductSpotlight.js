@@ -58,37 +58,35 @@ function ProductSpotlight({ detailed = false }) {
           </p>
         </div>
 
-        <article className="product-spotlight surface-panel">
-          <div className="product-spotlight__copy">
-            <span className="product-spotlight__label">{product.label}</span>
+        <article className="product-portal-card surface-panel">
+          <div className="product-portal-card__overview">
             <div className="product-spotlight__headline">
               <span className="product-spotlight__icon" aria-hidden="true">
                 <FaBriefcase />
               </span>
               <div>
                 <h3>{product.title}</h3>
-                <p>{product.summary}</p>
+                <p className="product-portal-card__eyebrow">Recruitment management made simpler</p>
               </div>
             </div>
 
-            <p className="product-spotlight__description">{product.description}</p>
+            <p className="product-portal-card__description">{product.summary}</p>
 
-            <ul className="product-spotlight__list">
+            <ul className="product-portal-card__features">
               {product.bullets.map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>
-
-            <div className="product-spotlight__tags" aria-label={`${product.title} keywords`}>
-              {product.tags.map((tag) => (
-                <span key={tag} className="product-spotlight__tag">
-                  {tag}
-                </span>
-              ))}
-            </div>
           </div>
 
-          <div className="product-entry-grid">
+          <div className="product-portal-card__access">
+            <div>
+              <span className="product-portal-card__label">Portal access</span>
+              <h4>Choose how you want to continue</h4>
+              <p>Open the right workspace for your hiring needs.</p>
+            </div>
+
+            <div className="product-entry-grid">
             {hiringEntryCards.map((card) => {
               const Icon = audienceIconMap[card.audience] ?? FaBriefcase;
 
@@ -112,6 +110,7 @@ function ProductSpotlight({ detailed = false }) {
                 </article>
               );
             })}
+            </div>
           </div>
         </article>
       </div>
