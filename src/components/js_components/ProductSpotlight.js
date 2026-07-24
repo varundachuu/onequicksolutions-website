@@ -113,6 +113,17 @@ function ProductSpotlight({ detailed = false }) {
             </div>
           </div>
         </article>
+
+        <article className="product-coming-soon surface-panel">
+          <span className="product-coming-soon__icon" aria-hidden="true">
+            <FaBriefcase />
+          </span>
+          <div>
+            <span className="product-coming-soon__label">Coming soon</span>
+            <h3>Another practical business product is on the way</h3>
+            <p>We are working on the next tool to help teams manage everyday work with more clarity.</p>
+          </div>
+        </article>
       </div>
     </section>
   );
