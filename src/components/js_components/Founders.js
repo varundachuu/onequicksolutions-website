@@ -23,12 +23,6 @@ const team = {
   ],
   partners: [
     {
-      image: "/images/Profile-Images/chirag.jpg",
-      name: "Chirag",
-      title: "Working Partner",
-      badge: "Partner",
-    },
-    {
       name: "Gowtham",
       title: "Working Partner",
       badge: "Partner",
@@ -37,6 +31,14 @@ const team = {
       name: "Santhosh",
       title: "Working Partner",
       badge: "Partner",
+    },
+  ],
+  consultants: [
+    {
+      image: "/images/Profile-Images/chirag.jpg",
+      name: "Chirag",
+      title: "Consultant",
+      badge: "Consultant",
     },
   ],
 };
@@ -131,6 +133,17 @@ function Founders() {
 
           <div className="partners-grid">
             {team.partners.map((person) => renderCard(person, "employee-card"))}
+          </div>
+        </div>
+
+        <div className="team-group">
+          <div className="team-group-header">
+            <span className="team-group-kicker">Specialist support</span>
+            <h3 className="team-group-title">Consultants</h3>
+          </div>
+
+          <div className="partners-grid">
+            {team.consultants.map((person) => renderCard(person, "employee-card"))}
           </div>
         </div>
       </div>
