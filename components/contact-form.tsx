@@ -1,7 +1,6 @@
 "use client";
 
 import { FormEvent, useMemo, useState } from "react";
-import emailjs from "@emailjs/browser";
 import { FaClock, FaEnvelope, FaPhone } from "react-icons/fa6";
 import { usePathname } from "next/navigation";
 
@@ -25,12 +24,6 @@ const iconMap = {
   mail: FaEnvelope,
   phone: FaPhone,
   clock: FaClock,
-};
-
-const emailJsConfig = {
-  serviceId: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
-  templateId: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
-  publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY,
 };
 
 export function ContactFormSection({
@@ -70,15 +63,6 @@ export function ContactFormSection({
       return;
     }
 
-    if (!emailJsConfig.serviceId || !emailJsConfig.templateId || !emailJsConfig.publicKey) {
-      setStatus({
-        type: "error",
-        message:
-          "The contact form is not configured yet. Add the EmailJS environment values before using it.",
-      });
-      return;
-    }
-
     const payload = {
       user_name: String(formData.get("user_name") ?? ""),
       user_email: String(formData.get("user_email") ?? ""),
@@ -96,23 +80,33 @@ export function ContactFormSection({
     setStatus({ type: "idle", message: "" });
 
     try {
-      await emailjs.send(
-        emailJsConfig.serviceId,
-        emailJsConfig.templateId,
-        payload,
-        emailJsConfig.publicKey,
-      );
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const result = (await response.json().catch(() => null)) as { message?: string } | null;
+
+      if (!response.ok) {
+        throw new Error(result?.message || "There was an error sending the message. Please try again.");
+      }
 
       setStatus({
         type: "success",
-        message: "Thanks for reaching out. We will get back to you soon.",
+        message: result?.message || "Thanks for reaching out. We will get back to you soon.",
       });
       form.reset();
       setSelectedService(defaultService);
-    } catch {
+    } catch (error) {
       setStatus({
         type: "error",
-        message: "There was an error sending the message. Please try again.",
+        message:
+          error instanceof Error
+            ? error.message
+            : "There was an error sending the message. Please try again.",
       });
     } finally {
       setIsSubmitting(false);

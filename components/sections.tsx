@@ -390,16 +390,6 @@ export function ProductSpotlightSection({ detailed = false }: { detailed?: boole
           </div>
         </article>
 
-        <article className="product-coming-soon surface-panel">
-          <span className="product-coming-soon__icon" aria-hidden="true">
-            <FaBriefcase />
-          </span>
-          <div>
-            <span className="product-coming-soon__label">Coming soon</span>
-            <h3>More practical business products are in planning</h3>
-            <p>We are continuing to shape focused tools that make everyday work clearer.</p>
-          </div>
-        </article>
       </div>
     </section>
   );
