@@ -12,7 +12,11 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "portal:build": "npm --prefix portal run build",
+    "portal:dev": "npm --prefix portal run dev",
+    "portal:check": "npm --prefix portal run check",
+    "portal:test": "npm --prefix portal run test"
   },
   "devDependencies": {
     "@types/nodemailer": "^6.4.17",

@@ -1,4 +1,5 @@
 import { buildBreadcrumbSchema, buildMetadata } from "@/lib/metadata";
+import company from "@/shared/company.json";
 
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { ContactFormSection } from "@/components/contact-form";
@@ -27,8 +28,8 @@ export default function HrManagementPortalPage() {
         title="HR Management Portal for structured hiring workflows"
         description="A role-based recruitment and HR workflow platform designed for companies, candidates and recruitment teams. This internal product demonstrates how OneQuickSolutions approaches structured hiring flow, access control and recruitment visibility."
         chips={["Companies", "Candidates", "Recruitment teams", "Role-based access"]}
-        primaryAction={{ label: "Open company hiring flow", href: "https://hr.onequicksolutions.com/?userType=company" }}
-        secondaryAction={{ label: "Open candidate application flow", href: "https://hr.onequicksolutions.com/?userType=candidate" }}
+        primaryAction={{ label: "Open company hiring flow", href: `${company.portalUrl}/?userType=company` }}
+        secondaryAction={{ label: "Open candidate application flow", href: `${company.portalUrl}/?userType=candidate` }}
         highlights={[
           {
             title: "Accurate product status",

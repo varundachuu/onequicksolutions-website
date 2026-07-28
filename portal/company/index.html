@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Company Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./dashboard.css" />
+  </head>
+  <body class="company-body">
+    <div class="dashboard-shell">
+      <header class="dashboard-topbar reveal">
+        <a class="brand-pill" href="/company/" aria-label="Company dashboard home">
+          <span class="brand-mark">C</span>
+          <span>
+            <strong>Company Dashboard</strong>
+            <small>Recruitment overview</small>
+          </span>
+        </a>
+
+        <div class="topbar-actions">
+          <span class="status-pill" id="live-status" data-state="idle">
+            Loading dashboard...
+          </span>
+          <button class="ghost-button" type="button" id="refresh-count-button">
+            Refresh Count
+          </button>
+          <button class="ghost-button" type="button" id="sign-out-button">
+            Sign Out
+          </button>
+        </div>
+      </header>
+
+      <main class="dashboard-main">
+        <section class="hero-panel reveal reveal-delay-1">
+          <div class="hero-copy">
+            <span class="section-kicker">Company Side</span>
+            <h1 id="company-welcome">Welcome back.</h1>
+            <p class="hero-text">
+              This dashboard now combines a clean hiring overview with consultancy-managed
+              recruitment operations. Create jobs, save drafts, submit requirements for review,
+              and monitor anonymous candidate movement without exposing private data.
+            </p>
+
+            <div class="hero-meta">
+              <span class="meta-chip" id="company-email">Signed in as company</span>
+              <span class="meta-chip" id="last-synced">Waiting for first sync</span>
+            </div>
+          </div>
+
+          <article class="metric-card" id="count-card" aria-live="polite">
+            <span class="metric-label">Active Candidate Profiles</span>
+            <strong class="metric-value" id="candidate-count-value" data-value="0">0</strong>
+            <p class="metric-copy">
+              This number refreshes automatically and excludes profiles that candidates
+              have deactivated from hiring visibility.
+            </p>
+          </article>
+        </section>
+
+        <section class="dashboard-grid">
+          <article class="insight-card insight-card-wide reveal reveal-delay-2">
+            <span class="card-kicker">Recruitment Summary</span>
+            <h2>Track jobs, applications, and consultancy progress at a glance.</h2>
+            <div class="dashboard-summary-grid" id="company-summary-grid">
+              <article><strong id="company-summary-active-jobs">0</strong><span>Active jobs</span></article>
+              <article><strong id="company-summary-pending-jobs">0</strong><span>Pending jobs</span></article>
+              <article><strong id="company-summary-change-jobs">0</strong><span>Needs changes</span></article>
+              <article><strong id="company-summary-interests">0</strong><span>Candidate interests</span></article>
+              <article><strong id="company-summary-applications">0</strong><span>Applications</span></article>
+              <article><strong id="company-summary-shortlisted">0</strong><span>Shortlisted</span></article>
+              <article><strong id="company-summary-interviews">0</strong><span>Interview stage</span></article>
+              <article><strong id="company-summary-selected">0</strong><span>Selected or joined</span></article>
+            </div>
+          </article>
+        </section>
+
+        <section class="dashboard-grid">
+          <article class="insight-card insight-card-wide reveal reveal-delay-3">
+            <span class="card-kicker">Create or Update Job</span>
+            <h2>Build the requirement, save it as a draft, and submit it to consultancy.</h2>
+            <p>
+              Company jobs cannot be published directly. Each requirement must go through
+              consultancy review and anonymized publication before it reaches candidates.
+            </p>
+
+            <form class="management-form" id="company-job-form">
+              <input type="hidden" id="company-job-reference" name="jobReference" />
+
+              <div class="management-form-grid">
+                <label>
+                  Job Title
+                  <input type="text" name="title" placeholder="Example: Senior Java Developer" required />
+                </label>
+
+                <label>
+                  Department
+                  <input type="text" name="department" placeholder="Example: Technology" />
+                </label>
+
+                <label class="full-width">
+                  Job Description
+                  <textarea name="description" rows="4" placeholder="Describe the role, business context, and what success looks like." required></textarea>
+                </label>
+
+                <label class="full-width">
+                  Roles and Responsibilities
+                  <textarea name="responsibilities" rows="4" placeholder="Add one responsibility per line."></textarea>
+                </label>
+
+                <label>
+                  Required Skills
+                  <input type="text" name="requiredSkills" placeholder="Java, Spring Boot, REST APIs" />
+                </label>
+
+                <label>
+                  Preferred Skills
+                  <input type="text" name="preferredSkills" placeholder="AWS, Kafka, Microservices" />
+                </label>
+
+                <label>
+                  Minimum Experience
+                  <input type="number" name="minimumExperience" min="0" step="1" placeholder="2" />
+                </label>
+
+                <label>
+                  Maximum Experience
+                  <input type="number" name="maximumExperience" min="0" step="1" placeholder="5" />
+                </label>
+
+                <label>
+                  Qualification
+                  <input type="text" name="qualification" placeholder="Example: B.E / B.Tech / MCA" />
+                </label>
+
+                <label>
+                  Job Location
+                  <input type="text" name="location" placeholder="Example: Chennai / Hybrid" required />
+                </label>
+
+                <label>
+                  Work Mode
+                  <select name="workMode" required>
+                    <option value="onsite">Onsite</option>
+                    <option value="hybrid">Hybrid</option>
+                    <option value="remote">Remote</option>
+                    <option value="field">Field</option>
+                  </select>
+                </label>
+
+                <label>
+                  Employment Type
+                  <select name="employmentType" required>
+                    <option value="full-time">Full-time</option>
+                    <option value="part-time">Part-time</option>
+                    <option value="contract">Contract</option>
+                    <option value="internship">Internship</option>
+                    <option value="trainee">Trainee</option>
+                    <option value="temporary">Temporary</option>
+                  </select>
+                </label>
+
+                <label>
+                  Salary Minimum
+                  <input type="number" name="salaryMinimum" min="0" step="0.01" placeholder="300000" />
+                </label>
+
+                <label>
+                  Salary Maximum
+                  <input type="number" name="salaryMaximum" min="0" step="0.01" placeholder="800000" />
+                </label>
+
+                <label>
+                  Number of Openings
+                  <input type="number" name="openings" min="1" step="1" value="1" required />
+                </label>
+
+                <label>
+                  Candidate Audience
+                  <select name="candidateAudience">
+                    <option value="all">All</option>
+                    <option value="fresher">Fresher</option>
+                    <option value="experienced">Experienced</option>
+                  </select>
+                </label>
+
+                <label>
+                  Shift Details
+                  <input type="text" name="shiftDetails" placeholder="General shift / Rotational" />
+                </label>
+
+                <label>
+                  Notice Period Preference
+                  <input type="text" name="noticePeriodPreference" placeholder="Immediate to 30 days" />
+                </label>
+
+                <label>
+                  Application Deadline
+                  <input type="date" name="applicationDeadline" />
+                </label>
+
+                <label>
+                  Industry
+                  <input type="text" name="industry" placeholder="Example: Fintech / SaaS" />
+                </label>
+
+                <label class="full-width">
+                  Screening Questions
+                  <textarea name="screeningQuestions" rows="4" placeholder="Add one screening question per line."></textarea>
+                </label>
+
+                <label class="full-width">
+                  Additional Candidate Information
+                  <textarea name="additionalInformation" rows="3" placeholder="Any non-identifying role information candidates should know."></textarea>
+                </label>
+
+                <label class="full-width">
+                  Internal Note to Consultancy
+                  <textarea name="internalCompanyNote" rows="3" placeholder="This note is visible only to consultancy."></textarea>
+                </label>
+              </div>
+
+              <div class="detail-pill-row">
+                <button class="ghost-button" type="button" id="company-job-draft-button">Save Draft</button>
+                <button class="ghost-button" type="submit" id="company-job-save-button">Save Changes</button>
+                <button class="ghost-button" type="button" id="company-job-submit-button">Submit To Consultancy</button>
+                <button class="ghost-button" type="button" id="company-job-reset-button">Reset Form</button>
+              </div>
+
+              <p class="management-status" id="company-job-form-status" hidden>
+                Company job form updates will appear here.
+              </p>
+            </form>
+          </article>
+        </section>
+
+        <section class="dashboard-grid">
+          <article class="insight-card reveal reveal-delay-2">
+            <span class="card-kicker">Auto Refresh</span>
+            <h2>Shared-hosting friendly updates.</h2>
+            <p>
+              Keep this page open and the registered candidate count will refresh
+              every few seconds without needing special server streaming support.
+            </p>
+            <div class="detail-pill-row">
+              <span class="detail-pill">Timed refresh enabled</span>
+              <span class="detail-pill">MongoDB storage</span>
+            </div>
+          </article>
+
+          <article class="insight-card reveal reveal-delay-3">
+            <span class="card-kicker">Storage Source</span>
+            <h2>Connected to active candidate profile data.</h2>
+            <p id="storage-target">
+              Active candidate profiles are being read from the candidate profile storage.
+            </p>
+          </article>
+
+          <article class="insight-card insight-card-wide reveal reveal-delay-4">
+            <span class="card-kicker">Hiring Snapshot</span>
+            <h2>Simple now, ready for expansion later.</h2>
+            <p>
+              The company area is prepared as a first dashboard step. We can extend
+              this next with candidate lists, job posting, status tracking, and
+              recruitment actions when you are ready.
+            </p>
+            <div class="timeline-strip">
+              <div>
+                <strong>Now</strong>
+                <span>Track active profiles visible for hiring</span>
+              </div>
+              <div>
+                <strong>Next</strong>
+                <span>Add shortlist and job management features</span>
+              </div>
+              <div>
+                <strong>Later</strong>
+                <span>Build a complete hiring workflow for companies</span>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <section class="dashboard-grid">
+          <article class="insight-card insight-card-wide reveal reveal-delay-4">
+            <span class="card-kicker">My Jobs</span>
+            <h2>Review drafts, submissions, and consultancy-managed recruitment counts.</h2>
+            <p>
+              Open any job to load it back into the form, request closure, or inspect the
+              anonymous candidate summaries already shared by consultancy.
+            </p>
+            <div class="dashboard-record-grid" id="company-jobs-grid"></div>
+            <div class="dashboard-empty-state" id="company-jobs-empty-state" hidden>
+              No jobs have been created yet.
+            </div>
+          </article>
+        </section>
+
+        <section class="dashboard-grid">
+          <article class="insight-card reveal reveal-delay-4">
+            <span class="card-kicker">Anonymous Candidates</span>
+            <h2 id="company-anonymous-candidates-title">Select a job to review shared summaries.</h2>
+            <p>
+              Consultancy-approved summaries appear here without candidate name, email, phone,
+              or direct contact information.
+            </p>
+            <div class="dashboard-record-grid" id="company-anonymous-candidates-grid"></div>
+          </article>
+
+          <article class="insight-card reveal reveal-delay-4">
+            <span class="card-kicker">Recent Consultancy Updates</span>
+            <h2>Role-safe notifications for your company account.</h2>
+            <div class="notification-toolbar">
+              <span class="notification-toolbar__summary" id="company-notifications-summary">
+                Loading notifications...
+              </span>
+              <button class="ghost-button" type="button" id="company-mark-all-notifications-button">
+                Mark All Read
+              </button>
+            </div>
+            <p class="dashboard-inline-status" id="company-notifications-status" hidden></p>
+            <div class="dashboard-record-grid dashboard-record-grid--compact" id="company-notifications-list"></div>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <script src="../assets/shared/session.js"></script>
+    <script src="./dashboard.js"></script>
+  </body>
+</html>

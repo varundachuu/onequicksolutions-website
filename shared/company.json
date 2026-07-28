@@ -1,0 +1,13 @@
+{
+  "name": "OneQuickSolutions",
+  "mainDomain": "onequicksolutions.com",
+  "siteUrl": "https://www.onequicksolutions.com",
+  "portalSubdomain": "hr.onequicksolutions.com",
+  "portalUrl": "https://hr.onequicksolutions.com",
+  "email": "onequicksolutionsinfo@gmail.com",
+  "phones": ["+91 8073981290", "+91 9110863957"],
+  "logoPath": "/images/logo6.jpg",
+  "ogImage": "/images/logo6.jpg",
+  "websiteFromName": "OneQuickSolutions Website",
+  "portalFromName": "OneQuickSolutions HR Portal"
+}

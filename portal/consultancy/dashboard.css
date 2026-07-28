@@ -1,0 +1,322 @@
+@import "../company/dashboard.css";
+
+.workspace-switcher {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.workspace-switch-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.82);
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.workspace-switch-link:hover,
+.workspace-switch-link:focus-visible {
+  outline: none;
+  transform: translateY(-1px);
+  border-color: rgba(10, 123, 120, 0.2);
+  box-shadow: 0 16px 28px rgba(16, 38, 61, 0.1);
+}
+
+.workspace-switch-link.is-active {
+  border-color: transparent;
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  box-shadow: 0 18px 32px rgba(10, 123, 120, 0.22);
+  color: #ffffff;
+}
+
+.section-block {
+  display: grid;
+  gap: 18px;
+}
+
+.section-heading {
+  display: grid;
+  gap: 10px;
+  max-width: 860px;
+}
+
+.section-heading h2 {
+  margin: 0;
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: clamp(1.65rem, 3vw, 2.35rem);
+  line-height: 1.12;
+  letter-spacing: -0.04em;
+}
+
+.section-heading p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.consultancy-grid {
+  grid-template-columns: 1.1fr 0.9fr;
+}
+
+.consultancy-metric-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.metric-card-secondary {
+  background:
+    linear-gradient(155deg, rgba(208, 160, 76, 0.96), rgba(157, 106, 24, 0.98));
+}
+
+.metric-card-tertiary {
+  background:
+    linear-gradient(155deg, rgba(49, 92, 154, 0.96), rgba(29, 54, 96, 0.98));
+}
+
+.consultancy-filter-card {
+  display: grid;
+  gap: 18px;
+}
+
+.consultancy-filter-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.consultancy-filter-form label {
+  display: grid;
+  gap: 8px;
+  color: var(--text);
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.consultancy-filter-form input,
+.consultancy-filter-form select {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--text);
+  font: inherit;
+}
+
+.consultancy-filter-form input:focus,
+.consultancy-filter-form select:focus {
+  outline: none;
+  border-color: rgba(10, 123, 120, 0.3);
+  box-shadow: 0 0 0 4px rgba(10, 123, 120, 0.1);
+}
+
+.consultancy-filter-actions {
+  grid-column: 1 / -1;
+}
+
+.consultancy-results-heading {
+  max-width: 860px;
+}
+
+.consultancy-results-grid {
+  display: grid;
+  gap: 18px;
+  margin-top: 24px;
+}
+
+.consultancy-profile-card,
+.consultancy-empty-state,
+.consultancy-profile-block {
+  border-radius: var(--radius-lg);
+}
+
+.consultancy-profile-card,
+.consultancy-empty-state {
+  padding: 24px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.consultancy-empty-state h3,
+.consultancy-profile-card h3,
+.consultancy-profile-block h4 {
+  margin: 14px 0 10px;
+  font-family: "Sora", "Segoe UI", sans-serif;
+  letter-spacing: -0.03em;
+}
+
+.consultancy-empty-state p,
+.consultancy-profile-card p,
+.consultancy-profile-card li,
+.consultancy-profile-meta dd,
+.consultancy-profile-block dd {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.consultancy-profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.consultancy-profile-header h3 {
+  font-size: 1.45rem;
+  line-height: 1.18;
+}
+
+.consultancy-profile-subtitle {
+  margin: 0;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.consultancy-profile-badges,
+.consultancy-profile-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.consultancy-profile-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 12px;
+  border-radius: 999px;
+  background: var(--surface-soft);
+  border: 1px solid rgba(16, 38, 61, 0.06);
+  color: var(--text);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.consultancy-profile-badge.is-gold {
+  background: var(--highlight-soft);
+  color: var(--warning);
+}
+
+.consultancy-profile-summary {
+  margin: 18px 0 0;
+}
+
+.consultancy-profile-meta,
+.consultancy-profile-detail-grid {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.consultancy-profile-meta {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.consultancy-profile-meta div,
+.consultancy-profile-block {
+  padding: 16px 18px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(180deg, rgba(10, 123, 120, 0.06), rgba(208, 160, 76, 0.08));
+  border: 1px solid rgba(16, 38, 61, 0.06);
+}
+
+.consultancy-profile-meta dt,
+.consultancy-profile-block dt {
+  color: var(--highlight);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.consultancy-profile-meta dd,
+.consultancy-profile-block dd {
+  margin: 8px 0 0;
+  color: var(--text);
+  font-weight: 700;
+  word-break: break-word;
+}
+
+.consultancy-profile-detail-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.consultancy-profile-block dl {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+}
+
+.consultancy-profile-block h4 {
+  font-size: 1.15rem;
+}
+
+.consultancy-ops-summary-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.consultancy-ops-summary-grid article {
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(180deg, rgba(10, 123, 120, 0.06), rgba(208, 160, 76, 0.08));
+  border: 1px solid rgba(16, 38, 61, 0.06);
+}
+
+.consultancy-ops-summary-grid strong {
+  font-family: "Sora", "Segoe UI", sans-serif;
+  font-size: 2rem;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.consultancy-ops-summary-grid span {
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+@media (max-width: 1100px) {
+  .consultancy-grid,
+  .consultancy-profile-meta,
+  .consultancy-profile-detail-grid,
+  .consultancy-filter-form,
+  .consultancy-ops-summary-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .workspace-switcher {
+    flex-direction: column;
+  }
+
+  .workspace-switch-link {
+    width: 100%;
+  }
+
+  .consultancy-profile-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .consultancy-profile-badges {
+    width: 100%;
+  }
+}

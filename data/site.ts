@@ -1,10 +1,12 @@
+import company from "@/shared/company.json";
+
 export const companyInfo = {
-  name: "OneQuickSolutions",
-  siteUrl: "https://www.onequicksolutions.com",
-  email: "onequicksolutionsinfo@gmail.com",
-  phones: ["+91 8073981290", "+91 9110863957"],
-  logoPath: "/images/logo6.jpg",
-  ogImage: "/images/logo6.jpg",
+  name: company.name,
+  siteUrl: company.siteUrl,
+  email: company.email,
+  phones: company.phones,
+  logoPath: company.logoPath,
+  ogImage: company.ogImage,
   description:
     "OneQuickSolutions is a founder-led technology startup providing custom software development, business websites, SaaS platforms, mobile applications, AI automation and data analytics solutions.",
   tagline:
@@ -487,7 +489,7 @@ export const hiringEntryCards = [
     description:
       "Open the company login to manage hiring needs, review candidate activity, and move faster with a more organized recruitment flow.",
     buttonLabel: "Hire Here",
-    href: "https://hr.onequicksolutions.com/?userType=company",
+    href: `${company.portalUrl}/?userType=company`,
   },
   {
     audience: "For candidates",
@@ -495,7 +497,7 @@ export const hiringEntryCards = [
     description:
       "Open the candidate login to register, complete your details, and apply for opportunities through the OneQuickSolutions hiring portal.",
     buttonLabel: "Apply Here",
-    href: "https://hr.onequicksolutions.com/?userType=candidate",
+    href: `${company.portalUrl}/?userType=candidate`,
   },
 ];
 

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recruitment Management Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero-header">
+        <div class="brand-block">
+          <a class="brand-mark" href="#" aria-label="Recruitment Management Portal home">
+            <img
+              id="portal-logo"
+              class="brand-logo"
+              alt="Recruitment Management Portal logo"
+              hidden
+            />
+            <span class="brand-placeholder" id="logo-placeholder">
+              Paste your logo in <strong>assets/logo</strong>
+            </span>
+          </a>
+        </div>
+        <p class="eyebrow">Trusted recruitment operations</p>
+        <h1>Recruitment Management Portal</h1>
+        <p class="hero-subheading">
+          A simple platform to connect companies, consultancies, and candidates
+          in one hiring system.
+        </p>
+      </header>
+
+      <main class="portal-layout">
+        <section class="info-panel" aria-labelledby="info-title">
+          <div class="info-copy">
+            <span class="panel-badge" id="info-badge">Employer hiring workspace</span>
+            <h2 id="info-title">Find the Right Candidates Faster.</h2>
+            <p id="info-description">
+              Post openings, review shortlisted talent, and manage hiring
+              decisions from one secure portal.
+            </p>
+          </div>
+
+          <ul class="feature-list">
+            <li id="feature-1">Share job openings with consultancies</li>
+            <li id="feature-2">Review matched candidate profiles</li>
+            <li id="feature-3">Track interview and hiring status</li>
+            <li id="feature-4">Collaborate with your recruitment partners</li>
+            <li id="feature-5">Keep company hiring data secure</li>
+          </ul>
+
+          <div class="signal-card">
+            <div class="signal-header">
+              <span class="signal-dot"></span>
+              <span id="signal-header-text">Company hiring focus</span>
+            </div>
+            <div class="signal-grid">
+              <article>
+                <strong id="signal-title-1">Open Roles</strong>
+                <span id="signal-description-1">Publish requirements quickly</span>
+              </article>
+              <article>
+                <strong id="signal-title-2">Shortlists</strong>
+                <span id="signal-description-2">See relevant candidate profiles</span>
+              </article>
+              <article>
+                <strong id="signal-title-3">Hiring Status</strong>
+                <span id="signal-description-3">Move roles from review to offer</span>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="login-panel" aria-labelledby="login-heading">
+          <div class="login-card">
+            <div
+              class="login-type-switcher"
+              role="tablist"
+              aria-label="Choose login type"
+            >
+              <button
+                class="login-type is-active"
+                type="button"
+                role="tab"
+                aria-selected="true"
+                data-user-type="company"
+              >
+                Company Login
+              </button>
+              <button
+                class="login-type"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                data-user-type="consultancy"
+              >
+                Consultancy Login
+              </button>
+              <button
+                class="login-type"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                data-user-type="candidate"
+              >
+                Candidate Login
+              </button>
+            </div>
+
+            <div class="login-copy">
+              <span class="card-kicker" id="login-kicker">Secure company access</span>
+              <h2 id="login-heading">Company Login</h2>
+              <p id="login-description">
+                Access your hiring dashboard, post job requirements, and review
+                shared candidates.
+              </p>
+            </div>
+
+            <form class="login-form" id="auth-form">
+              <label for="email">Email Address</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="Enter your email address"
+                autocomplete="email"
+                required
+              />
+
+              <div class="otp-group" id="otp-group" hidden>
+                <label for="otp">OTP</label>
+                <input
+                  id="otp"
+                  name="otp"
+                  type="text"
+                  inputmode="numeric"
+                  placeholder="Enter the 6-digit OTP"
+                  autocomplete="one-time-code"
+                  pattern="[0-9]{6}"
+                  maxlength="6"
+                />
+              </div>
+
+              <div class="password-group" id="password-group">
+                <label for="password" id="password-label">Password</label>
+                <div class="password-input-shell">
+                  <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    placeholder="Enter your password"
+                    autocomplete="current-password"
+                    minlength="8"
+                    required
+                  />
+                  <button
+                    class="password-toggle"
+                    id="password-toggle"
+                    type="button"
+                    data-password-toggle="password"
+                    aria-label="Show password"
+                    aria-pressed="false"
+                  >
+                    Show
+                  </button>
+                </div>
+              </div>
+
+              <div class="confirm-password-group" id="confirm-password-group" hidden>
+                <label for="confirm-password" id="confirm-password-label">Confirm Password</label>
+                <div class="password-input-shell">
+                  <input
+                    id="confirm-password"
+                    name="confirmPassword"
+                    type="password"
+                    placeholder="Re-enter your password"
+                    autocomplete="new-password"
+                    minlength="8"
+                  />
+                  <button
+                    class="password-toggle"
+                    id="confirm-password-toggle"
+                    type="button"
+                    data-password-toggle="confirm-password"
+                    aria-label="Show confirm password"
+                    aria-pressed="false"
+                  >
+                    Show
+                  </button>
+                </div>
+              </div>
+
+              <div class="utility-row">
+                <a href="#forgot-password" id="forgot-link">Forgot Password?</a>
+              </div>
+
+              <button class="submit-button" type="submit" id="login-button">
+                Login as Company
+              </button>
+
+              <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+
+              <p class="register-row" id="auth-mode-copy">
+                <span id="auth-mode-prefix">New user?</span>
+                <a href="#register-company" id="register-link"
+                  >Register as Company</a
+                >
+              </p>
+            </form>
+          </div>
+        </section>
+      </main>
+
+      <footer class="page-footer">
+        &copy; 2026 Recruitment Management Portal. All rights reserved.
+      </footer>
+    </div>
+
+    <script src="./assets/shared/session.js"></script>
+    <script src="./script.js"></script>
+  </body>
+</html>

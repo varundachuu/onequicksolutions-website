@@ -1,6 +1,7 @@
+import company from "@/shared/company.json";
 import nodemailer, { type SendMailOptions, type Transporter } from "nodemailer";
 
-const defaultSenderEmail = "onequicksolutionsinfo@gmail.com";
+const defaultSenderEmail = company.email || "onequicksolutionsinfo@gmail.com";
 const smtpHost = String(process.env.SMTP_HOST || "smtp.gmail.com").trim();
 const smtpPort = Number(process.env.SMTP_PORT) || 587;
 const smtpSecure =
@@ -8,7 +9,7 @@ const smtpSecure =
 const smtpUser = String(process.env.SMTP_USER || defaultSenderEmail).trim();
 const smtpPass = String(process.env.SMTP_PASS || "").trim();
 const smtpFrom = String(process.env.SMTP_FROM || smtpUser || defaultSenderEmail).trim();
-const smtpFromName = String(process.env.SMTP_FROM_NAME || "OneQuickSolutions Website").trim();
+const smtpFromName = String(process.env.SMTP_FROM_NAME || company.websiteFromName || "OneQuickSolutions Website").trim();
 
 let transporter: Transporter | null = null;
 let verifyPromise: Promise<void> | null = null;

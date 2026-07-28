@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Consultancy Candidate Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./dashboard.css" />
+  </head>
+  <body class="company-body">
+    <div class="dashboard-shell">
+      <header class="dashboard-topbar reveal">
+        <a class="brand-pill" href="/consultancy/" aria-label="Consultancy dashboard home">
+          <span class="brand-mark">H</span>
+          <span>
+            <strong>HR Consultancy Dashboard</strong>
+            <small>Candidate pipeline quick view</small>
+          </span>
+        </a>
+
+        <div class="topbar-actions">
+          <span class="status-pill" id="consultancy-live-status" data-state="idle">
+            Loading consultancy dashboard...
+          </span>
+          <button class="ghost-button" type="button" id="consultancy-refresh-button">
+            Refresh Profiles
+          </button>
+          <button class="ghost-button" type="button" id="consultancy-sign-out-button">
+            Sign Out
+          </button>
+        </div>
+      </header>
+
+      <nav class="workspace-switcher reveal reveal-delay-1" aria-label="Consultancy dashboards">
+        <a class="workspace-switch-link is-active" href="/consultancy/">
+          Candidate Dashboard
+        </a>
+        <a class="workspace-switch-link" href="/consultancy/companies/">
+          Company Dashboard
+        </a>
+      </nav>
+
+      <main class="dashboard-main">
+        <section class="hero-panel reveal reveal-delay-2">
+          <div class="hero-copy">
+            <span class="section-kicker">Consultancy Side</span>
+            <h1 id="consultancy-welcome">Welcome back.</h1>
+            <p class="hero-text">
+              Review active candidate profiles that are currently visible for hiring, filter
+              them quickly, and use the saved candidate details for sourcing and delivery.
+            </p>
+
+            <div class="hero-meta">
+              <span class="meta-chip" id="consultancy-email">Signed in as consultancy</span>
+              <span class="meta-chip" id="consultancy-last-synced">Waiting for first sync</span>
+            </div>
+          </div>
+
+          <div class="consultancy-metric-grid">
+            <article class="metric-card" id="consultancy-total-card" aria-live="polite">
+              <span class="metric-label">Active Candidate Profiles</span>
+              <strong class="metric-value" id="consultancy-total-candidates" data-value="0">0</strong>
+              <p class="metric-copy">
+                This count shows profiles that are visible for hiring right now.
+              </p>
+            </article>
+
+            <article class="metric-card metric-card-secondary" id="consultancy-filtered-card" aria-live="polite">
+              <span class="metric-label">Filtered Results</span>
+              <strong class="metric-value" id="consultancy-filtered-candidates" data-value="0">0</strong>
+              <p class="metric-copy">
+                This count updates when you search, filter by role, type, or location.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="dashboard-grid consultancy-grid">
+          <article class="insight-card consultancy-filter-card reveal reveal-delay-3">
+            <span class="card-kicker">Candidate Filters</span>
+            <h2>Find the right profile faster.</h2>
+            <p>
+              Use these filters to narrow the active candidate database by type, role,
+              location, or free-text search.
+            </p>
+
+            <form class="consultancy-filter-form" id="consultancy-filter-form">
+              <label>
+                Search
+                <input
+                  type="text"
+                  name="q"
+                  id="consultancy-search"
+                  placeholder="Name, email, skill, role, or location"
+                />
+              </label>
+
+              <label>
+                Candidate Type
+                <select name="candidateType" id="consultancy-candidate-type">
+                  <option value="">All candidate types</option>
+                  <option value="fresher">Fresher</option>
+                  <option value="experienced">Experienced</option>
+                </select>
+              </label>
+
+              <label>
+                Preferred Role
+                <input
+                  type="text"
+                  name="preferredRole"
+                  id="consultancy-preferred-role"
+                  placeholder="Example: QA Analyst"
+                />
+              </label>
+
+              <label>
+                Location
+                <input
+                  type="text"
+                  name="location"
+                  id="consultancy-location"
+                  placeholder="Example: Chennai / Remote"
+                />
+              </label>
+
+              <div class="detail-pill-row consultancy-filter-actions">
+                <button class="ghost-button" type="submit" id="consultancy-apply-filters-button">
+                  Apply Filters
+                </button>
+                <button class="ghost-button" type="button" id="consultancy-reset-filters-button">
+                  Reset Filters
+                </button>
+              </div>
+            </form>
+          </article>
+
+          <article class="insight-card reveal reveal-delay-4">
+            <span class="card-kicker">Profile Source</span>
+            <h2>Connected to candidate profile storage.</h2>
+            <p id="consultancy-storage-target">
+              Candidate profiles are being read from the active candidate profile storage.
+            </p>
+            <div class="detail-pill-row">
+              <span class="detail-pill">Hiring-visible only</span>
+              <span class="detail-pill">MongoDB-backed profiles</span>
+            </div>
+          </article>
+        </section>
+
+        <section class="section-block reveal reveal-delay-4">
+          <div class="section-heading consultancy-results-heading">
+            <span class="section-kicker">Candidate Profiles</span>
+            <h2>Active profiles ready for consultancy review.</h2>
+            <p id="consultancy-results-summary">
+              The latest active candidate profiles will appear here.
+            </p>
+          </div>
+
+          <div class="consultancy-empty-state" id="consultancy-empty-state" hidden>
+            <span class="pathway-label">No matching profiles</span>
+            <h3>No active candidate profiles matched the current filters.</h3>
+            <p>
+              Try broadening the role, location, or search text to see more candidate profiles.
+            </p>
+          </div>
+
+          <div class="consultancy-results-grid" id="consultancy-results-grid"></div>
+        </section>
+
+        <section class="section-block reveal reveal-delay-4" id="consultancy-recruitment-overview">
+          <div class="section-heading consultancy-results-heading">
+            <span class="section-kicker">Recruitment Operations</span>
+            <h2>Control jobs, applications, and interview progress from one place.</h2>
+            <p>
+              Consultancy remains the central workflow owner. Review company jobs, manage
+              candidate applications, prepare anonymous summaries, and coordinate interviews
+              without leaking protected data.
+            </p>
+          </div>
+
+          <div class="consultancy-ops-summary-grid" id="consultancy-ops-summary-grid">
+            <article><strong id="consultancy-summary-pending-jobs">0</strong><span>Jobs pending approval</span></article>
+            <article><strong id="consultancy-summary-published-jobs">0</strong><span>Published jobs</span></article>
+            <article><strong id="consultancy-summary-new-applications">0</strong><span>Applications</span></article>
+            <article><strong id="consultancy-summary-pending-screening">0</strong><span>Pending screening</span></article>
+            <article><strong id="consultancy-summary-shortlisted">0</strong><span>Shortlisted</span></article>
+            <article><strong id="consultancy-summary-interviews">0</strong><span>Interviews</span></article>
+          </div>
+        </section>
+
+        <section class="section-block reveal reveal-delay-4" id="consultancy-job-control">
+          <div class="section-heading consultancy-results-heading">
+            <span class="section-kicker">Job Approval Queue</span>
+            <h2>Review company requirements before candidates see them.</h2>
+          </div>
+
+          <form class="consultancy-filter-form" id="consultancy-jobs-filter-form">
+            <label>
+              Search Jobs
+              <input type="text" name="q" placeholder="Job reference, title, or location" />
+            </label>
+
+            <label>
+              Status
+              <select name="status">
+                <option value="">All statuses</option>
+                <option value="draft">Draft</option>
+                <option value="submitted">Submitted</option>
+                <option value="approved">Approved</option>
+                <option value="published">Published</option>
+                <option value="changes_requested">Changes requested</option>
+                <option value="paused">Paused</option>
+                <option value="closed">Closed</option>
+                <option value="rejected">Rejected</option>
+                <option value="archived">Archived</option>
+              </select>
+            </label>
+
+            <label>
+              Company
+              <input type="text" name="company" placeholder="Company name or email" />
+            </label>
+
+            <div class="detail-pill-row consultancy-filter-actions">
+              <button class="ghost-button" type="submit">Apply Filters</button>
+              <button class="ghost-button" type="button" id="consultancy-jobs-reset-button">
+                Reset Filters
+              </button>
+            </div>
+          </form>
+
+          <div class="consultancy-results-grid" id="consultancy-jobs-grid"></div>
+        </section>
+
+        <section class="section-block reveal reveal-delay-4" id="consultancy-application-control">
+          <div class="section-heading consultancy-results-heading">
+            <span class="section-kicker">Application Management</span>
+            <h2>Move applications through screening, anonymous sharing, and interviews.</h2>
+          </div>
+
+          <form class="consultancy-filter-form" id="consultancy-applications-filter-form">
+            <label>
+              Search
+              <input type="text" name="q" placeholder="Application ref, skill, role, or location" />
+            </label>
+
+            <label>
+              Status
+              <select name="status">
+                <option value="">All statuses</option>
+                <option value="application_submitted">Application submitted</option>
+                <option value="under_consultancy_review">Under consultancy review</option>
+                <option value="consultancy_shortlisted">Consultancy shortlisted</option>
+                <option value="anonymous_profile_shared_with_company">Anonymous profile shared</option>
+                <option value="company_selected_for_interview">Company selected for interview</option>
+                <option value="interview_coordination">Interview coordination</option>
+                <option value="interview_scheduled">Interview scheduled</option>
+                <option value="selected">Selected</option>
+                <option value="joined">Joined</option>
+              </select>
+            </label>
+
+            <label>
+              Candidate Type
+              <select name="candidateType">
+                <option value="">All candidate types</option>
+                <option value="fresher">Fresher</option>
+                <option value="experienced">Experienced</option>
+              </select>
+            </label>
+
+            <label>
+              Company
+              <input type="text" name="company" placeholder="Company name" />
+            </label>
+
+            <label>
+              Job Reference
+              <input type="text" name="job" placeholder="Example: JOB-OQS-000001" />
+            </label>
+
+            <label>
+              Preferred Role
+              <input type="text" name="preferredRole" placeholder="Example: QA Analyst" />
+            </label>
+
+            <div class="detail-pill-row consultancy-filter-actions">
+              <button class="ghost-button" type="submit">Apply Filters</button>
+              <button
+                class="ghost-button"
+                type="button"
+                id="consultancy-applications-reset-button"
+              >
+                Reset Filters
+              </button>
+            </div>
+          </form>
+
+          <div class="consultancy-results-grid" id="consultancy-applications-grid"></div>
+        </section>
+
+        <section class="section-block reveal reveal-delay-4" id="consultancy-notifications">
+          <div class="section-heading consultancy-results-heading">
+            <span class="section-kicker">Notifications</span>
+            <h2>Role-safe operational alerts.</h2>
+          </div>
+
+          <div class="notification-toolbar">
+            <span class="notification-toolbar__summary" id="consultancy-notifications-summary">
+              Loading notifications...
+            </span>
+            <button
+              class="ghost-button"
+              type="button"
+              id="consultancy-mark-all-notifications-button"
+            >
+              Mark All Read
+            </button>
+          </div>
+          <p class="dashboard-inline-status" id="consultancy-notifications-status" hidden></p>
+          <div class="consultancy-results-grid" id="consultancy-notifications-grid"></div>
+        </section>
+      </main>
+    </div>
+
+    <script src="../assets/shared/session.js"></script>
+    <script src="./dashboard.js"></script>
+  </body>
+</html>

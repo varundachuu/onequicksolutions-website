@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Consultancy Company Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./dashboard.css" />
+  </head>
+  <body class="company-body">
+    <div class="dashboard-shell">
+      <header class="dashboard-topbar reveal">
+        <a class="brand-pill" href="/consultancy/companies/" aria-label="Consultancy company dashboard home">
+          <span class="brand-mark">H</span>
+          <span>
+            <strong>HR Consultancy Dashboard</strong>
+            <small>Company account quick view</small>
+          </span>
+        </a>
+
+        <div class="topbar-actions">
+          <span class="status-pill" id="consultancy-companies-live-status" data-state="idle">
+            Loading company dashboard...
+          </span>
+          <button class="ghost-button" type="button" id="consultancy-companies-refresh-button">
+            Refresh Companies
+          </button>
+          <button class="ghost-button" type="button" id="consultancy-companies-sign-out-button">
+            Sign Out
+          </button>
+        </div>
+      </header>
+
+      <nav class="workspace-switcher reveal reveal-delay-1" aria-label="Consultancy dashboards">
+        <a class="workspace-switch-link" href="/consultancy/">
+          Candidate Dashboard
+        </a>
+        <a class="workspace-switch-link is-active" href="/consultancy/companies/">
+          Company Dashboard
+        </a>
+      </nav>
+
+      <main class="dashboard-main">
+        <section class="hero-panel reveal reveal-delay-2">
+          <div class="hero-copy">
+            <span class="section-kicker">Consultancy Side</span>
+            <h1 id="consultancy-companies-welcome">Welcome back.</h1>
+            <p class="hero-text">
+              Review registered company accounts, see which clients have login activity,
+              and search the company login base quickly when you need to coordinate hiring work.
+            </p>
+
+            <div class="hero-meta">
+              <span class="meta-chip" id="consultancy-companies-email">Signed in as consultancy</span>
+              <span class="meta-chip" id="consultancy-companies-last-synced">Waiting for first sync</span>
+            </div>
+          </div>
+
+          <div class="consultancy-metric-grid">
+            <article class="metric-card" id="consultancy-total-companies-card" aria-live="polite">
+              <span class="metric-label">Registered Company Accounts</span>
+              <strong class="metric-value" id="consultancy-total-companies" data-value="0">0</strong>
+              <p class="metric-copy">
+                This count includes every company login stored in the company MongoDB collection.
+              </p>
+            </article>
+
+            <article class="metric-card metric-card-secondary" id="consultancy-filtered-companies-card" aria-live="polite">
+              <span class="metric-label">Filtered Results</span>
+              <strong class="metric-value" id="consultancy-filtered-companies" data-value="0">0</strong>
+              <p class="metric-copy">
+                This count updates when you search by company name, email, or login activity.
+              </p>
+            </article>
+
+            <article class="metric-card metric-card-tertiary" id="consultancy-active-companies-card" aria-live="polite">
+              <span class="metric-label">Companies With Login Activity</span>
+              <strong class="metric-value" id="consultancy-active-companies" data-value="0">0</strong>
+              <p class="metric-copy">
+                This count shows company accounts that have at least one recorded login.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="dashboard-grid consultancy-grid">
+          <article class="insight-card consultancy-filter-card reveal reveal-delay-3">
+            <span class="card-kicker">Company Filters</span>
+            <h2>Search clients and login activity quickly.</h2>
+            <p>
+              Use these filters to review company logins by name, email, or whether they
+              have already logged in at least once.
+            </p>
+
+            <form class="consultancy-filter-form" id="consultancy-companies-filter-form">
+              <label>
+                Search
+                <input
+                  type="text"
+                  name="q"
+                  id="consultancy-companies-search"
+                  placeholder="Company name or company email"
+                />
+              </label>
+
+              <label>
+                Login Activity
+                <select name="loginActivity" id="consultancy-companies-login-activity">
+                  <option value="">All company accounts</option>
+                  <option value="logged-in">Logged in at least once</option>
+                  <option value="never-logged-in">Never logged in yet</option>
+                </select>
+              </label>
+
+              <div class="detail-pill-row consultancy-filter-actions">
+                <button class="ghost-button" type="submit" id="consultancy-companies-apply-filters-button">
+                  Apply Filters
+                </button>
+                <button class="ghost-button" type="button" id="consultancy-companies-reset-filters-button">
+                  Reset Filters
+                </button>
+              </div>
+            </form>
+          </article>
+
+          <article class="insight-card reveal reveal-delay-4">
+            <span class="card-kicker">Storage Source</span>
+            <h2>Connected to company login storage.</h2>
+            <p id="consultancy-companies-storage-target">
+              Company accounts are being read from the registered company login storage.
+            </p>
+            <div class="detail-pill-row">
+              <span class="detail-pill">MongoDB-backed company logins</span>
+              <span class="detail-pill">Consultancy-side quick review</span>
+            </div>
+          </article>
+        </section>
+
+        <section class="section-block reveal reveal-delay-4">
+          <div class="section-heading consultancy-results-heading">
+            <span class="section-kicker">Company Accounts</span>
+            <h2>Registered companies ready for consultancy review.</h2>
+            <p id="consultancy-companies-results-summary">
+              The latest registered company accounts will appear here.
+            </p>
+          </div>
+
+          <div class="consultancy-empty-state" id="consultancy-companies-empty-state" hidden>
+            <span class="pathway-label">No matching companies</span>
+            <h3>No registered company accounts matched the current filters.</h3>
+            <p>
+              Try clearing the search or widening the login activity filter to see more companies.
+            </p>
+          </div>
+
+          <div class="company-results-grid" id="consultancy-companies-results-grid"></div>
+        </section>
+      </main>
+    </div>
+
+    <script src="../../assets/shared/session.js"></script>
+    <script src="./dashboard.js"></script>
+  </body>
+</html>

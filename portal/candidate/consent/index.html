@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Candidate Data Consent</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../portal.css" />
+  </head>
+  <body class="candidate-body">
+    <div class="candidate-shell">
+      <header class="candidate-topbar reveal">
+        <a class="brand-pill" href="/?userType=candidate" aria-label="Back to candidate login">
+          <span class="brand-mark">C</span>
+          <span>
+            <strong>Candidate Consent</strong>
+            <small>Secure profile approval before continuing</small>
+          </span>
+        </a>
+
+        <nav class="topbar-actions" aria-label="Consent page actions">
+          <a class="text-link" href="/?userType=candidate">Back to Login</a>
+          <button class="ghost-button" type="button" id="candidate-decline-button">
+            Decline and Sign Out
+          </button>
+        </nav>
+      </header>
+
+      <main class="candidate-main">
+        <section class="hero-grid consent-hero">
+          <article class="hero-panel reveal">
+            <div class="eyebrow-row">
+              <span class="eyebrow-badge">Required Candidate Consent</span>
+              <span class="status-chip">One-time approval before using the workspace</span>
+            </div>
+
+            <p class="personal-greeting" id="consent-greeting">
+              Review how your candidate information will be used for job opportunities.
+            </p>
+
+            <h1>Allow OneQuickSolutions to store your profile for recruitment use.</h1>
+
+            <p class="hero-copy">
+              To continue with the candidate workspace, please confirm that we may store
+              and process your profile details on our servers for recruitment support,
+              job matching, interview coordination, and related hiring communication.
+            </p>
+
+            <ul class="consent-summary-list">
+              <li>Your candidate record will be stored in our secure database only after you approve this consent.</li>
+              <li>If you do not approve, you cannot continue into the candidate workspace or submit application details.</li>
+              <li>Your information will be used only for recruitment-related processing, role matching, profile review, and hiring communication.</li>
+              <li>You may later ask OneQuickSolutions to update or remove your candidate information.</li>
+            </ul>
+          </article>
+
+          <aside class="hero-side reveal reveal-delay-1">
+            <div class="consent-side-card">
+              <span class="section-kicker">Why this matters</span>
+              <h3>We need clear permission before handling your profile.</h3>
+              <p>
+                This step records that you approved secure storage of your candidate
+                information for job opportunities managed through OneQuickSolutions. Once
+                you approve, your candidate record is marked in MongoDB with consent set
+                to true together with the approval date and consent version.
+              </p>
+            </div>
+
+            <div class="consent-side-card">
+              <span class="section-kicker">Candidate account</span>
+              <div class="consent-meta">
+                <article>
+                  <strong>Name</strong>
+                  <span id="consent-name">Candidate</span>
+                </article>
+                <article>
+                  <strong>Email</strong>
+                  <span id="consent-email">candidate@example.com</span>
+                </article>
+              </div>
+            </div>
+          </aside>
+        </section>
+
+        <section class="section-block reveal reveal-delay-2">
+          <div class="section-heading">
+            <span class="section-kicker">What You Are Approving</span>
+            <h2>Read this once and continue only if you agree.</h2>
+            <p>
+              This consent allows OneQuickSolutions to store, organize, review, and use
+              your candidate information for active and future recruitment work connected
+              to job opportunities you may be suitable for.
+            </p>
+          </div>
+
+          <div class="consent-layout">
+            <article class="consent-card">
+              <h3>Consent statement</h3>
+              <div class="consent-statement">
+                <p>
+                  I confirm that I have read and understood this notice, and I voluntarily
+                  give permission to OneQuickSolutions to store and process my candidate
+                  data on its servers for job opportunity evaluation, profile management,
+                  job matching, client shortlisting, interview scheduling, follow-up
+                  communication, offer-stage coordination, and related recruitment
+                  activities.
+                </p>
+              </div>
+
+              <div class="consent-actions">
+                <button class="primary-button large-button" type="button" id="candidate-approve-button">
+                  I Agree and Continue
+                </button>
+                <button class="ghost-button large-button" type="button" id="candidate-review-button">
+                  Review Again
+                </button>
+              </div>
+
+              <p class="draft-note consent-status" id="consent-status">
+                Approval is mandatory. You cannot continue into the candidate app unless
+                your consent is recorded.
+              </p>
+            </article>
+
+            <aside class="consent-side-card">
+              <span class="section-kicker">Stored for hiring support</span>
+              <h3>Examples of candidate information we may keep</h3>
+              <ul class="consent-checklist">
+                <li>Name, email address, phone number, and location</li>
+                <li>Education, skills, experience, notice period, and profile summary</li>
+                <li>Preferred roles, profile summary, and application details</li>
+                <li>Recruitment follow-up related to the opportunities you pursue</li>
+                <li>Updates you provide later in your candidate profile or application forms</li>
+              </ul>
+            </aside>
+          </div>
+        </section>
+
+        <section class="section-block reveal reveal-delay-3">
+          <div class="section-heading">
+            <span class="section-kicker">How We Use Candidate Data</span>
+            <h2>Your profile should support hiring in a clear, limited, and job-focused way.</h2>
+          </div>
+
+          <div class="consent-detail-grid">
+            <article class="consent-detail-card">
+              <h3>Job Matching</h3>
+              <p>
+                We use your profile details to identify roles that fit your experience,
+                skills, education, location, and job preferences.
+              </p>
+            </article>
+
+            <article class="consent-detail-card">
+              <h3>Client Submission Review</h3>
+              <p>
+                Your profile may be reviewed internally by our recruitment team before it
+                is considered for relevant company requirements and shortlist decisions.
+              </p>
+            </article>
+
+            <article class="consent-detail-card">
+              <h3>Recruitment Communication</h3>
+              <p>
+                We may contact you about shortlisted roles, interviews, profile updates,
+                or information needed to continue your application.
+              </p>
+            </article>
+
+            <article class="consent-detail-card">
+              <h3>Interview Coordination</h3>
+              <p>
+                We may use your profile and contact details to arrange interview slots,
+                confirmations, reminders, and follow-up related to your application.
+              </p>
+            </article>
+
+            <article class="consent-detail-card">
+              <h3>Profile Management</h3>
+              <p>
+                Your data helps us maintain a usable candidate profile so you can stay
+                ready for current and future job opportunities.
+              </p>
+            </article>
+
+            <article class="consent-detail-card">
+              <h3>Support and Updates</h3>
+              <p>
+                We may use your stored details when you ask us to update your profile,
+                correct information, or help you continue with a role already in progress.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section-block reveal reveal-delay-4">
+          <div class="section-heading">
+            <span class="section-kicker">Storage, Access, and Your Choice</span>
+            <h2>What this approval means for your data going forward.</h2>
+          </div>
+
+          <div class="consent-detail-grid">
+            <article class="consent-detail-card">
+              <h3>Where It Is Stored</h3>
+              <p>
+                Your candidate consent and candidate account details are stored in our
+                application database so the recruitment system can identify approved
+                candidate profiles.
+              </p>
+            </article>
+
+            <article class="consent-detail-card">
+              <h3>Who Can Access It</h3>
+              <p>
+                Access is intended only for authorized recruitment operations involved in
+                managing candidate profiles, job opportunities, and hiring coordination.
+              </p>
+            </article>
+
+            <article class="consent-detail-card">
+              <h3>How Long It May Be Kept</h3>
+              <p>
+                Your information may remain available for current openings and future job
+                opportunities unless you ask us to remove or update it, subject to ongoing
+                recruitment needs.
+              </p>
+            </article>
+
+            <article class="consent-detail-card">
+              <h3>Your Right To Decline</h3>
+              <p>
+                If you do not agree, you may decline now. In that case, the candidate
+                application area will not open and your session will end immediately.
+              </p>
+            </article>
+
+            <article class="consent-detail-card">
+              <h3>Your Right To Update</h3>
+              <p>
+                If any of your contact, education, skill, or experience details
+                change, you can request updates so your candidate record stays accurate.
+              </p>
+            </article>
+
+            <article class="consent-detail-card">
+              <h3>Support Contact</h3>
+              <p>
+                For consent questions, profile correction, or removal requests, contact
+                OneQuickSolutions at onequicksolutionsinfo@gmail.com.
+              </p>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="../../assets/shared/session.js"></script>
+    <script src="./consent.js"></script>
+  </body>
+</html>
