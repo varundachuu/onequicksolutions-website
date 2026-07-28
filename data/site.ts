@@ -566,12 +566,6 @@ export const teamGroups = {
   ],
   partners: [
     {
-      name: "Chirag",
-      title: "Working Partner",
-      badge: "Partner",
-      image: "/images/Profile-Images/chirag.jpg",
-    },
-    {
       name: "Gowtham",
       title: "Working Partner",
       badge: "Partner",
@@ -581,6 +575,14 @@ export const teamGroups = {
       name: "Santhosh",
       title: "Working Partner",
       badge: "Partner",
+    },
+  ],
+  consultants: [
+    {
+      name: "Chirag",
+      title: "Consultant",
+      badge: "Consultant",
+      image: "/images/Profile-Images/chirag.jpg",
     },
   ],
 };

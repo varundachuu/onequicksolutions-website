@@ -540,6 +540,11 @@ export function AboutSection() {
 }
 
 export function FoundersSection() {
+  type TeamPerson =
+    | (typeof teamGroups.founders)[number]
+    | (typeof teamGroups.partners)[number]
+    | (typeof teamGroups.consultants)[number];
+
   const getInitials = (name: string) =>
     name
       .split(" ")
@@ -548,7 +553,7 @@ export function FoundersSection() {
       .slice(0, 2)
       .toUpperCase();
 
-  const renderCard = (person: (typeof teamGroups.founders)[number] | (typeof teamGroups.partners)[number], className: string) => (
+  const renderCard = (person: TeamPerson, className: string) => (
     <article key={person.name} className={className}>
       <div className="team-image-shell">
         {person.image ? (
@@ -609,6 +614,16 @@ export function FoundersSection() {
           </div>
           <div className="partners-grid">
             {teamGroups.partners.map((person) => renderCard(person, "employee-card"))}
+          </div>
+        </div>
+
+        <div className="team-group">
+          <div className="team-group-header">
+            <span className="team-group-kicker">Specialist support</span>
+            <h3 className="team-group-title">Consultant</h3>
+          </div>
+          <div className="partners-grid">
+            {teamGroups.consultants.map((person) => renderCard(person, "employee-card"))}
           </div>
         </div>
       </div>
