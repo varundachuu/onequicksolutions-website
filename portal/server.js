@@ -943,6 +943,35 @@ function getForgotPasswordSuccessMessage() {
   return "If an account exists for the selected login type and email, a 6-digit OTP has been sent.";
 }
 
+function getResetOtpRetryAfterSeconds(lastRequestedAt, now = new Date()) {
+  const requestedAt = lastRequestedAt ? new Date(lastRequestedAt) : null;
+
+  if (!requestedAt || Number.isNaN(requestedAt.getTime())) {
+    return resetOtpCooldownSeconds;
+  }
+
+  const remainingMs = requestedAt.getTime() + resetOtpCooldownMs - now.getTime();
+
+  if (remainingMs <= 0) {
+    return 1;
+  }
+
+  return Math.ceil(remainingMs / 1000);
+}
+
+function buildResetOtpCooldownFilter(credentialId, now = new Date()) {
+  const cooldownCutoff = new Date(now.getTime() - resetOtpCooldownMs);
+
+  return {
+    _id: credentialId,
+    $or: [
+      { resetOtpRequestedAt: { $exists: false } },
+      { resetOtpRequestedAt: null },
+      { resetOtpRequestedAt: { $lte: cooldownCutoff } },
+    ],
+  };
+}
+
 function buildResetStateClearUpdate(now = new Date(), extraSet = {}) {
   return {
     $set: {
@@ -961,6 +990,26 @@ function buildResetStateClearUpdate(now = new Date(), extraSet = {}) {
 async function clearResetState(store, credentialId, now = new Date(), extraSet = {}) {
   await store.collection.updateOne(
     { _id: credentialId },
+    buildResetStateClearUpdate(now, extraSet),
+  );
+}
+
+async function clearResetStateForOtpRequest(
+  store,
+  credentialId,
+  requestState,
+  now = new Date(),
+  extraSet = {},
+) {
+  const filter = {
+    _id: credentialId,
+    resetOtpHash: requestState.otpHash,
+    resetOtpRequestedAt: requestState.requestedAt,
+    resetOtpExpiresAt: requestState.expiresAt,
+  };
+
+  await store.collection.updateOne(
+    filter,
     buildResetStateClearUpdate(now, extraSet),
   );
 }
@@ -6619,38 +6668,42 @@ app.post("/api/auth/forgot-password", async (req, res) => {
     });
   }
 
-  const now = new Date();
-  const lastRequestedAt = credential.resetOtpRequestedAt
-    ? new Date(credential.resetOtpRequestedAt)
-    : null;
-
-  if (
-    lastRequestedAt &&
-    !Number.isNaN(lastRequestedAt.getTime()) &&
-    now.getTime() - lastRequestedAt.getTime() < resetOtpCooldownMs
-  ) {
-    return res.json({
-      ok: true,
-      message: `${successMessage} Please wait ${resetOtpCooldownSeconds} seconds before requesting another code.`,
-    });
-  }
-
   const otp = generateResetOtp();
   const otpHash = await bcrypt.hash(otp, saltRounds);
-  const expiresAt = getResetOtpExpiryDate(now);
-
-  await store.collection.updateOne(
-    { _id: credential._id },
+  const requestedAt = new Date();
+  const expiresAt = getResetOtpExpiryDate(requestedAt);
+  const reserveResult = await store.collection.updateOne(
+    buildResetOtpCooldownFilter(credential._id, requestedAt),
     {
       $set: {
         resetOtpHash: otpHash,
         resetOtpExpiresAt: expiresAt,
-        resetOtpRequestedAt: now,
+        resetOtpRequestedAt: requestedAt,
         resetOtpAttemptCount: 0,
-        updatedAt: now,
+        updatedAt: requestedAt,
       },
     },
   );
+
+  if (!reserveResult.matchedCount) {
+    const latestCredential = await store.collection.findOne(
+      { _id: credential._id },
+      {
+        projection: {
+          resetOtpRequestedAt: 1,
+        },
+      },
+    );
+
+    return res.status(429).json({
+      ok: false,
+      message: "Please wait before requesting another OTP.",
+      retryAfterSeconds: getResetOtpRetryAfterSeconds(
+        latestCredential?.resetOtpRequestedAt,
+        new Date(),
+      ),
+    });
+  }
 
   try {
     await sendResetOtpEmail({
@@ -6661,7 +6714,16 @@ app.post("/api/auth/forgot-password", async (req, res) => {
       otp,
     });
   } catch (error) {
-    await clearResetState(store, credential._id, new Date());
+    await clearResetStateForOtpRequest(
+      store,
+      credential._id,
+      {
+        otpHash,
+        requestedAt,
+        expiresAt,
+      },
+      new Date(),
+    );
     console.error("Password reset OTP send failed:", error.message);
     return res.status(503).json({
       ok: false,
@@ -6671,7 +6733,8 @@ app.post("/api/auth/forgot-password", async (req, res) => {
 
   return res.json({
     ok: true,
-    message: `OTP sent if an account exists for the selected login type. The code expires in ${resetOtpExpiryMinutes} minutes.`,
+    message: `${successMessage} The code expires in ${resetOtpExpiryMinutes} minutes.`,
+    cooldownSeconds: resetOtpCooldownSeconds,
   });
 });
 
