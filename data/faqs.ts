@@ -7,7 +7,7 @@ export const generalFaqs: FAQItem[] = [
   {
     question: "What types of businesses does OneQuickSolutions work with?",
     answer:
-      "We work with startups, SMEs, enterprises, educational institutions, and businesses that want stronger digital systems, better online credibility, or more efficient operations.",
+      "Our services are designed for startups, SMEs, growing companies, educational institutions, recruitment teams and businesses that want stronger digital systems, better online credibility or more efficient operations.",
   },
   {
     question: "Can you handle strategy, design, development, and launch together?",
@@ -32,7 +32,7 @@ export const generalFaqs: FAQItem[] = [
   {
     question: "Do you also support HR consulting and education-focused solutions?",
     answer:
-      "Yes. Alongside software, web, SaaS, AI, and analytics work, we also support HR consulting and E-Shikshana training and education initiatives.",
+      "Yes. Alongside software, website, SaaS, AI and analytics work, we also support HR consulting and E-Shikshana training and education initiatives in separate specialist sections.",
   },
 ];
 

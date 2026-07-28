@@ -2,24 +2,26 @@ import { buildMetadata, buildOrganizationSchema } from "@/lib/metadata";
 
 import { ContactFormSection } from "@/components/contact-form";
 import { FAQSection } from "@/components/faq";
+import {
+  AudienceSection,
+  BusinessChallengesSection,
+  EngagementModelsSection,
+  SolutionsWeBuildSection,
+} from "@/components/home-content";
 import { HomeHero } from "@/components/home-hero";
 import {
-  ClientConfidenceSection,
   DevelopmentProcessSection,
   homepageFaqs,
-  IndustriesSection,
   PortfolioSection,
   ProductSpotlightSection,
-  TechnologySection,
-  TrainingProgramsSection,
   WhyChooseUsSection,
 } from "@/components/sections";
 import { ServiceGrid } from "@/components/service-grid";
 import { StructuredData } from "@/components/structured-data";
 
 export const metadata = buildMetadata(
-  "Software Development Company | OneQuickSolutions",
-  "OneQuickSolutions helps businesses build premium websites, custom software, SaaS platforms, AI workflows, analytics dashboards, HR systems, and digital training experiences.",
+  "Software, SaaS and Digital Solutions | OneQuickSolutions",
+  "OneQuickSolutions is a founder-led technology startup providing custom software development, business websites, SaaS platforms, mobile applications, AI automation and data analytics solutions.",
   "/",
 );
 
@@ -28,20 +30,24 @@ export default function HomePage() {
     <>
       <StructuredData data={buildOrganizationSchema()} />
       <HomeHero />
-      <WhyChooseUsSection />
       <ServiceGrid />
-      <ProductSpotlightSection />
+      <BusinessChallengesSection />
+      <AudienceSection />
+      <SolutionsWeBuildSection />
       <DevelopmentProcessSection />
-      <TechnologySection />
-      <IndustriesSection />
+      <WhyChooseUsSection />
+      <ProductSpotlightSection />
       <PortfolioSection showCta />
-      <TrainingProgramsSection showFaqLink />
-      <ClientConfidenceSection />
+      <EngagementModelsSection />
       <FAQSection
         items={homepageFaqs}
-        description="If you are planning a conversation with our team, these answers will help you understand how we approach projects and support."
+        description="These answers help explain how we approach software, website and digital solution requirements before work begins."
       />
-      <ContactFormSection sourcePath="/" />
+      <ContactFormSection
+        sourcePath="/"
+        heading="Have a Software or Digital Requirement?"
+        description="Tell us about your business challenge, current process or product idea. We will help you identify a practical way to plan and approach the solution."
+      />
     </>
   );
 }

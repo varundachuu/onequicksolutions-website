@@ -7,6 +7,13 @@ export type ServiceCard = {
   summary: string;
   bullets: string[];
   tags: string[];
+  homepageCategory: "primary" | "supporting" | "specialist";
+  servicesGroup:
+    | "software-platform-development"
+    | "digital-presence"
+    | "automation-intelligence"
+    | "infrastructure-support"
+    | "specialist-business-services";
 };
 
 export type ServicePageData = ServiceCard & {
@@ -40,39 +47,48 @@ export const serviceCards: ServiceCard[] = [
     icon: "code",
     title: "Custom Software Development",
     summary:
-      "We design and build custom business software that aligns with your workflows, users, and long-term operational goals.",
+      "Custom business applications, admin portals, employee platforms, workflow systems and dashboards developed around your actual processes.",
     bullets: [
-      "Business process mapping and solution planning",
-      "Secure, scalable architecture for long-term use",
-      "Admin dashboards, automation, and system integrations",
+      "Internal business applications",
+      "Workflow automation",
+      "Dashboards and reporting",
+      "API integrations",
     ],
     tags: ["Custom software", "Business systems", "Digital transformation"],
+    homepageCategory: "primary",
+    servicesGroup: "software-platform-development",
   },
   {
     slug: "website-development",
     icon: "laptop",
-    title: "Website Development",
+    title: "Business Website Development",
     summary:
-      "From brand-led company websites to high-conversion business platforms, we create fast, responsive websites that build trust and generate enquiries.",
+      "Professional, responsive and SEO-ready websites designed to explain your business, build trust and generate enquiries.",
     bullets: [
-      "Conversion-focused page structure and content flow",
-      "Responsive design for desktop, tablet, and mobile",
-      "SEO-ready development with clean performance practices",
+      "Corporate and service websites",
+      "Landing pages",
+      "Responsive development",
+      "Enquiry and booking integrations",
     ],
     tags: ["Business websites", "Responsive design", "SEO-ready builds"],
+    homepageCategory: "primary",
+    servicesGroup: "digital-presence",
   },
   {
     slug: "saas-development",
     icon: "cloud",
-    title: "SaaS Development",
+    title: "SaaS and Workflow Platform Development",
     summary:
-      "We help turn product ideas into structured SaaS platforms with thoughtful onboarding, account management, and scalable delivery logic.",
+      "Scalable web platforms, user portals and subscription-based products built for customers, employees and business operations.",
     bullets: [
-      "MVP planning and platform structure",
-      "Role-based user journeys and admin visibility",
-      "Product iteration that supports launch and growth",
+      "SaaS MVP development",
+      "Role-based user portals",
+      "Admin dashboards",
+      "Product integrations",
     ],
     tags: ["SaaS platforms", "Product development", "Scalable systems"],
+    homepageCategory: "primary",
+    servicesGroup: "software-platform-development",
   },
   {
     slug: "mobile-app-development",
@@ -86,45 +102,53 @@ export const serviceCards: ServiceCard[] = [
       "Secure API connectivity and backend support",
     ],
     tags: ["Mobile apps", "Cross-platform delivery", "App UX"],
+    homepageCategory: "supporting",
+    servicesGroup: "software-platform-development",
   },
   {
     slug: "ai-solutions",
     icon: "ai",
-    title: "AI Solutions",
+    title: "AI Automation and Business Solutions",
     summary:
-      "Our AI solutions focus on practical outcomes such as smarter support, automation, insights, and workflow improvement rather than novelty alone.",
+      "Practical AI automation, assistants and workflow support designed around real business use cases rather than vague promises.",
     bullets: [
-      "AI-assisted workflows and business process automation",
-      "Knowledge assistants, smart search, and support experiences",
-      "Use-case planning with governance and operational clarity",
+      "AI assistants and automation",
+      "Knowledge search and document workflows",
+      "Human-reviewed business process support",
     ],
     tags: ["AI automation", "Business intelligence", "Workflow optimization"],
+    homepageCategory: "supporting",
+    servicesGroup: "automation-intelligence",
   },
   {
     slug: "data-analytics",
     icon: "analytics",
-    title: "Data Analytics",
+    title: "Data Analytics and Dashboards",
     summary:
-      "We turn scattered information into clear reporting systems and insight layers that help decision-makers act with more confidence.",
+      "Dashboards, KPI reporting and data consolidation services that help businesses improve operational and management visibility.",
     bullets: [
-      "Dashboard design for operational and leadership visibility",
-      "Data structuring, aggregation, and reporting logic",
-      "Insights tailored to business performance and growth decisions",
+      "Operational dashboards",
+      "Management reporting",
+      "KPI tracking and reporting logic",
     ],
     tags: ["Dashboards", "Reporting systems", "Business insights"],
+    homepageCategory: "supporting",
+    servicesGroup: "automation-intelligence",
   },
   {
     slug: "cloud-solutions",
     icon: "server",
-    title: "Cloud Solutions",
+    title: "Cloud Solutions and Deployment",
     summary:
-      "We help businesses move toward cloud-ready, secure, and scalable delivery environments that support ongoing growth and resilience.",
+      "Deployment, hosting and environment support for websites, software, dashboards and evolving digital products.",
     bullets: [
-      "Deployment planning and cloud-ready application support",
-      "Environment setup for performance, security, and uptime",
-      "Modern hosting approaches for evolving digital products",
+      "Hosting and deployment planning",
+      "Environment setup",
+      "Performance and release support",
     ],
     tags: ["Cloud delivery", "Scalable infrastructure", "Secure hosting"],
+    homepageCategory: "supporting",
+    servicesGroup: "infrastructure-support",
   },
   {
     slug: "ui-ux-design",
@@ -138,6 +162,8 @@ export const serviceCards: ServiceCard[] = [
       "Usability-focused design decisions that support conversion",
     ],
     tags: ["UI design", "UX strategy", "Design systems"],
+    homepageCategory: "supporting",
+    servicesGroup: "digital-presence",
   },
   {
     slug: "hr-consulting",
@@ -151,6 +177,8 @@ export const serviceCards: ServiceCard[] = [
       "A dedicated HR consultancy portal for smoother delivery",
     ],
     tags: ["Recruitment support", "Hiring workflows", "HR consulting"],
+    homepageCategory: "specialist",
+    servicesGroup: "specialist-business-services",
   },
 ];
 
@@ -160,7 +188,7 @@ const detailMap: Record<string, Omit<ServicePageData, keyof ServiceCard>> = {
     metaDescription:
       "Build secure custom software, workflow applications, admin portals, dashboards and system integrations designed around your business requirements.",
     introKicker: "Custom software development",
-    h1: "Custom Software Development Built Around Your Workflow",
+    h1: "Custom Software Development Built Around Your Business Workflow",
     heroDescription:
       "We build secure business applications, internal systems, portals, dashboards, and integrations that match how your team actually works instead of forcing you into generic software.",
     heroChips: [
@@ -320,9 +348,9 @@ const detailMap: Record<string, Omit<ServicePageData, keyof ServiceCard>> = {
     metaDescription:
       "Create fast, responsive and conversion-focused business websites with SEO-ready structure, secure forms and modern user experience.",
     introKicker: "Website development",
-    h1: "Business Websites Designed to Build Trust and Generate Enquiries",
+    h1: "Business Website Development Designed to Build Trust and Generate Enquiries",
     heroDescription:
-      "We create responsive business websites with stronger messaging, better user flow, and SEO-ready structure so your digital presence feels credible and actually supports growth.",
+      "OneQuickSolutions provides professional website design and development services for startups, SMEs and service businesses. We build responsive, SEO-ready websites that clearly communicate services, strengthen credibility and create better enquiry journeys.",
     heroChips: [
       "Corporate websites",
       "Responsive redesigns",
@@ -344,7 +372,7 @@ const detailMap: Record<string, Omit<ServicePageData, keyof ServiceCard>> = {
         copy: "Important content, metadata, and internal links are structured to support SEO from the start.",
       },
     ],
-    primaryCta: "Discuss Your Website Project",
+    primaryCta: "Discuss Your Website Requirement",
     secondaryCta: "See Our Products",
     problems: [
       "The current website looks outdated and weakens trust before a sales conversation even starts.",
@@ -470,9 +498,9 @@ const detailMap: Record<string, Omit<ServicePageData, keyof ServiceCard>> = {
     metaDescription:
       "Plan, build and launch scalable SaaS products with secure user accounts, dashboards, subscriptions, workflows and integrations.",
     introKicker: "SaaS development",
-    h1: "Build and Launch Scalable SaaS Platforms",
+    h1: "SaaS Platform Development from Product Planning to Launch",
     heroDescription:
-      "We help founders and teams shape SaaS products with clear onboarding, account structure, admin visibility, and the product foundations required for reliable growth.",
+      "OneQuickSolutions provides SaaS development services for startups and businesses planning subscription platforms, customer portals or multi-user business applications. We support product discovery, MVP development, user account systems, dashboards, workflows, integrations and ongoing product improvements.",
     heroChips: [
       "Product discovery",
       "MVP planning",
@@ -770,9 +798,9 @@ const detailMap: Record<string, Omit<ServicePageData, keyof ServiceCard>> = {
     metaDescription:
       "Implement practical AI assistants, document workflows, knowledge search and business process automation integrated with your systems.",
     introKicker: "AI solutions",
-    h1: "Practical AI Solutions for Business Workflows",
+    h1: "Practical AI Automation for Business Workflows",
     heroDescription:
-      "We focus on useful AI applications such as knowledge assistants, document workflows, support automation, and process improvement instead of vague promises that are difficult to operationalize.",
+      "OneQuickSolutions provides practical AI solution and automation services designed to support business workflows, document processing, internal knowledge access, reporting and customer interactions.",
     heroChips: [
       "AI assistants",
       "Knowledge search",
@@ -920,7 +948,7 @@ const detailMap: Record<string, Omit<ServicePageData, keyof ServiceCard>> = {
     metaDescription:
       "Consolidate business data, automate reports and build clear dashboards for operational and management decision-making.",
     introKicker: "Data analytics",
-    h1: "Turn Business Data into Clear, Actionable Dashboards",
+    h1: "Data Analytics and Dashboards for Better Business Visibility",
     heroDescription:
       "We help businesses organize scattered information, automate reporting, and create dashboards that make daily operations and management decisions easier to understand.",
     heroChips: [

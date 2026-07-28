@@ -49,6 +49,8 @@ const whyChooseIconMap = {
   layers: FaLayerGroup,
   people: FaPeopleGroup,
   growth: FaArrowTrendUp,
+  shield: FaShieldHeart,
+  support: FaLifeRing,
 };
 
 const technologyIconMap = {
@@ -100,14 +102,12 @@ export function WhyChooseUsSection() {
     <section className="section-shell trust-section">
       <div className="section-inner">
         <div className="section-intro">
-          <span className="section-kicker">Why choose us</span>
-          <h2 className="section-title">
-            A digital partner for businesses that want better execution and better presentation
-          </h2>
+          <span className="section-kicker">Why work with OneQuickSolutions</span>
+          <h2 className="section-title">A founder-led startup approach built around practical delivery</h2>
           <p className="section-copy">
-            OneQuickSolutions combines modern design standards, dependable development, and
-            process-aware thinking so your digital presence becomes easier to trust, easier to
-            use, and easier to grow.
+            We are honest about being an early-stage technology company, so credibility comes from
+            structured thinking, transparent delivery and service clarity rather than invented
+            proof points.
           </p>
         </div>
 
@@ -136,13 +136,11 @@ export function DevelopmentProcessSection() {
     <section id="process" className="section-shell process-section">
       <div className="section-inner">
         <div className="section-intro">
-          <span className="section-kicker">Our development process</span>
-          <h2 className="section-title">
-            A delivery approach built for clarity, quality, and better decisions
-          </h2>
+          <span className="section-kicker">Our development approach</span>
+          <h2 className="section-title">A structured path from discovery to deployment and improvement</h2>
           <p className="section-copy">
-            We use a structured process so projects stay aligned to business goals, user needs,
-            technical quality, and long-term usefulness.
+            We use a clear delivery structure so business goals, user needs, technical quality and
+            practical launch decisions stay aligned throughout the project.
           </p>
         </div>
 
@@ -154,6 +152,12 @@ export function DevelopmentProcessSection() {
               <p>{item.description}</p>
             </article>
           ))}
+        </div>
+
+        <div className="section-action">
+          <Link href="/contact" className="section-action__button">
+            Discuss Your Project
+          </Link>
         </div>
       </div>
     </section>
@@ -243,13 +247,16 @@ export function PortfolioSection({ showCta = false }: { showCta?: boolean }) {
     <section id="portfolio" className="section-shell portfolio-section">
       <div className="section-inner">
         <div className="section-intro">
-          <span className="section-kicker">Portfolio and case-study direction</span>
-          <h2 className="section-title">
-            Representative solution blueprints that reflect how we think
-          </h2>
+          <span className="section-kicker">Solution blueprints</span>
+          <h2 className="section-title">Representative solution blueprints that show how we think</h2>
           <p className="section-copy">
-            We do not publish invented client stories. Instead, this section shows the kind of
-            business challenges and solution structures we are equipped to support.
+            These solution blueprints illustrate the types of systems and digital platforms
+            OneQuickSolutions can plan and develop. They are representative examples and are not
+            presented as completed client projects.
+          </p>
+          <p className="section-copy">
+            These are representative solution concepts intended to demonstrate our capabilities.
+            They are not published as completed client engagements.
           </p>
         </div>
 
@@ -260,16 +267,24 @@ export function PortfolioSection({ showCta = false }: { showCta?: boolean }) {
               <h3>{story.title}</h3>
               <div className="portfolio-card__body">
                 <div>
-                  <strong>Challenge</strong>
-                  <p>{story.challenge}</p>
+                  <strong>Business Challenge</strong>
+                  <p>{story.businessChallenge}</p>
                 </div>
                 <div>
-                  <strong>Solution</strong>
-                  <p>{story.solution}</p>
+                  <strong>Proposed Solution</strong>
+                  <p>{story.proposedSolution}</p>
                 </div>
                 <div>
-                  <strong>Outcome</strong>
-                  <p>{story.outcome}</p>
+                  <strong>Key Capabilities</strong>
+                  <ul className="detail-checklist">
+                    {story.keyCapabilities.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <strong>Expected Outcome</strong>
+                  <p>{story.expectedOutcome}</p>
                 </div>
               </div>
             </article>
@@ -278,8 +293,8 @@ export function PortfolioSection({ showCta = false }: { showCta?: boolean }) {
 
         {showCta && (
           <div className="section-action">
-            <Link href="/contact" className="section-action__button">
-              Discuss a similar project
+            <Link href="/solution-blueprints" className="section-action__button">
+              Explore solution blueprints
             </Link>
           </div>
         )}
@@ -294,10 +309,12 @@ export function ProductSpotlightSection({ detailed = false }: { detailed?: boole
       <section id="products" className="section-shell product-spotlight-section">
         <div className="section-inner">
           <div className="section-intro">
-            <span className="section-kicker">Products</span>
-            <h2 className="section-title">Featured Products</h2>
+            <span className="section-kicker">Products and platforms</span>
+            <h2 className="section-title">Products and Platforms We Are Building</h2>
             <p className="section-copy">
-              Practical digital tools designed to make everyday business work easier.
+              As an early-stage technology company, we are developing internal products and
+              solution foundations that demonstrate our approach to workflow design, software
+              development and digital platforms.
             </p>
           </div>
 
@@ -306,6 +323,7 @@ export function ProductSpotlightSection({ detailed = false }: { detailed?: boole
               <FaBriefcase />
             </span>
             <div className="product-spotlight__compact-copy">
+              <span className="portfolio-card__type">{productSpotlight.label}</span>
               <h3>{productSpotlight.title}</h3>
               <p>{productSpotlight.summary}</p>
               <Link className="product-spotlight__read-more" href="/products/hr-management-portal">
@@ -323,12 +341,12 @@ export function ProductSpotlightSection({ detailed = false }: { detailed?: boole
     <section id="products" className="section-shell product-spotlight-section">
       <div className="section-inner">
         <div className="section-intro">
-          <span className="section-kicker">Products</span>
-          <h2 className="section-title">{productSpotlight.title}</h2>
+          <span className="section-kicker">Products and platforms</span>
+          <h2 className="section-title">Products and Platforms We Are Building</h2>
           <p className="section-copy">
-            Beyond services, OneQuickSolutions is also building focused digital products. This HR
-            management portal is designed to make hiring feel clearer, faster, and more organized
-            for both businesses and candidates.
+            Alongside service work, OneQuickSolutions is developing internal product foundations
+            that demonstrate how we approach workflow design, role-based access and practical
+            platform planning.
           </p>
         </div>
 
@@ -339,10 +357,9 @@ export function ProductSpotlightSection({ detailed = false }: { detailed?: boole
                 <FaBriefcase />
               </span>
               <div>
+                <span className="portfolio-card__type">{productSpotlight.label}</span>
                 <h3>{productSpotlight.title}</h3>
-                <p className="product-portal-card__eyebrow">
-                  Recruitment management made simpler
-                </p>
+                <p className="product-portal-card__eyebrow">Workflow design for structured hiring</p>
               </div>
             </div>
 

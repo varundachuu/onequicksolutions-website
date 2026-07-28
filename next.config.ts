@@ -21,6 +21,11 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: "/case-studies",
+        destination: "/solution-blueprints",
+        permanent: true,
+      },
+      {
         source: "/hr-consultancy",
         destination: "/hr-consulting",
         permanent: true,

@@ -6,73 +6,84 @@ export const companyInfo = {
   logoPath: "/images/logo6.jpg",
   ogImage: "/images/logo6.jpg",
   description:
-    "OneQuickSolutions is a software development company helping businesses improve digital presence, business workflows, customer experience, recruitment support, and learning enablement.",
+    "OneQuickSolutions is a founder-led technology startup providing custom software development, business websites, SaaS platforms, mobile applications, AI automation and data analytics solutions.",
   tagline:
-    "Software development, SaaS, AI, analytics, cloud, HR, and training support",
+    "Custom software, business websites, SaaS platforms, workflow automation and digital solutions",
 };
 
 export const homeHeroChips = [
-  "Custom software",
-  "SaaS platforms",
-  "Web and mobile apps",
-  "AI and analytics",
-  "Cloud and UI/UX",
+  "Custom Software",
+  "Business Websites",
+  "SaaS Platforms",
+  "Workflow Automation",
 ];
 
 export const deliveryHighlights = [
   {
-    title: "Strategy-led delivery",
-    copy: "We start with the business problem, then shape the right digital solution around it.",
+    title: "Founder-led planning",
+    copy: "You communicate directly with the people responsible for solution planning and delivery.",
   },
   {
-    title: "Premium digital execution",
-    copy: "Design, development, SEO, UX, and operational thinking stay connected instead of fragmented.",
+    title: "Focused service coverage",
+    copy: "We prioritise software, websites and SaaS platforms while supporting analytics, AI, cloud and UX needs around them.",
   },
   {
-    title: "Built for real growth",
-    copy: "Our work supports startups, SMEs, enterprises, and institutions that need dependable long-term progress.",
+    title: "Practical project structure",
+    copy: "Discovery, deliverables, milestones and next steps are discussed clearly before development moves forward.",
   },
 ];
 
 export const heroStats = [
   {
     title: "Business-first thinking",
-    copy: "Solutions shaped around goals, users, and workflows.",
+    copy: "We shape features around workflows, users and operational outcomes.",
   },
   {
-    title: "Cross-functional execution",
-    copy: "UI/UX, development, SEO, analytics, and launch support in one flow.",
+    title: "Founder-led involvement",
+    copy: "Requirements and delivery direction stay close to the founding team.",
   },
   {
-    title: "Longer-term support",
-    copy: "We help refine, improve, and scale after the first release too.",
+    title: "Flexible engagement",
+    copy: "You can begin with discovery, a prototype, an MVP or a defined first phase.",
   },
 ];
 
 export const whyChooseUsReasons = [
   {
-    title: "Business-first strategy",
+    title: "Founder-led involvement",
     description:
-      "We translate goals, bottlenecks, and user needs into digital decisions that make commercial sense.",
+      "Clients communicate directly with the people responsible for solution planning and delivery.",
     icon: "compass",
   },
   {
-    title: "End-to-end execution",
+    title: "Business-first thinking",
     description:
-      "Design, development, analytics, cloud support, and launch thinking are connected instead of fragmented.",
+      "Features are connected to real business requirements, user needs and operational outcomes.",
     icon: "layers",
   },
   {
-    title: "Flexible for different team sizes",
+    title: "Flexible engagement",
     description:
-      "Our delivery approach works for startups, SMEs, enterprises, and institutions that need a practical partner.",
+      "Work can begin with discovery, a prototype, an MVP or a defined first phase.",
     icon: "people",
   },
   {
-    title: "Built to support growth",
+    title: "Clear project structure",
     description:
-      "We focus on solutions that still feel usable and credible as your brand, process, or platform evolves.",
+      "Scope, deliverables, milestones and responsibilities are discussed before development begins.",
     icon: "growth",
+  },
+  {
+    title: "Practical technology selection",
+    description:
+      "Technology is selected according to project requirements, maintainability and future growth.",
+    icon: "shield",
+  },
+  {
+    title: "Long-term improvement",
+    description:
+      "Solutions can be enhanced gradually based on real usage and changing business requirements.",
+    icon: "support",
   },
 ];
 
@@ -207,46 +218,232 @@ export const industryGroups = [
   },
 ];
 
+export const businessChallengeCards = [
+  {
+    title: "Manual and repetitive processes",
+    description:
+      "Replace repeated data entry, manual approvals and disconnected spreadsheets with structured digital workflows.",
+  },
+  {
+    title: "Information spread across systems",
+    description:
+      "Connect applications, databases, files and business tools to improve access, coordination and reporting.",
+  },
+  {
+    title: "Limited operational visibility",
+    description:
+      "Create dashboards and reports that help management understand performance, pending work and bottlenecks.",
+  },
+  {
+    title: "Existing software does not fit",
+    description:
+      "Develop custom systems around business requirements instead of forcing teams to work around generic software.",
+  },
+  {
+    title: "Outdated business website",
+    description:
+      "Create a professional online presence that clearly explains services and supports enquiries.",
+  },
+  {
+    title: "Product idea without technical execution",
+    description:
+      "Plan and build MVPs, SaaS platforms and mobile applications through clearly defined development phases.",
+  },
+];
+
+export const audienceProfiles = [
+  {
+    title: "Startups validating a product idea",
+    description:
+      "Suitable for founders who need help shaping an MVP, portal or early product workflow into a structured first release.",
+  },
+  {
+    title: "Growing businesses replacing manual processes",
+    description:
+      "Designed for teams moving away from spreadsheets, repeated approvals and disconnected operational tools.",
+  },
+  {
+    title: "SMEs requiring internal software",
+    description:
+      "Useful for businesses that need dashboards, employee portals, workflow systems and reporting visibility.",
+  },
+  {
+    title: "Service businesses improving their online presence",
+    description:
+      "A good fit for businesses that need clearer service communication, stronger design and better enquiry journeys.",
+  },
+  {
+    title: "HR and recruitment teams needing workflow systems",
+    description:
+      "Suitable for teams that want more structured candidate handling, job flow, recruiter coordination and hiring visibility.",
+  },
+  {
+    title: "Educational organisations building digital platforms",
+    description:
+      "Useful for institutions and training-led teams planning accessible learning, onboarding or programme support flows.",
+  },
+  {
+    title: "Management teams requiring consolidated reports",
+    description:
+      "A strong fit for leaders who need clearer KPIs, dashboard visibility and less manual reporting effort.",
+  },
+  {
+    title: "Companies modernising existing software",
+    description:
+      "Suitable for teams improving an outdated system, weak workflow structure or fragile launch environment.",
+  },
+];
+
+export const solutionBuildCards = [
+  {
+    title: "Business management portals",
+    description:
+      "Portals that bring workflows, approvals, reporting and user roles into one structured system.",
+  },
+  {
+    title: "Admin dashboards",
+    description:
+      "Operational dashboards that help teams manage status, users, requests, reports and decision-making.",
+  },
+  {
+    title: "Employee portals",
+    description:
+      "Internal applications for records, attendance, approvals, communication and day-to-day staff workflows.",
+  },
+  {
+    title: "Customer portals",
+    description:
+      "Secure user areas where customers can manage accounts, requests, applications or service activity.",
+  },
+  {
+    title: "Recruitment and HR systems",
+    description:
+      "Platforms that support candidate flow, recruiter coordination, company access and hiring visibility.",
+  },
+  {
+    title: "Workflow and approval applications",
+    description:
+      "Systems that replace manual follow-up with structured steps, role-based actions and status tracking.",
+  },
+  {
+    title: "CRM and lead-management systems",
+    description:
+      "Sales and enquiry workflows that centralise lead capture, follow-up and visibility across teams.",
+  },
+  {
+    title: "Reporting dashboards",
+    description:
+      "Dashboard layers that consolidate operational data and turn it into clearer business visibility.",
+  },
+  {
+    title: "SaaS platforms and mobile applications",
+    description:
+      "Customer-facing products, multi-user workflows and mobile access layers designed around real usage needs.",
+  },
+  {
+    title: "AI-assisted workflows and integrations",
+    description:
+      "Automation, document support, knowledge access and API-connected processes designed for practical business use.",
+  },
+];
+
+export const engagementApproaches = [
+  {
+    title: "Discovery and planning",
+    description:
+      "Suitable for businesses that need help defining the solution clearly before development begins.",
+  },
+  {
+    title: "Prototype or MVP",
+    description:
+      "Suitable for validating a product or workflow with a focused initial version and practical release scope.",
+  },
+  {
+    title: "Fixed-scope project",
+    description:
+      "Suitable when requirements, deliverables and milestones are already defined clearly enough to move ahead.",
+  },
+  {
+    title: "Milestone-based development",
+    description:
+      "Suitable for larger projects that need to be delivered through approved phases and evolving priorities.",
+  },
+  {
+    title: "Maintenance and enhancement",
+    description:
+      "Suitable for improving, supporting or extending an existing website, application or business system.",
+  },
+];
+
 export const portfolioStories = [
   {
-    title: "SaaS operations workspace",
-    type: "Representative delivery blueprint",
-    challenge:
-      "A growing business needs cleaner visibility across users, tasks, and operational workflows.",
-    solution:
-      "Design a structured SaaS dashboard with role-based access, status tracking, reporting, and integration-ready architecture.",
-    outcome:
-      "The result is a more organized day-to-day system that supports decision-making and future product growth.",
+    title: "Recruitment Workflow Platform",
+    type: "Representative solution blueprint",
+    businessChallenge:
+      "Recruitment teams may rely on email, spreadsheets and disconnected tools to track candidates, vacancies and interview progress.",
+    proposedSolution:
+      "A role-based recruitment platform for managing candidates, employers, jobs, applications, interviews and status updates.",
+    keyCapabilities: [
+      "Candidate database",
+      "Employer portal",
+      "Job management",
+      "Application workflow",
+      "Interview tracking",
+      "Notifications and recruitment reports",
+    ],
+    expectedOutcome:
+      "A more structured recruitment workflow designed to improve visibility, coordination and reporting.",
   },
   {
-    title: "Lead-generating company website",
-    type: "Representative delivery blueprint",
-    challenge:
-      "An established business has a weak digital presence, unclear service messaging, and low-conversion content flow.",
-    solution:
-      "Rebuild the website with premium positioning, SEO-led copy, stronger CTA placement, and a trust-first user journey.",
-    outcome:
-      "The business gains a sharper online presence that supports credibility, enquiry generation, and better user flow.",
+    title: "Business Website and Enquiry Platform",
+    type: "Representative solution blueprint",
+    businessChallenge:
+      "A service business may have an outdated website, weak service communication and limited enquiry flow.",
+    proposedSolution:
+      "A multi-page business website with clear service pages, responsive design, SEO-ready structure and enquiry-focused calls to action.",
+    keyCapabilities: [
+      "Dedicated service pages",
+      "Responsive layouts",
+      "Structured contact journeys",
+      "Technical SEO foundations",
+      "Analytics and Search Console setup",
+    ],
+    expectedOutcome:
+      "A clearer digital presence designed to improve trust, explain services better and support more enquiries.",
   },
   {
-    title: "Recruitment coordination system",
-    type: "Representative delivery blueprint",
-    challenge:
-      "Hiring teams need smoother candidate tracking, role-based matching, and clearer interview coordination.",
-    solution:
-      "Create a recruitment workflow with candidate verification, shortlist visibility, interview reminders, and secure data handling.",
-    outcome:
-      "The process becomes more consistent, easier to manage, and more transparent for both recruiters and employers.",
+    title: "Excel-to-Workflow Operations System",
+    type: "Representative solution blueprint",
+    businessChallenge:
+      "A growing business may still depend on spreadsheets, manual approvals and duplicate data entry across teams.",
+    proposedSolution:
+      "A custom internal application with role-based workflows, dashboards, approval tracking and system integrations.",
+    keyCapabilities: [
+      "Role-based user access",
+      "Workflow automation",
+      "Approval tracking",
+      "Dashboards and reports",
+      "API integrations",
+    ],
+    expectedOutcome:
+      "A more dependable internal workflow designed to reduce repetition, improve reporting and centralise operations.",
   },
   {
-    title: "Training and education programme",
-    type: "Representative delivery blueprint",
-    challenge:
-      "Learners and institutions need a more engaging, structured, and practical digital training experience.",
-    solution:
-      "Develop programme content, learning flows, and digital touchpoints that make knowledge delivery easier to adopt.",
-    outcome:
-      "Teams and learners benefit from clearer programme structure, smoother access, and stronger learning continuity.",
+    title: "SaaS MVP for a Growing Service Model",
+    type: "Representative solution blueprint",
+    businessChallenge:
+      "A founder may have a repeatable service workflow that needs to be turned into a scalable subscription platform.",
+    proposedSolution:
+      "A SaaS MVP with user onboarding, customer accounts, workflow logic, dashboards and future-ready integration points.",
+    keyCapabilities: [
+      "MVP feature planning",
+      "Customer account flows",
+      "Admin dashboard",
+      "Reporting visibility",
+      "Notification and integration readiness",
+    ],
+    expectedOutcome:
+      "A practical first product release designed to validate the core workflow and support future product expansion.",
   },
 ];
 
@@ -270,15 +467,15 @@ export const clientConfidenceItems = [
 
 export const productSpotlight = {
   title: "HR Management Portal",
-  label: "Featured product",
+  label: "Internal product in development",
   summary:
-    "A structured recruitment workspace that helps OneQuickSolutions support employers, consultancy operations, and candidates through one organized hiring flow.",
+    "A role-based recruitment and HR workflow platform designed for companies, candidates and recruitment teams.",
   description:
-    "Built from our live HR platform project, this product brings company access, candidate onboarding, application flows, recruiter coordination, and hiring visibility into a cleaner digital system.",
+    "This internal product demonstrates how OneQuickSolutions approaches hiring workflow design through company access, candidate onboarding, application flow, recruiter coordination and reporting visibility.",
   bullets: [
-    "Role-based entry points for companies and candidates",
-    "Candidate registration, consent, and guided application workflows",
-    "A company dashboard prepared for hiring visibility and future growth",
+    "Company registration and candidate registration flows",
+    "Job posting, application tracking and candidate status management",
+    "Recruiter dashboard, role-based access and reporting visibility",
   ],
   tags: ["HR management", "Recruitment portal", "Candidate workflow"],
 };

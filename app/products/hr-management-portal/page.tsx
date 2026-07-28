@@ -8,7 +8,7 @@ import { StructuredData } from "@/components/structured-data";
 
 export const metadata = buildMetadata(
   "HR Management Portal | OneQuickSolutions",
-  "Explore the OneQuickSolutions HR Management Portal for company hiring workflows, candidate applications, and structured recruitment coordination.",
+  "Explore the OneQuickSolutions HR Management Portal, an internal product in development for structured company hiring workflows and candidate applications.",
   "/products/hr-management-portal",
 );
 
@@ -23,24 +23,24 @@ export default function HrManagementPortalPage() {
         ])}
       />
       <PageHero
-        kicker="Featured product"
+        kicker="Internal product in development"
         title="HR Management Portal for structured hiring workflows"
-        description="This product brings employers, candidates, and recruitment coordination into a cleaner digital flow with role-based access, guided entry points, and clearer visibility into hiring activity."
-        chips={["Companies", "Candidates", "Role-based access", "Recruitment visibility"]}
+        description="A role-based recruitment and HR workflow platform designed for companies, candidates and recruitment teams. This internal product demonstrates how OneQuickSolutions approaches structured hiring flow, access control and recruitment visibility."
+        chips={["Companies", "Candidates", "Recruitment teams", "Role-based access"]}
         primaryAction={{ label: "Open company hiring flow", href: "https://hr.onequicksolutions.com/?userType=company" }}
         secondaryAction={{ label: "Open candidate application flow", href: "https://hr.onequicksolutions.com/?userType=candidate" }}
         highlights={[
           {
-            title: "Company-ready entry",
-            copy: "Businesses can begin their hiring flow through a dedicated company path.",
+            title: "Accurate product status",
+            copy: "This is presented as an internal product in development, not as a published client delivery.",
           },
           {
-            title: "Candidate-ready entry",
-            copy: "Candidates can create profiles, continue through applications, and stay in a structured process.",
+            title: "Role-based user paths",
+            copy: "Companies and candidates can enter through dedicated paths designed for their side of the workflow.",
           },
           {
-            title: "Built for clearer coordination",
-            copy: "The portal supports recruiter workflow, shortlist movement, and future hiring visibility improvements.",
+            title: "Workflow-focused design",
+            copy: "The product direction covers candidate flow, recruiter coordination, hiring visibility and future reporting support.",
           },
         ]}
         breadcrumbs={

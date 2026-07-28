@@ -12,7 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/industries",
     "/products",
     "/products/hr-management-portal",
-    "/case-studies",
+    "/solution-blueprints",
     "/about-us",
     "/contact",
     "/programs",

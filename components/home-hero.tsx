@@ -13,16 +13,15 @@ export function HomeHero() {
       <div className="hero-overlay">
         <div className="hero-content hero-content--split">
           <div className="hero-copy">
-            <span className="hero-kicker">
-              Custom software, SaaS, AI, analytics, cloud, HR, and training support
-            </span>
+            <span className="hero-kicker">Founder-led technology startup</span>
             <h1 id="home-hero-title" className="animated-title">
-              Build digital systems your business can trust and grow on
+              Software, SaaS and Digital Solutions Built Around Your Business
             </h1>
             <p className="animated-description">
-              OneQuickSolutions helps startups, SMEs, enterprises, and educational institutions
-              create sharper websites, better software, stronger digital workflows, and more
-              confident customer experiences.
+              OneQuickSolutions is a founder-led technology startup providing custom software
+              development, business websites, SaaS platforms, mobile applications, AI automation
+              and data analytics solutions. We help startups and growing businesses replace manual
+              processes, connect business systems and build practical digital platforms.
             </p>
 
             <div className="hero-chip-list" aria-label="Core expertise">
@@ -34,19 +33,19 @@ export function HomeHero() {
             </div>
 
             <div className="hero-actions">
-              <Link href="/services" className="cta-button">
-                Explore Services
+              <Link href="/contact" className="cta-button">
+                Discuss Your Requirement
               </Link>
-              <Link href="/contact" className="secondary-button">
-                Talk to Our Team
+              <Link href="/services" className="secondary-button">
+                Explore Our Services
               </Link>
             </div>
           </div>
 
           <aside className="hero-panel surface-panel" aria-label="Delivery highlights">
-            <span className="hero-panel__eyebrow">Why businesses choose us</span>
+            <span className="hero-panel__eyebrow">Founder-led delivery</span>
             <h2 className="hero-panel__title">
-              One partner for strategy, design, development, and ongoing improvement
+              Practical software, website and workflow planning for businesses that need clarity
             </h2>
             <div className="hero-panel__grid">
               {deliveryHighlights.map((item) => (
@@ -57,8 +56,8 @@ export function HomeHero() {
               ))}
             </div>
             <p className="hero-panel__note">
-              Best fit for organizations that need a credible digital presence, smoother
-              operations, and practical technical support.
+              Best fit for startups, SMEs, service firms, educational organisations, recruitment
+              teams and businesses moving away from manual processes.
             </p>
           </aside>
 

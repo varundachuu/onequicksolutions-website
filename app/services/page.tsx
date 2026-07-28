@@ -13,7 +13,7 @@ import { StructuredData } from "@/components/structured-data";
 
 export const metadata = buildMetadata(
   "Software Development Services | OneQuickSolutions",
-  "Explore custom software, SaaS platforms, websites, mobile applications, AI automation and data analytics services from OneQuickSolutions.",
+  "Explore software development, SaaS platforms, business websites, mobile applications, AI automation, data analytics, cloud solutions and UI/UX services from OneQuickSolutions.",
   "/services",
 );
 
@@ -28,29 +28,29 @@ export default function ServicesPage() {
       />
       <PageHero
         kicker="Software development services"
-        title="Software and Digital Solutions Built Around Your Business"
-        description="OneQuickSolutions helps businesses modernize how they look, launch, operate, and grow with service coverage across software, websites, SaaS, mobile, AI, analytics, cloud, UI/UX, and hiring support."
+        title="Software and Digital Services for Startups and Growing Businesses"
+        description="OneQuickSolutions provides software development, SaaS platforms, websites, mobile applications, AI automation, data analytics, cloud solutions and UI/UX services. Our services are designed to help businesses replace manual processes, improve operational visibility, build digital products and create stronger online experiences."
         chips={[
-          "Business websites",
           "Custom software",
+          "Business websites",
           "SaaS platforms",
+          "Mobile applications",
           "AI and analytics",
-          "Cloud and UX support",
         ]}
-        primaryAction={{ label: "Talk to our team", href: "/contact" }}
+        primaryAction={{ label: "Discuss Your Requirement", href: "/contact" }}
         secondaryAction={{ label: "Explore products", href: "/products" }}
         highlights={[
           {
-            title: "Practical business fit",
-            copy: "We shape delivery around workflows, customer experience, and long-term usefulness.",
+            title: "Focused around practical business needs",
+            copy: "We shape delivery around workflows, users, reporting needs and real operational outcomes.",
           },
           {
-            title: "Cross-functional support",
-            copy: "Design, development, analytics, cloud thinking, and launch support stay connected.",
+            title: "Designed for startups and growing businesses",
+            copy: "The service mix supports product ideas, process improvement, internal systems and stronger digital presence.",
           },
           {
-            title: "Built for clearer decisions",
-            copy: "Our work is designed to improve visibility, trust, and operational confidence.",
+            title: "Founder-led communication",
+            copy: "The conversation stays close to planning, delivery structure and practical next steps.",
           },
         ]}
         breadcrumbs={
@@ -62,11 +62,11 @@ export default function ServicesPage() {
         <div className="section-inner">
           <div className="section-intro">
             <span className="section-kicker">Overview</span>
-            <h2 className="section-title">One partner for public-facing and internal digital delivery</h2>
+            <h2 className="section-title">A complete service view without inflated claims</h2>
             <p className="section-copy">
-              We support both how your business appears to customers and how it performs behind the
-              scenes. That includes websites, software workflows, portals, dashboards, AI-assisted
-              processes, and the supporting design and hosting decisions around them.
+              The homepage prioritises software, business websites and SaaS platform work, while
+              this page shows the wider set of services that can support internal workflows, mobile
+              delivery, AI automation, reporting, deployment and specialist business needs.
             </p>
           </div>
         </div>

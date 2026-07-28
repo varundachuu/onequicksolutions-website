@@ -217,7 +217,7 @@ export function ServicePage({ service }: ServicePageProps) {
             <span className="section-kicker">Typical use cases</span>
             <h2 className="section-title">Example implementation directions</h2>
             <p className="section-copy">
-              These are realistic solution examples, not fictional client case studies.
+              These are realistic solution examples, not published client projects.
             </p>
           </div>
 

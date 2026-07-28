@@ -20,6 +20,15 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.service-showcase__group {
+  display: grid;
+  gap: 1.4rem;
+}
+
+.service-showcase__group + .service-showcase__group {
+  margin-top: 2.25rem;
+}
+
 .service-card {
   display: flex;
   flex-direction: column;
