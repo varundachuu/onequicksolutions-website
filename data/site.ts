@@ -575,6 +575,7 @@ export const teamGroups = {
       name: "Gowtham",
       title: "Working Partner",
       badge: "Partner",
+      image: "/images/Profile-Images/gowtham.jpg",
     },
     {
       name: "Santhosh",
