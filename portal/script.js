@@ -159,6 +159,10 @@ const authStorageKey = "portalLogin";
 
 let activeUserType = "company";
 let authMode = "login";
+let authRequestInFlight = false;
+let resendRequestInFlight = false;
+let resendCooldownRemainingSeconds = 0;
+let resendCountdownTimer = null;
 const passwordToggleButtons = [
   { button: passwordToggle, input: passwordInput, label: "password" },
   { button: confirmPasswordToggle, input: confirmPasswordInput, label: "confirm password" },
@@ -242,6 +246,69 @@ function setStatus(message, kind) {
   if (kind === "error") {
     formStatus.classList.add("is-error");
   }
+}
+
+function normalizeCooldownSeconds(value) {
+  const parsed = Number(value);
+
+  if (!Number.isFinite(parsed) || parsed <= 0) {
+    return 0;
+  }
+
+  return Math.ceil(parsed);
+}
+
+function setRegisterLinkDisabledState(isDisabled) {
+  if (!registerLink) {
+    return;
+  }
+
+  registerLink.setAttribute("aria-disabled", String(isDisabled));
+  registerLink.tabIndex = isDisabled ? -1 : 0;
+  registerLink.style.pointerEvents = isDisabled ? "none" : "";
+  registerLink.style.opacity = isDisabled ? "0.64" : "";
+  registerLink.style.cursor = isDisabled ? "not-allowed" : "";
+}
+
+function clearResendCountdown() {
+  if (!resendCountdownTimer) {
+    return;
+  }
+
+  window.clearInterval(resendCountdownTimer);
+  resendCountdownTimer = null;
+}
+
+function startResendCountdown(seconds) {
+  resendCooldownRemainingSeconds = normalizeCooldownSeconds(seconds);
+  clearResendCountdown();
+  updateAuthModeUi();
+
+  if (resendCooldownRemainingSeconds <= 0) {
+    return;
+  }
+
+  resendCountdownTimer = window.setInterval(() => {
+    resendCooldownRemainingSeconds = Math.max(0, resendCooldownRemainingSeconds - 1);
+
+    if (resendCooldownRemainingSeconds <= 0) {
+      clearResendCountdown();
+    }
+
+    updateAuthModeUi();
+  }, 1000);
+}
+
+function getResetResendLabel() {
+  if (resendRequestInFlight) {
+    return "Sending code...";
+  }
+
+  if (resendCooldownRemainingSeconds > 0) {
+    return `Send another code in ${resendCooldownRemainingSeconds}s`;
+  }
+
+  return "Send another code";
 }
 
 function resetAuthFields({ keepEmail = false } = {}) {
@@ -359,7 +426,7 @@ function updateAuthModeUi() {
   } else if (isResetMode) {
     submitButton.textContent = "Verify OTP and Reset Password";
     authModePrefix.textContent = "Need a new OTP?";
-    registerLink.textContent = "Send another code";
+    registerLink.textContent = getResetResendLabel();
     registerLink.setAttribute("href", "#send-otp-again");
   } else {
     submitButton.textContent = `Login as ${roleLabel}`;
@@ -368,6 +435,9 @@ function updateAuthModeUi() {
     registerLink.setAttribute("href", selected.registerHref);
   }
 
+  setRegisterLinkDisabledState(
+    isResetMode && (resendRequestInFlight || resendCooldownRemainingSeconds > 0),
+  );
   registerLink.setAttribute("aria-label", registerLink.textContent);
 }
 
@@ -502,6 +572,30 @@ function getSubmitLoadingLabel() {
   return "Checking...";
 }
 
+async function postAuthRequest(endpoint, payload) {
+  const response = await fetch(endpoint, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    const error = new Error(
+      normalizeAuthErrorMessage(result.message, "Something went wrong."),
+    );
+
+    error.status = response.status;
+    error.retryAfterSeconds = normalizeCooldownSeconds(result.retryAfterSeconds);
+    throw error;
+  }
+
+  return result;
+}
+
 function buildAuthPayload() {
   const payload = {
     role: activeUserType,
@@ -530,29 +624,21 @@ function buildAuthPayload() {
 
 async function submitAuthForm(event) {
   event.preventDefault();
+
+  if (authRequestInFlight) {
+    return;
+  }
+
   clearStatus();
 
   const payload = buildAuthPayload();
 
+  authRequestInFlight = true;
   submitButton.disabled = true;
   submitButton.textContent = getSubmitLoadingLabel();
 
   try {
-    const response = await fetch(getSubmitEndpoint(), {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
-
-    const result = await response.json();
-
-    if (!response.ok) {
-      throw new Error(
-        normalizeAuthErrorMessage(result.message, "Something went wrong."),
-      );
-    }
+    const result = await postAuthRequest(getSubmitEndpoint(), payload);
 
     if (authMode === "register") {
       resetAuthFields();
@@ -567,7 +653,7 @@ async function submitAuthForm(event) {
     if (authMode === "forgot") {
       authMode = "reset";
       resetAuthFields({ keepEmail: true });
-      updateAuthModeUi();
+      startResendCountdown(result.cooldownSeconds);
       setStatus(result.message, "success");
       otpInput.focus();
       return;
@@ -598,6 +684,7 @@ async function submitAuthForm(event) {
       "error",
     );
   } finally {
+    authRequestInFlight = false;
     submitButton.disabled = false;
     updateAuthModeUi();
   }
@@ -605,23 +692,70 @@ async function submitAuthForm(event) {
 
 tabs.forEach((tab) => {
   tab.addEventListener("click", () => {
+    if (authRequestInFlight || resendRequestInFlight) {
+      return;
+    }
+
     setActiveLogin(tab.dataset.userType);
   });
 });
 
 forgotLink.addEventListener("click", (event) => {
   event.preventDefault();
+
+  if (authRequestInFlight || resendRequestInFlight) {
+    return;
+  }
+
   authMode = "forgot";
   resetAuthFields({ keepEmail: true });
   updateAuthModeUi();
   emailInput.focus();
 });
 
-registerLink.addEventListener("click", (event) => {
-  event.preventDefault();
+async function resendForgotPasswordOtp() {
+  if (authMode !== "reset" || resendRequestInFlight || resendCooldownRemainingSeconds > 0) {
+    return;
+  }
+
   clearStatus();
+  resendRequestInFlight = true;
+  updateAuthModeUi();
+
+  try {
+    const result = await postAuthRequest("/api/auth/forgot-password", {
+      role: activeUserType,
+      email: emailInput.value.trim(),
+    });
+
+    startResendCountdown(result.cooldownSeconds);
+    setStatus(result.message, "success");
+    otpInput.focus();
+  } catch (error) {
+    if (error.status === 429 && error.retryAfterSeconds > 0) {
+      startResendCountdown(error.retryAfterSeconds);
+    }
+
+    setStatus(
+      normalizeAuthErrorMessage(error.message, "Something went wrong."),
+      "error",
+    );
+  } finally {
+    resendRequestInFlight = false;
+    updateAuthModeUi();
+  }
+}
+
+registerLink.addEventListener("click", async (event) => {
+  event.preventDefault();
+
+  if (authRequestInFlight || resendRequestInFlight) {
+    return;
+  }
 
   if (authMode === "login") {
+    clearStatus();
+
     if (activeUserType === "candidate") {
       window.location.href = candidateRegisterPath;
       return;
@@ -635,13 +769,11 @@ registerLink.addEventListener("click", (event) => {
   }
 
   if (authMode === "reset") {
-    authMode = "forgot";
-    resetAuthFields({ keepEmail: true });
-    updateAuthModeUi();
-    emailInput.focus();
+    await resendForgotPasswordOtp();
     return;
   }
 
+  clearStatus();
   authMode = "login";
   resetAuthFields({ keepEmail: true });
   updateAuthModeUi();
