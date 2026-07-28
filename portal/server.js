@@ -6597,6 +6597,18 @@ app.post("/api/auth/forgot-password", async (req, res) => {
     });
   }
 
+  const { role, email } = validation;
+  const successMessage = getForgotPasswordSuccessMessage();
+  const store = getRoleStore(role);
+  const credential = await store.collection.findOne({ email });
+
+  if (!credential) {
+    return res.status(404).json({
+      ok: false,
+      message: "No account found for the selected login type and email.",
+    });
+  }
+
   try {
     await verifyMailTransporterReady();
   } catch (error) {
@@ -6604,18 +6616,6 @@ app.post("/api/auth/forgot-password", async (req, res) => {
     return res.status(503).json({
       ok: false,
       message: getMailConfigurationMessage(),
-    });
-  }
-
-  const { role, email } = validation;
-  const successMessage = getForgotPasswordSuccessMessage();
-  const store = getRoleStore(role);
-  const credential = await store.collection.findOne({ email });
-
-  if (!credential) {
-    return res.json({
-      ok: true,
-      message: successMessage,
     });
   }
 
