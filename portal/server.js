@@ -643,16 +643,39 @@ function getRequestIpAddress(req) {
   );
 }
 
-function isOriginAllowed(origin) {
+function getRequestOrigin(req) {
+  const forwardedHost = String(req.headers["x-forwarded-host"] || "")
+    .split(",")[0]
+    .trim();
+  const host = forwardedHost || String(req.headers.host || "").trim();
+
+  if (!host) {
+    return "";
+  }
+
+  const forwardedProto = String(req.headers["x-forwarded-proto"] || "")
+    .split(",")[0]
+    .trim();
+  const protocol = forwardedProto || req.protocol || "http";
+
+  return `${protocol}://${host}`;
+}
+
+function isOriginAllowed(origin, req) {
   if (!origin) {
     return true;
   }
 
-  if (allowedOrigins.length === 0) {
-    return /^https?:\/\/(127\.0\.0\.1|localhost)(:\d+)?$/i.test(origin);
+  if (/^https?:\/\/(127\.0\.0\.1|localhost)(:\d+)?$/i.test(origin)) {
+    return true;
   }
 
-  return allowedOrigins.includes(origin);
+  if (allowedOrigins.includes(origin)) {
+    return true;
+  }
+
+  const requestOrigin = getRequestOrigin(req);
+  return Boolean(requestOrigin) && origin.toLowerCase() === requestOrigin.toLowerCase();
 }
 
 function parseCookies(headerValue) {
@@ -2938,10 +2961,10 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(
+app.use((req, res, next) => {
   cors({
     origin(origin, callback) {
-      if (isOriginAllowed(origin)) {
+      if (isOriginAllowed(origin, req)) {
         callback(null, true);
         return;
       }
@@ -2949,8 +2972,8 @@ app.use(
       callback(new Error("Origin not allowed by CORS."));
     },
     credentials: true,
-  }),
-);
+  })(req, res, next);
+});
 app.use(express.json({ limit: "1mb" }));
 app.use(express.urlencoded({ extended: false, limit: "1mb" }));
 
