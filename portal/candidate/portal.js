@@ -276,7 +276,7 @@ function fillCandidateHeaderProfile(session) {
   }
 
   if (sidebarNameNode) {
-    sidebarNameNode.textContent = resolvedName;
+    sidebarNameNode.textContent = "Candidate desk";
   }
 
   if (sidebarAvatarNode) {
@@ -285,8 +285,8 @@ function fillCandidateHeaderProfile(session) {
 
   if (sidebarTagNode) {
     sidebarTagNode.textContent = session?.consent === true || session?.consentAcceptedAt
-      ? "Verified candidate access"
-      : "Candidate access pending";
+      ? "Verified access"
+      : "Access pending";
   }
 
   if (roleNode) {

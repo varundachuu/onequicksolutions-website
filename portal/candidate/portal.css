@@ -1273,7 +1273,7 @@ body.candidate-body--crm .candidate-sidebar__group {
 
 body.candidate-body--crm .candidate-sidebar__group-title {
   color: rgba(173, 196, 230, 0.72);
-  font-size: 0.9rem;
+  font-size: 0.82rem;
   letter-spacing: 0.14em;
 }
 
@@ -1296,12 +1296,12 @@ body.candidate-body--crm .candidate-nav-link span {
 }
 
 body.candidate-body--crm .candidate-nav-link__copy strong {
-  font-size: 1.05rem;
+  font-size: 0.98rem;
 }
 
 body.candidate-body--crm .candidate-nav-link__copy small {
   color: rgba(214, 228, 244, 0.72);
-  font-size: 0.86rem;
+  font-size: 0.8rem;
 }
 
 body.candidate-body--crm .candidate-nav-link:hover,
@@ -1361,16 +1361,16 @@ body.candidate-body--crm .candidate-crm-logo--secondary {
 }
 
 body.candidate-body--crm .candidate-crm-header__title strong {
-  font-size: 1.15rem;
+  font-size: 1.05rem;
 }
 
 body.candidate-body--crm .candidate-crm-header__title span {
-  font-size: 0.88rem;
+  font-size: 0.8rem;
   color: rgba(214, 228, 244, 0.72);
 }
 
 body.candidate-body--crm .candidate-crm-header__profile {
-  gap: 14px;
+  gap: 10px;
 }
 
 body.candidate-body--crm .candidate-header-profile__status {
@@ -1397,8 +1397,9 @@ body.candidate-body--crm .candidate-crm-hero {
 }
 
 body.candidate-body--crm .candidate-crm-hero__copy h1 {
-  max-width: 720px;
-  font-size: clamp(2.1rem, 3.8vw, 3.7rem);
+  max-width: 620px;
+  font-size: clamp(1.8rem, 2.8vw, 3rem);
+  line-height: 1.08;
 }
 
 body.candidate-body--crm .candidate-crm-status-card,
@@ -1437,6 +1438,46 @@ body.candidate-body--crm .candidate-crm-placeholder-row {
   border-radius: 18px;
   background: #f7faff;
   box-shadow: none;
+}
+
+body.candidate-body--crm .candidate-header-profile__copy strong {
+  font-size: 0.92rem;
+}
+
+body.candidate-body--crm .candidate-header-profile__copy span {
+  font-size: 0.78rem;
+}
+
+body.candidate-body--crm .candidate-header-profile__status {
+  font-size: 0.78rem;
+}
+
+body.candidate-body--crm .candidate-crm-status-card h3 {
+  font-size: 1.4rem;
+}
+
+body.candidate-body--crm .candidate-crm-stat strong {
+  font-size: 1.5rem;
+}
+
+body.candidate-body--crm .candidate-crm-stat span {
+  font-size: 0.92rem;
+}
+
+@media (max-width: 1500px) {
+  body.candidate-body--crm .candidate-crm-header {
+    flex-wrap: wrap;
+  }
+
+  body.candidate-body--crm .candidate-crm-header__profile {
+    width: 100%;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+
+  body.candidate-body--crm .candidate-crm-hero {
+    grid-template-columns: 1fr;
+  }
 }
 
 .profile-empty-state,
