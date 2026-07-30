@@ -787,6 +787,15 @@ function initializeDraftForm() {
     });
   }
 
+  function closeSubmissionModal() {
+    if (!submissionModal) {
+      return;
+    }
+
+    submissionModal.hidden = true;
+    document.body.style.overflow = "";
+  }
+
   function openSubmissionModal(profile) {
     if (!submissionModal || !submissionModalDoneButton) {
       window.location.href = `${candidateDashboardPath}#profile-dashboard`;
@@ -1048,13 +1057,14 @@ function initializeDraftForm() {
   });
 
   submissionModalDoneButton?.addEventListener("click", () => {
-    if (submissionModal) {
-      submissionModal.hidden = true;
-    }
-
-    document.body.style.overflow = "";
+    closeSubmissionModal();
     window.location.href = `${candidateDashboardPath}#profile-dashboard`;
   });
+
+  // Browsers can restore the last-open success modal from cached page state.
+  // Always reopen the candidate form in a clean state when this page loads again.
+  closeSubmissionModal();
+  window.addEventListener("pageshow", closeSubmissionModal);
 }
 
 function formatJobDate(value) {
