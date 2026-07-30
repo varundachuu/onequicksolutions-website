@@ -2638,6 +2638,10 @@ body.candidate-body--crm .candidate-crm-content {
   background: #dce6f0;
 }
 
+body.candidate-body--crm .candidate-crm-content--dashboard {
+  align-content: start;
+}
+
 body.candidate-body--crm .candidate-crm-hero {
   display: grid;
   grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.75fr);
@@ -2765,6 +2769,19 @@ body.candidate-body--crm .candidate-crm-ledger {
   border-radius: 26px;
   background: #ffffff;
   color: #1d2942;
+}
+
+body.candidate-body--crm .candidate-crm-ledger--profile {
+  min-height: auto;
+}
+
+body.candidate-body--crm .candidate-crm-ledger--profile .profile-empty-state,
+body.candidate-body--crm .candidate-crm-ledger--profile .profile-dashboard-shell {
+  margin-top: 0;
+}
+
+body.candidate-body--crm .candidate-crm-ledger--profile .profile-toolbar {
+  align-items: flex-start;
 }
 
 body.candidate-body--crm .candidate-crm-ledger__header {

@@ -61,95 +61,465 @@
             <div class="candidate-crm-sidebar__group">
               <span class="candidate-crm-sidebar__group-title">Main</span>
               <nav class="candidate-crm-sidebar__nav">
-                <a class="candidate-crm-sidebar__link" href="#workspace-ledger">
-                  <span class="candidate-crm-sidebar__icon">CP</span>
-                  <span class="candidate-crm-sidebar__label">Create Profile</span>
-                </a>
-                <a class="candidate-crm-sidebar__link is-active" href="#workspace-overview">
-                  <span class="candidate-crm-sidebar__icon">WS</span>
-                  <span class="candidate-crm-sidebar__label">Workspace</span>
-                </a>
-                <a class="candidate-crm-sidebar__link" href="#workspace-ledger">
-                  <span class="candidate-crm-sidebar__icon">AP</span>
-                  <span class="candidate-crm-sidebar__label">Applications</span>
-                </a>
-                <a class="candidate-crm-sidebar__link" href="#workspace-ledger">
-                  <span class="candidate-crm-sidebar__icon">SJ</span>
-                  <span class="candidate-crm-sidebar__label">Saved Jobs</span>
-                </a>
-                <a class="candidate-crm-sidebar__link" href="#workspace-ledger">
-                  <span class="candidate-crm-sidebar__icon">IV</span>
-                  <span class="candidate-crm-sidebar__label">Interviews</span>
-                </a>
-                <a class="candidate-crm-sidebar__link" href="#workspace-ledger">
-                  <span class="candidate-crm-sidebar__icon">TS</span>
-                  <span class="candidate-crm-sidebar__label">Tasks</span>
+                <a class="candidate-crm-sidebar__link is-active" href="#workspace-dashboard">
+                  <span class="candidate-crm-sidebar__icon">DB</span>
+                  <span class="candidate-crm-sidebar__label">Dashboard</span>
                 </a>
               </nav>
-            </div>
-
-            <div class="candidate-crm-sidebar__group candidate-crm-sidebar__group--footer">
-              <span class="candidate-crm-sidebar__group-title">Settings</span>
-              <button class="candidate-crm-sidebar__folder" type="button">
-                <span>Manage Workspace</span>
-                <strong>v</strong>
-              </button>
             </div>
           </div>
         </aside>
 
-        <main class="candidate-crm-content">
-          <section class="candidate-crm-hero" id="workspace-overview">
-            <div class="candidate-crm-hero__copy">
-              <span class="candidate-crm-chip">Candidate Workspace Desk</span>
-              <h1>Manage profile follow-ups, applications, and job movement from one clean desk.</h1>
+        <main class="candidate-crm-content candidate-crm-content--dashboard">
+          <section class="candidate-crm-ledger candidate-crm-ledger--profile" id="workspace-dashboard">
+            <div class="candidate-crm-ledger__header">
+              <span class="candidate-crm-chip candidate-crm-chip--light">Dashboard</span>
+              <h2>Candidate profile dashboard</h2>
               <p>
-                This candidate shell now follows the CRM structure so profile, jobs, consent, and
-                application modules can plug into one stable workspace without changing the layout again.
+                This dashboard shows the saved candidate profile for this login. If nothing is saved yet,
+                create the fresher or experienced profile from the profile form.
               </p>
-              <a class="candidate-crm-primary" href="#workspace-ledger">Open Workspace</a>
             </div>
 
-            <div class="candidate-crm-hero__stats">
-              <article class="candidate-crm-status-card">
-                <h2>Workspace status</h2>
-                <p>Profile, consent, jobs, and application blocks can now be added without moving away from this page.</p>
-              </article>
+            <div
+              class="submit-status"
+              id="profile-dashboard-status"
+              role="status"
+              aria-live="polite"
+              hidden
+            >
+              Profile updates and status changes will appear here.
+            </div>
 
-              <div class="candidate-crm-stat-grid">
-                <article class="candidate-crm-stat">
-                  <strong>01</strong>
-                  <span>Profile</span>
+            <div class="profile-empty-state" id="profile-empty-state" hidden>
+              <span class="pathway-label">Profile not created</span>
+              <h3>No candidate profile has been saved for this login yet.</h3>
+              <p>
+                Start with the fresher or experienced profile form and save your details once.
+                After that, this dashboard will show the saved quick view here.
+              </p>
+              <div class="hero-action-row">
+                <a class="primary-button large-button" href="/candidate/apply/">Create Profile</a>
+              </div>
+            </div>
+
+            <div class="profile-dashboard-shell" id="profile-dashboard-shell" hidden>
+              <div class="profile-toolbar">
+                <div>
+                  <span class="pathway-label" id="profile-visibility-badge">Visible for hiring</span>
+                  <h3 id="profile-summary-title">Your saved candidate details</h3>
+                  <p class="profile-meta-copy" id="profile-summary-copy">
+                    Your latest saved profile will appear here.
+                  </p>
+                </div>
+
+                <div class="hero-action-row">
+                  <a class="primary-button large-button" href="/candidate/apply/">Open Profile Form</a>
+                  <button class="ghost-button large-button" type="button" id="edit-profile-button">
+                    Edit Profile
+                  </button>
+                  <button
+                    class="ghost-button large-button"
+                    type="button"
+                    id="toggle-profile-status-button"
+                  >
+                    Deactivate Profile
+                  </button>
+                  <button
+                    class="ghost-button large-button danger-button"
+                    type="button"
+                    id="delete-profile-button"
+                  >
+                    Delete Profile
+                  </button>
+                </div>
+              </div>
+
+              <div class="profile-card-grid">
+                <article class="profile-data-card">
+                  <span>Full Name</span>
+                  <strong data-profile-field="fullName">-</strong>
                 </article>
-                <article class="candidate-crm-stat">
-                  <strong>01</strong>
-                  <span>Consent</span>
+                <article class="profile-data-card">
+                  <span>Email Address</span>
+                  <strong data-profile-field="email">-</strong>
                 </article>
-                <article class="candidate-crm-stat">
-                  <strong>01</strong>
-                  <span>Jobs</span>
+                <article class="profile-data-card">
+                  <span>Phone Number</span>
+                  <strong data-profile-field="phone">-</strong>
                 </article>
-                <article class="candidate-crm-stat">
-                  <strong>Ready</strong>
-                  <span>Next module</span>
+                <article class="profile-data-card">
+                  <span>Location</span>
+                  <strong data-profile-field="location">-</strong>
+                </article>
+                <article class="profile-data-card">
+                  <span>Candidate Type</span>
+                  <strong data-profile-field="candidateType">-</strong>
+                </article>
+                <article class="profile-data-card">
+                  <span>Preferred Role</span>
+                  <strong data-profile-field="preferredRole">-</strong>
+                </article>
+                <article class="profile-data-card">
+                  <span>Preferred Work Location</span>
+                  <strong data-profile-field="preferredWorkLocation">-</strong>
+                </article>
+                <article class="profile-data-card">
+                  <span>Key Skills</span>
+                  <strong data-profile-field="skills">-</strong>
+                </article>
+              </div>
+
+              <div class="profile-detail-grid profile-detail-grid--candidate">
+                <article class="profile-detail-card">
+                  <span class="card-kicker">Professional Summary</span>
+                  <h3>Overview</h3>
+                  <p data-profile-field="summary">-</p>
+                </article>
+
+                <article class="profile-detail-card" id="fresher-quick-view" hidden>
+                  <span class="card-kicker">Fresher Details</span>
+                  <h3>Education and learning highlights</h3>
+                  <dl class="profile-detail-list">
+                    <div>
+                      <dt>Highest Qualification</dt>
+                      <dd data-profile-field="fresherDetails.highestQualification">-</dd>
+                    </div>
+                    <div>
+                      <dt>Specialization</dt>
+                      <dd data-profile-field="fresherDetails.specialization">-</dd>
+                    </div>
+                    <div>
+                      <dt>College or Institute</dt>
+                      <dd data-profile-field="fresherDetails.collegeName">-</dd>
+                    </div>
+                    <div>
+                      <dt>Graduation Year</dt>
+                      <dd data-profile-field="fresherDetails.graduationYear">-</dd>
+                    </div>
+                    <div>
+                      <dt>Internship or Training</dt>
+                      <dd data-profile-field="fresherDetails.internshipTraining">-</dd>
+                    </div>
+                    <div>
+                      <dt>Preferred Starting Role</dt>
+                      <dd data-profile-field="fresherDetails.fresherPreferredRole">-</dd>
+                    </div>
+                    <div>
+                      <dt>Academic Projects</dt>
+                      <dd data-profile-field="fresherDetails.projectHighlights">-</dd>
+                    </div>
+                    <div>
+                      <dt>Certifications and Courses</dt>
+                      <dd data-profile-field="fresherDetails.certifications">-</dd>
+                    </div>
+                  </dl>
+                </article>
+
+                <article class="profile-detail-card" id="experienced-quick-view" hidden>
+                  <span class="card-kicker">Experienced Details</span>
+                  <h3>Work history and next move</h3>
+                  <dl class="profile-detail-list">
+                    <div>
+                      <dt>Current Company</dt>
+                      <dd data-profile-field="experiencedDetails.currentCompany">-</dd>
+                    </div>
+                    <div>
+                      <dt>Current Role</dt>
+                      <dd data-profile-field="experiencedDetails.currentRole">-</dd>
+                    </div>
+                    <div>
+                      <dt>Total Experience</dt>
+                      <dd data-profile-field="experiencedDetails.totalExperience">-</dd>
+                    </div>
+                    <div>
+                      <dt>Relevant Experience</dt>
+                      <dd data-profile-field="experiencedDetails.relevantExperience">-</dd>
+                    </div>
+                    <div>
+                      <dt>Current CTC</dt>
+                      <dd data-profile-field="experiencedDetails.currentCtc">-</dd>
+                    </div>
+                    <div>
+                      <dt>Expected CTC</dt>
+                      <dd data-profile-field="experiencedDetails.expectedCtc">-</dd>
+                    </div>
+                    <div>
+                      <dt>Notice Period</dt>
+                      <dd data-profile-field="experiencedDetails.noticePeriod">-</dd>
+                    </div>
+                    <div>
+                      <dt>Industry or Domain</dt>
+                      <dd data-profile-field="experiencedDetails.industryDomain">-</dd>
+                    </div>
+                    <div>
+                      <dt>Key Achievements</dt>
+                      <dd data-profile-field="experiencedDetails.careerAchievements">-</dd>
+                    </div>
+                    <div>
+                      <dt>Reason for Change</dt>
+                      <dd data-profile-field="experiencedDetails.reasonForChange">-</dd>
+                    </div>
+                  </dl>
                 </article>
               </div>
             </div>
-          </section>
 
-          <section class="candidate-crm-ledger" id="workspace-ledger">
-            <div class="candidate-crm-ledger__header">
-              <span class="candidate-crm-chip candidate-crm-chip--light">Candidate Ledger</span>
-              <h2>Candidate workspace list</h2>
-              <p>Profile entries, job applications, saved roles, and interview tasks will appear in this table area.</p>
-            </div>
+            <div class="application-fields-shell" id="profile-edit-shell" hidden>
+              <div class="application-section-intro">
+                <span class="section-kicker">Edit Profile</span>
+                <h3>Update your details and overwrite the saved profile.</h3>
+                <p>
+                  Use this form to correct mistakes, refresh your latest information, and save
+                  the same MongoDB record connected to your candidate login.
+                </p>
+              </div>
 
-            <div class="candidate-crm-filter-row">
-              <input class="candidate-crm-input" type="text" value="Search whole workspace" readonly />
-              <input class="candidate-crm-input" type="text" value="mm/dd/yyyy" readonly />
-              <input class="candidate-crm-input" type="text" value="mm/dd/yyyy" readonly />
-              <button class="candidate-crm-filter-button" type="button">Search</button>
-              <button class="candidate-crm-clear-button" type="button">Clear date</button>
+              <form class="application-form" id="profile-edit-form">
+                <input type="hidden" name="candidateType" id="profile-edit-type-input" />
+
+                <div class="application-type-picker" role="group" aria-label="Edit candidate type">
+                  <button
+                    class="application-type-card"
+                    type="button"
+                    data-profile-edit-type="fresher"
+                    aria-pressed="false"
+                  >
+                    <span class="application-type-card__badge">Fresher</span>
+                    <h3>Education, projects, and entry-level goals.</h3>
+                    <p>Use this if your current profile should be handled as a fresher profile.</p>
+                  </button>
+
+                  <button
+                    class="application-type-card"
+                    type="button"
+                    data-profile-edit-type="experienced"
+                    aria-pressed="false"
+                  >
+                    <span class="application-type-card__badge">Experienced</span>
+                    <h3>Experience, notice period, and role switch plans.</h3>
+                    <p>Use this if your saved profile should be handled as an experienced profile.</p>
+                  </button>
+                </div>
+
+                <p class="draft-note application-type-note" id="profile-edit-type-note">
+                  Choose the correct candidate type before saving changes.
+                </p>
+
+                <div class="application-fields-shell" id="profile-edit-fields-shell" hidden>
+                  <div class="form-grid">
+                    <label>
+                      Full Name
+                      <input type="text" name="fullName" placeholder="Enter your full name" />
+                    </label>
+
+                    <label>
+                      Email Address
+                      <input
+                        type="email"
+                        name="email"
+                        placeholder="Enter your email address"
+                        readonly
+                      />
+                    </label>
+
+                    <label>
+                      Phone Number
+                      <input type="tel" name="phone" placeholder="Enter your phone number" />
+                    </label>
+
+                    <label>
+                      Location
+                      <input type="text" name="location" placeholder="Preferred city or remote" />
+                    </label>
+
+                    <label>
+                      Preferred Role
+                      <input type="text" name="preferredRole" placeholder="Example: Frontend Developer" />
+                    </label>
+
+                    <label>
+                      Preferred Work Location
+                      <input type="text" name="preferredWorkLocation" placeholder="Example: Bengaluru / Remote" />
+                    </label>
+
+                    <label class="full-width">
+                      Key Skills
+                      <input
+                        type="text"
+                        name="skills"
+                        placeholder="Example: JavaScript, React, Communication, SQL"
+                      />
+                    </label>
+
+                    <label class="full-width">
+                      Professional Summary
+                      <textarea
+                        name="summary"
+                        rows="6"
+                        placeholder="Write a short summary about your profile, strengths, and the kind of role you are looking for."
+                      ></textarea>
+                    </label>
+                  </div>
+
+                  <section class="application-type-section" data-profile-edit-section="fresher" hidden>
+                    <div class="application-section-intro application-section-intro--nested">
+                      <span class="section-kicker">Fresher Details</span>
+                      <h3>Update your education and project details.</h3>
+                      <p>
+                        These details overwrite the fresher information stored in your current
+                        candidate profile.
+                      </p>
+                    </div>
+
+                    <div class="form-grid">
+                      <label>
+                        Highest Qualification
+                        <input type="text" name="highestQualification" placeholder="Example: B.Tech / B.Com / MBA" />
+                      </label>
+
+                      <label>
+                        Specialization
+                        <input type="text" name="specialization" placeholder="Example: Computer Science / Finance" />
+                      </label>
+
+                      <label>
+                        College or Institute
+                        <input type="text" name="collegeName" placeholder="Enter your college or institute name" />
+                      </label>
+
+                      <label>
+                        Graduation Year
+                        <input type="text" name="graduationYear" placeholder="Example: 2026" />
+                      </label>
+
+                      <label>
+                        Internship or Training
+                        <input type="text" name="internshipTraining" placeholder="Example: 2-month frontend internship" />
+                      </label>
+
+                      <label>
+                        Preferred Starting Role
+                        <input type="text" name="fresherPreferredRole" placeholder="Example: Trainee Developer / HR Executive" />
+                      </label>
+
+                      <label class="full-width">
+                        Academic Projects
+                        <textarea
+                          name="projectHighlights"
+                          rows="5"
+                          placeholder="Mention major academic or personal projects, tools used, and what you contributed."
+                        ></textarea>
+                      </label>
+
+                      <label class="full-width">
+                        Certifications and Courses
+                        <textarea
+                          name="certifications"
+                          rows="4"
+                          placeholder="List certifications, online courses, workshops, or important training programs."
+                        ></textarea>
+                      </label>
+                    </div>
+                  </section>
+
+                  <section class="application-type-section" data-profile-edit-section="experienced" hidden>
+                    <div class="application-section-intro application-section-intro--nested">
+                      <span class="section-kicker">Experienced Details</span>
+                      <h3>Update your current role and next move.</h3>
+                      <p>
+                        These details overwrite the experienced profile information currently
+                        stored for your candidate account.
+                      </p>
+                    </div>
+
+                    <div class="form-grid">
+                      <label>
+                        Current Company
+                        <input type="text" name="currentCompany" placeholder="Enter your current or last company" />
+                      </label>
+
+                      <label>
+                        Current Role
+                        <input type="text" name="currentRole" placeholder="Example: Software Engineer / Recruiter" />
+                      </label>
+
+                      <label>
+                        Total Experience
+                        <input type="text" name="totalExperience" placeholder="Example: 4 years" />
+                      </label>
+
+                      <label>
+                        Relevant Experience
+                        <input type="text" name="relevantExperience" placeholder="Example: 3 years in frontend development" />
+                      </label>
+
+                      <label>
+                        Current CTC
+                        <input type="text" name="currentCtc" placeholder="Example: 5.5 LPA" />
+                      </label>
+
+                      <label>
+                        Expected CTC
+                        <input type="text" name="expectedCtc" placeholder="Example: 8 LPA" />
+                      </label>
+
+                      <label>
+                        Notice Period
+                        <input type="text" name="noticePeriod" placeholder="Example: Immediate / 30 days" />
+                      </label>
+
+                      <label>
+                        Industry or Domain
+                        <input type="text" name="industryDomain" placeholder="Example: SaaS / Recruitment / Banking" />
+                      </label>
+
+                      <label class="full-width">
+                        Key Achievements
+                        <textarea
+                          name="careerAchievements"
+                          rows="5"
+                          placeholder="Mention important achievements, outcomes, leadership, delivery highlights, or impact from your work."
+                        ></textarea>
+                      </label>
+
+                      <label class="full-width">
+                        Reason for Change
+                        <textarea
+                          name="reasonForChange"
+                          rows="4"
+                          placeholder="Explain what kind of role, growth, work culture, or opportunity you are looking for next."
+                        ></textarea>
+                      </label>
+                    </div>
+                  </section>
+
+                  <div class="form-footer">
+                    <p class="draft-note" id="profile-edit-note">
+                      Save changes here to overwrite the same candidate-details record in MongoDB.
+                    </p>
+
+                    <div class="hero-action-row">
+                      <button class="ghost-button large-button" type="button" id="cancel-edit-profile-button">
+                        Cancel
+                      </button>
+                      <button class="primary-button large-button" type="submit">
+                        Save Changes
+                      </button>
+                    </div>
+                  </div>
+
+                  <div
+                    class="submit-status"
+                    id="profile-edit-status"
+                    role="status"
+                    aria-live="polite"
+                    hidden
+                  >
+                    Profile save updates will appear here.
+                  </div>
+                </div>
+              </form>
             </div>
           </section>
         </main>
