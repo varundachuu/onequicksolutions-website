@@ -1084,17 +1084,6 @@ function initializeCandidateRecruitmentWorkspace() {
   const notificationsSummaryNode = safeQuery("#candidate-notifications-summary");
   const markAllNotificationsButton = safeQuery("#candidate-mark-all-notifications-button");
   const notificationsStatusNode = safeQuery("#candidate-notifications-status");
-  const jobModal = safeQuery("#candidate-job-modal");
-  const jobModalTitle = safeQuery("#candidate-job-modal-title");
-  const jobModalSummary = safeQuery("#candidate-job-modal-summary");
-  const jobModalCopy = safeQuery("#candidate-job-modal-copy");
-  const jobModalStatus = safeQuery("#candidate-job-modal-status");
-  const jobModalCloseButton = safeQuery("#candidate-job-close-button");
-  const jobModalSignOutButton = safeQuery("#candidate-job-sign-out-button");
-  const jobInterestButton = safeQuery("#candidate-job-interest-button");
-  const jobApplyButton = safeQuery("#candidate-job-apply-button");
-  const jobApplicationForm = safeQuery("#candidate-job-application-form");
-  const jobScreeningGrid = safeQuery("#candidate-job-screening-grid");
 
   if (
     !jobFilterForm ||
@@ -1102,13 +1091,7 @@ function initializeCandidateRecruitmentWorkspace() {
     !jobEmptyState ||
     !applicationResultsGrid ||
     !applicationEmptyState ||
-    !notificationList ||
-    !jobModal ||
-    !jobModalTitle ||
-    !jobModalSummary ||
-    !jobModalStatus ||
-    !jobApplicationForm ||
-    !jobScreeningGrid
+    !notificationList
   ) {
     return;
   }
@@ -1116,15 +1099,10 @@ function initializeCandidateRecruitmentWorkspace() {
   const workspaceState = {
     applications: [],
     jobs: [],
-    selectedJob: null,
   };
 
   function setJobStatus(message, kind = "") {
     setNodeState(jobStatusNode, message, kind);
-  }
-
-  function setJobModalStatus(message, kind = "") {
-    setNodeState(jobModalStatus, message, kind);
   }
 
   function setNotificationsStatus(message, kind = "") {
@@ -1144,60 +1122,6 @@ function initializeCandidateRecruitmentWorkspace() {
     }
   }
 
-  function closeJobModal() {
-    workspaceState.selectedJob = null;
-    jobModal.hidden = true;
-    document.body.style.overflow = "";
-    jobModalStatus.hidden = true;
-    jobModalStatus.textContent = "";
-    jobModalStatus.classList.remove("is-success", "is-error");
-    jobScreeningGrid.innerHTML = "";
-  }
-
-  function handleJobModalEscape(event) {
-    if (event.key !== "Escape" || jobModal.hidden) {
-      return;
-    }
-
-    closeJobModal();
-  }
-
-  function resetJobModalOnPageRestore() {
-    closeJobModal();
-  }
-
-  function buildJobSummaryCards(job) {
-    const salaryCopy =
-      job.showSalaryToCandidate && (job.salaryMinimum || job.salaryMaximum)
-        ? `${job.salaryMinimum || "?"} to ${job.salaryMaximum || "?"}`
-        : "Shared later if approved";
-
-    return `
-      <article class="dashboard-record-card">
-        <h3>${job.title}</h3>
-        <div class="dashboard-record-meta">
-          <span>${job.jobReference}</span>
-          <span>${job.location || "Location not shared"}</span>
-          <span>${job.workMode || "Work mode not shared"}</span>
-          <span>${job.employmentType || "Employment type not shared"}</span>
-        </div>
-        <p class="dashboard-record-description">${job.description || "No description shared yet."}</p>
-      </article>
-      <article class="dashboard-record-card">
-        <h3>Candidate-safe quick details</h3>
-        <div class="dashboard-record-tags">
-          <span>${job.qualification || "Qualification not shared"}</span>
-          <span>Openings: ${job.openings || 0}</span>
-          <span>Deadline: ${formatJobDate(job.applicationDeadline)}</span>
-          <span>Salary: ${salaryCopy}</span>
-        </div>
-        <ul class="dashboard-record-list">
-          ${(job.requiredSkills || []).map((skill) => `<li>${skill}</li>`).join("") || "<li>Required skills will be shared during screening.</li>"}
-        </ul>
-      </article>
-    `;
-  }
-
   function renderJobCards(jobs) {
     if (!Array.isArray(jobs) || jobs.length === 0) {
       jobResultsGrid.innerHTML = "";
@@ -1208,11 +1132,17 @@ function initializeCandidateRecruitmentWorkspace() {
     jobEmptyState.hidden = true;
     jobResultsGrid.innerHTML = jobs
       .map((job) => {
-        const actionLabel = job.isApplied
-          ? `Applied as ${job.applicationReference || "candidate"}`
-          : job.isInterestRegistered
-            ? "Interest registered"
-            : "View details";
+        const tagItems = [
+          ...(job.requiredSkills || []).slice(0, 4).map((skill) => `<span>${skill}</span>`),
+          ...(job.isApplied
+            ? [
+                `<span>${job.applicationReference ? `Applied as ${job.applicationReference}` : "Applied"}</span>`,
+              ]
+            : []),
+          ...(!job.isApplied && job.isInterestRegistered
+            ? ["<span>Interest registered</span>"]
+            : []),
+        ].join("");
 
         return `
           <article class="dashboard-record-card">
@@ -1225,71 +1155,11 @@ function initializeCandidateRecruitmentWorkspace() {
               <span>${job.employmentType || "Employment type not shared"}</span>
             </div>
             <p class="dashboard-record-description">${job.description || "No description shared yet."}</p>
-            <div class="dashboard-record-tags">
-              ${(job.requiredSkills || []).slice(0, 4).map((skill) => `<span>${skill}</span>`).join("")}
-            </div>
-            <div class="dashboard-record-actions">
-              <button class="ghost-button large-button" type="button" data-job-reference="${job.jobReference}">
-                ${actionLabel}
-              </button>
-            </div>
+            ${tagItems ? `<div class="dashboard-record-tags">${tagItems}</div>` : ""}
           </article>
         `;
       })
       .join("");
-
-    jobResultsGrid.querySelectorAll("[data-job-reference]").forEach((button) => {
-      button.addEventListener("click", () => {
-        const jobReference = button.getAttribute("data-job-reference");
-        const selectedJob = workspaceState.jobs.find((job) => job.jobReference === jobReference);
-
-        if (!selectedJob) {
-          return;
-        }
-
-        workspaceState.selectedJob = selectedJob;
-        jobModalTitle.textContent = selectedJob.title;
-        jobModalSummary.innerHTML = buildJobSummaryCards(selectedJob);
-        jobModalCopy.textContent = selectedJob.isApplied
-          ? "You have already applied for this role. You can review the screening questions and your saved workflow status here."
-          : "Review the job carefully, answer the screening questions if any, and use your saved structured profile to apply.";
-        jobScreeningGrid.innerHTML =
-          Array.isArray(selectedJob.screeningQuestions) && selectedJob.screeningQuestions.length > 0
-            ? selectedJob.screeningQuestions
-                .map(
-                  (question) => `
-                    <label class="full-width">
-                      ${question.question}
-                      <textarea
-                        rows="3"
-                        name="${question.id}"
-                        data-screening-question="${question.id}"
-                        placeholder="Write your answer here"
-                      ></textarea>
-                    </label>
-                  `,
-                )
-                .join("")
-            : `
-                <div class="dashboard-record-qa">
-                  <strong>No screening questions for this role.</strong>
-                  <span>You can apply directly with your saved structured profile.</span>
-                </div>
-              `;
-        jobInterestButton.disabled = selectedJob.isInterestRegistered === true;
-        jobInterestButton.textContent = selectedJob.isInterestRegistered
-          ? "Interest Already Registered"
-          : "Show Interest";
-        jobApplyButton.disabled = selectedJob.isApplied === true;
-        jobApplyButton.textContent = selectedJob.isApplied
-          ? "Already Applied"
-          : "Apply With Saved Profile";
-        setJobModalStatus("", "");
-        jobModalStatus.hidden = true;
-        jobModal.hidden = false;
-        document.body.style.overflow = "hidden";
-      });
-    });
   }
 
   function renderApplications(applications) {
@@ -1625,23 +1495,6 @@ function initializeCandidateRecruitmentWorkspace() {
     }
   });
 
-  jobModalCloseButton?.addEventListener("click", closeJobModal);
-  jobModal.addEventListener("click", (event) => {
-    if (event.target === jobModal) {
-      closeJobModal();
-    }
-  });
-  jobModalSignOutButton?.addEventListener("click", () => {
-    closeJobModal();
-    window.portalAuth?.logout?.(candidateLoginPath);
-  });
-  document.addEventListener("keydown", handleJobModalEscape);
-  window.addEventListener("pageshow", resetJobModalOnPageRestore);
-
-  // Browsers can restore the last-open modal from cached page state.
-  // Force the candidate dashboard back to its clean default view on startup.
-  closeJobModal();
-
   markAllNotificationsButton?.addEventListener("click", async () => {
     markAllNotificationsButton.disabled = true;
 
@@ -1659,97 +1512,6 @@ function initializeCandidateRecruitmentWorkspace() {
       );
     } finally {
       markAllNotificationsButton.disabled = false;
-    }
-  });
-
-  jobInterestButton?.addEventListener("click", async () => {
-    if (!workspaceState.selectedJob) {
-      return;
-    }
-
-    jobInterestButton.disabled = true;
-    setJobModalStatus("Registering your interest now. Please wait.");
-
-    try {
-      const response = await fetch(
-        `/api/candidate/jobs/${encodeURIComponent(workspaceState.selectedJob.jobReference)}/interest`,
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-          },
-        },
-      );
-      const result = await response.json().catch(() => ({}));
-
-      if (!response.ok) {
-        throw new Error(
-          normalizeAuthErrorMessage(result.message, "Unable to register interest right now."),
-        );
-      }
-
-      setJobModalStatus(result.message, "success");
-      setJobStatus(result.message, "success");
-      await Promise.all([loadJobs(), loadNotifications()]);
-    } catch (error) {
-      setJobModalStatus(
-        normalizeAuthErrorMessage(error.message, "Unable to register interest right now."),
-        "error",
-      );
-    } finally {
-      jobInterestButton.disabled = false;
-    }
-  });
-
-  jobApplicationForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-
-    if (!workspaceState.selectedJob) {
-      return;
-    }
-
-    const screeningAnswers = Array.from(
-      jobScreeningGrid.querySelectorAll("[data-screening-question]"),
-    ).map((field) => ({
-      questionId: field.getAttribute("data-screening-question"),
-      answer: field.value,
-    }));
-
-    jobApplyButton.disabled = true;
-    setJobModalStatus("Submitting your application with the saved profile now. Please wait.");
-
-    try {
-      const response = await fetch(
-        `/api/candidate/jobs/${encodeURIComponent(workspaceState.selectedJob.jobReference)}/apply`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({
-            screeningAnswers,
-          }),
-        },
-      );
-      const result = await response.json().catch(() => ({}));
-
-      if (!response.ok) {
-        throw new Error(
-          normalizeAuthErrorMessage(result.message, "Unable to submit the application right now."),
-        );
-      }
-
-      setJobModalStatus(result.message, "success");
-      setJobStatus(result.message, "success");
-      await Promise.all([loadJobs(), loadApplications(), loadNotifications()]);
-    } catch (error) {
-      setJobModalStatus(
-        normalizeAuthErrorMessage(error.message, "Unable to submit the application right now."),
-        "error",
-      );
-    } finally {
-      jobApplyButton.disabled = false;
     }
   });
 

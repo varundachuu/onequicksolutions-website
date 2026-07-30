@@ -612,9 +612,9 @@
             <span class="section-kicker">Anonymous Job Board</span>
             <h2>Explore consultancy-managed jobs without exposing employer identity.</h2>
             <p>
-              This board shows only anonymous, candidate-safe job information. Use your
-              saved structured profile to show interest, apply, and track progress without
-              uploading a resume.
+              This board shows anonymous, candidate-safe job information only. Browse the
+              available roles here and use the rest of the workspace to keep track of your
+              saved profile and application updates.
             </p>
           </div>
 
@@ -715,8 +715,8 @@
             <span class="pathway-label">No applications yet</span>
             <h3>Your application history will appear here after you apply.</h3>
             <p>
-              Start by choosing a published anonymous job and applying through your structured
-              profile.
+              Once your profile is used in the recruitment workflow, the latest application
+              updates will appear here automatically.
             </p>
           </div>
 
@@ -798,56 +798,6 @@
           <a class="primary-button large-button" href="/candidate/apply/">Apply Now</a>
         </section>
       </main>
-    </div>
-
-    <div class="modal-backdrop" id="candidate-job-modal" hidden>
-      <div
-        class="modal-card modal-card-wide"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="candidate-job-modal-title"
-      >
-        <span class="section-kicker">Anonymous Job Details</span>
-        <h2 id="candidate-job-modal-title">Job details</h2>
-        <div class="dashboard-record-grid dashboard-record-grid--compact" id="candidate-job-modal-summary"></div>
-        <p id="candidate-job-modal-copy">
-          Review the job carefully, answer any screening questions, and then decide whether
-          to register interest or apply with your saved structured profile.
-        </p>
-
-        <form class="application-form" id="candidate-job-application-form">
-          <div class="form-grid" id="candidate-job-screening-grid"></div>
-
-          <div
-            class="submit-status"
-            id="candidate-job-modal-status"
-            role="status"
-            aria-live="polite"
-            hidden
-          >
-            Application actions will appear here.
-          </div>
-
-          <div class="hero-action-row">
-            <button class="ghost-button large-button" type="button" id="candidate-job-interest-button">
-              Show Interest
-            </button>
-            <button class="primary-button large-button" type="submit" id="candidate-job-apply-button">
-              Apply With Saved Profile
-            </button>
-            <button class="ghost-button large-button" type="button" id="candidate-job-close-button">
-              Close
-            </button>
-            <button
-              class="ghost-button large-button danger-button"
-              type="button"
-              id="candidate-job-sign-out-button"
-            >
-              Sign Out
-            </button>
-          </div>
-        </form>
-      </div>
     </div>
 
     <script src="../assets/shared/session.js"></script>
