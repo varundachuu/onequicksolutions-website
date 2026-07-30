@@ -379,6 +379,21 @@ function initializeSignOut() {
   });
 }
 
+function initializeProfileFormLinks() {
+  const profileFormLinks = document.querySelectorAll("[data-open-profile-form]");
+
+  if (profileFormLinks.length === 0) {
+    return;
+  }
+
+  profileFormLinks.forEach((link) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      window.location.assign(candidateApplyPath);
+    });
+  });
+}
+
 function initializeCandidateProfileDashboard() {
   const session = getSavedSession();
   const profileDashboardShell = safeQuery("#profile-dashboard-shell");
@@ -1612,6 +1627,7 @@ async function initializeCandidatePortal() {
   fillCandidateHeaderProfile(session);
   setSavedSession(session);
   initializeSignOut();
+  initializeProfileFormLinks();
   initializeAudienceSwitch();
   initializeCandidateProfileDashboard();
   initializeDraftForm();

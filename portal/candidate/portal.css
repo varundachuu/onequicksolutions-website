@@ -2368,6 +2368,7 @@ body.candidate-body--crm .candidate-crm-stat span {
 /* Candidate CRM workspace shell */
 body.candidate-body--crm {
   margin: 0;
+  overflow: hidden;
   min-height: 100vh;
   background: #dce6f0;
   color: #f3f7ff;
@@ -2378,7 +2379,9 @@ body.candidate-body--crm::before {
 }
 
 body.candidate-body--crm .candidate-crm-app {
+  height: 100vh;
   min-height: 100vh;
+  overflow: hidden;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)),
     #dce6f0;
@@ -2544,13 +2547,17 @@ body.candidate-body--crm .candidate-crm-topbar__avatar {
 body.candidate-body--crm .candidate-crm-layout {
   display: grid;
   grid-template-columns: 286px minmax(0, 1fr);
+  height: calc(100vh - 78px);
   min-height: calc(100vh - 78px);
+  overflow: hidden;
 }
 
 body.candidate-body--crm .candidate-crm-sidebar {
   background: #14213b;
   color: #f0f5ff;
   border-right: 1px solid rgba(255, 255, 255, 0.04);
+  min-height: 0;
+  overflow: hidden;
 }
 
 body.candidate-body--crm .candidate-crm-sidebar__scroll {
@@ -2651,6 +2658,18 @@ body.candidate-body--crm .candidate-crm-content {
   gap: 20px;
   padding: 26px;
   background: #dce6f0;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+body.candidate-body--crm .candidate-crm-content::-webkit-scrollbar {
+  width: 10px;
+}
+
+body.candidate-body--crm .candidate-crm-content::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(22, 41, 71, 0.2);
 }
 
 body.candidate-body--crm .candidate-crm-content--dashboard {
@@ -2876,6 +2895,15 @@ body.candidate-body--crm .candidate-crm-clear-button {
 }
 
 @media (max-width: 1220px) {
+  body.candidate-body--crm {
+    overflow: auto;
+  }
+
+  body.candidate-body--crm .candidate-crm-app {
+    height: auto;
+    overflow: visible;
+  }
+
   body.candidate-body--crm .candidate-crm-topbar,
   body.candidate-body--crm .candidate-crm-topbar__actions {
     align-items: flex-start;
@@ -2891,6 +2919,13 @@ body.candidate-body--crm .candidate-crm-clear-button {
 
   body.candidate-body--crm .candidate-crm-layout {
     grid-template-columns: 1fr;
+    height: auto;
+    overflow: visible;
+  }
+
+  body.candidate-body--crm .candidate-crm-sidebar,
+  body.candidate-body--crm .candidate-crm-content {
+    overflow: visible;
   }
 
   body.candidate-body--crm .candidate-crm-sidebar__scroll {
