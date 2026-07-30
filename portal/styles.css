@@ -78,6 +78,7 @@ body::before {
   align-items: center;
   justify-content: center;
   min-width: 220px;
+  max-width: min(100%, 560px);
   min-height: 78px;
   padding: 14px 18px;
   border: 1px dashed rgba(11, 110, 125, 0.28);
@@ -87,13 +88,28 @@ body::before {
   text-decoration: none;
 }
 
+.brand-logo-group {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  width: 100%;
+}
+
 .brand-logo {
   display: block;
-  max-width: 220px;
+  max-width: 200px;
   max-height: 64px;
   width: auto;
   height: auto;
   object-fit: contain;
+}
+
+.brand-separator {
+  color: rgba(18, 48, 74, 0.42);
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
 }
 
 .brand-placeholder {
@@ -566,6 +582,18 @@ body::before {
   .brand-mark {
     width: 100%;
     min-width: 0;
+  }
+
+  .brand-logo-group {
+    gap: 10px;
+  }
+
+  .brand-logo {
+    max-width: min(160px, 42vw);
+  }
+
+  .brand-separator {
+    font-size: 1.2rem;
   }
 
   .hero-subheading {

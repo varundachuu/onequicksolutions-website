@@ -125,7 +125,10 @@ const signalDescriptions = [
   document.querySelector("#signal-description-2"),
   document.querySelector("#signal-description-3"),
 ];
-const logoImage = document.querySelector("#portal-logo");
+const logoGroup = document.querySelector("#logo-group");
+const primaryLogoImage = document.querySelector("#portal-logo-primary");
+const secondaryLogoImage = document.querySelector("#portal-logo-secondary");
+const logoSeparator = document.querySelector("#logo-separator");
 const logoPlaceholder = document.querySelector("#logo-placeholder");
 const authForm = document.querySelector("#auth-form");
 const emailInput = document.querySelector("#email");
@@ -141,13 +144,20 @@ const confirmPasswordToggle = document.querySelector("#confirm-password-toggle")
 const confirmPasswordLabel = document.querySelector("#confirm-password-label");
 const forgotLink = document.querySelector("#forgot-link");
 const formStatus = document.querySelector("#form-status");
-const logoCandidates = [
+const primaryLogoCandidates = [
   "./assets/logo/portal-logo.svg",
   "./assets/logo/portal-logo.png",
   "./assets/logo/portal-logo.webp",
   "./assets/logo/portal-logo.jpg",
   "./assets/logo/portal-logo.jpeg",
   "./assets/logo/IMG-20251220-WA0001.jpg.jpeg",
+];
+const secondaryLogoCandidates = [
+  "./assets/logo/portal-logo-secondary.svg",
+  "./assets/logo/portal-logo-secondary.png",
+  "./assets/logo/portal-logo-secondary.webp",
+  "./assets/logo/portal-logo-secondary.jpg",
+  "./assets/logo/portal-logo-secondary.jpeg",
 ];
 const companyLandingPath = "/company/";
 const consultancyLandingPath = "/consultancy/";
@@ -195,31 +205,52 @@ function resetPasswordVisibility() {
   });
 }
 
-function initializeLogo(candidateIndex = 0) {
-  if (!logoImage || !logoPlaceholder) {
+async function loadLogoIntoImage(imageElement, candidates) {
+  if (!imageElement) {
+    return false;
+  }
+
+  for (const candidatePath of candidates) {
+    const cacheBustedPath = `${candidatePath}?v=${Date.now()}`;
+    const probe = new Image();
+
+    const loaded = await new Promise((resolve) => {
+      probe.onload = () => resolve(true);
+      probe.onerror = () => resolve(false);
+      probe.src = cacheBustedPath;
+    });
+
+    if (loaded) {
+      imageElement.src = cacheBustedPath;
+      imageElement.hidden = false;
+      return true;
+    }
+  }
+
+  imageElement.hidden = true;
+  return false;
+}
+
+async function initializeLogos() {
+  if (
+    !primaryLogoImage ||
+    !secondaryLogoImage ||
+    !logoGroup ||
+    !logoSeparator ||
+    !logoPlaceholder
+  ) {
     return;
   }
 
-  if (candidateIndex >= logoCandidates.length) {
-    logoImage.hidden = true;
-    logoPlaceholder.hidden = false;
-    return;
-  }
+  const [hasPrimaryLogo, hasSecondaryLogo] = await Promise.all([
+    loadLogoIntoImage(primaryLogoImage, primaryLogoCandidates),
+    loadLogoIntoImage(secondaryLogoImage, secondaryLogoCandidates),
+  ]);
 
-  const candidatePath = logoCandidates[candidateIndex];
-  const probe = new Image();
-
-  probe.onload = () => {
-    logoImage.src = `${candidatePath}?v=${Date.now()}`;
-    logoImage.hidden = false;
-    logoPlaceholder.hidden = true;
-  };
-
-  probe.onerror = () => {
-    initializeLogo(candidateIndex + 1);
-  };
-
-  probe.src = `${candidatePath}?v=${Date.now()}`;
+  const hasAnyLogo = hasPrimaryLogo || hasSecondaryLogo;
+  logoGroup.hidden = !hasAnyLogo;
+  logoPlaceholder.hidden = hasAnyLogo;
+  logoSeparator.hidden = !(hasPrimaryLogo && hasSecondaryLogo);
 }
 
 function clearStatus() {
@@ -850,6 +881,6 @@ async function recoverActiveSession() {
   }
 }
 
-initializeLogo();
+initializeLogos();
 initializeAuthFromUrl();
 recoverActiveSession();
