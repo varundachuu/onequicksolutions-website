@@ -2429,21 +2429,36 @@ body.candidate-body--crm .candidate-crm-topbar__menu span {
 body.candidate-body--crm .candidate-crm-topbar__logos {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  padding: 7px 12px;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 8px 20px rgba(7, 18, 38, 0.12);
+  position: relative;
+}
+
+body.candidate-body--crm .candidate-crm-topbar__logos::after {
+  content: "";
+  width: 1px;
+  height: 28px;
+  background: rgba(22, 41, 71, 0.18);
 }
 
 body.candidate-body--crm .candidate-crm-topbar__logo {
   display: block;
   width: auto;
   object-fit: contain;
+  flex-shrink: 0;
 }
 
 body.candidate-body--crm .candidate-crm-topbar__logo--primary {
-  height: 36px;
+  height: 38px;
+  order: 0;
 }
 
 body.candidate-body--crm .candidate-crm-topbar__logo--secondary {
-  height: 23px;
+  height: 25px;
+  order: 2;
 }
 
 body.candidate-body--crm .candidate-crm-topbar__title strong {
@@ -2921,10 +2936,19 @@ body.candidate-body--crm .candidate-crm-clear-button {
   }
 
   body.candidate-body--crm .candidate-crm-topbar__logo--primary {
-    height: 40px;
+    height: 34px;
   }
 
   body.candidate-body--crm .candidate-crm-topbar__logo--secondary {
+    height: 22px;
+  }
+
+  body.candidate-body--crm .candidate-crm-topbar__logos {
+    gap: 10px;
+    padding: 6px 10px;
+  }
+
+  body.candidate-body--crm .candidate-crm-topbar__logos::after {
     height: 24px;
   }
 
