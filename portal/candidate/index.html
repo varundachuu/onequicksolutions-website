@@ -13,36 +13,11 @@
     <link rel="stylesheet" href="./portal.css" />
   </head>
   <body class="candidate-body">
-    <div class="candidate-shell">
-      <header class="candidate-topbar reveal">
-        <a class="brand-pill" href="/candidate/" aria-label="Candidate workspace home">
-          <span class="brand-mark">C</span>
-          <span>
-            <strong>Candidate Workspace</strong>
-            <small>Consent completed</small>
-          </span>
-        </a>
-
-        <nav class="topbar-actions" aria-label="Candidate actions">
-          <span class="workspace-topbar-status">New dashboard structure in progress</span>
-          <button class="ghost-button" type="button" id="candidate-sign-out-button" data-candidate-sign-out>
-            Sign Out
-          </button>
-        </nav>
-      </header>
-
-      <main class="candidate-main candidate-dashboard-main">
-        <div class="candidate-dashboard-layout">
-          <aside class="candidate-sidebar reveal">
-            <div class="candidate-sidebar__masthead">
-              <span class="candidate-sidebar__eyebrow">Control panel</span>
-              <h2>Candidate workspace rail</h2>
-              <p>
-                A cleaner navigation shell for the rebuilt post-consent experience.
-              </p>
-            </div>
-
-            <div class="candidate-sidebar__mini-profile">
+    <div class="candidate-shell candidate-shell--minimal">
+      <main class="candidate-main candidate-main--minimal">
+        <div class="candidate-dashboard-layout candidate-dashboard-layout--minimal">
+          <aside class="candidate-sidebar candidate-sidebar--minimal reveal">
+            <div class="candidate-sidebar__brand">
               <div class="candidate-sidebar__mini-avatar" id="candidate-sidebar-avatar">C</div>
               <div class="candidate-sidebar__mini-copy">
                 <strong id="candidate-sidebar-name">Candidate</strong>
@@ -51,125 +26,73 @@
             </div>
 
             <nav class="candidate-sidebar__nav" aria-label="Candidate workspace sections">
-              <a class="candidate-nav-link is-active" href="#workspace-overview">
+              <a class="candidate-nav-link is-active" href="#candidate-workspace-header">
                 <span>01</span>
                 <div class="candidate-nav-link__copy">
                   <strong>Overview</strong>
-                  <small>Landing frame after consent</small>
+                  <small>Workspace home</small>
                 </div>
               </a>
-              <a class="candidate-nav-link" href="#workspace-profile">
+              <a class="candidate-nav-link" href="#candidate-workspace-header">
                 <span>02</span>
                 <div class="candidate-nav-link__copy">
                   <strong>Profile</strong>
-                  <small>Identity and account status</small>
+                  <small>Account summary</small>
                 </div>
               </a>
-              <a class="candidate-nav-link" href="#workspace-roadmap">
+              <a class="candidate-nav-link" href="/candidate/consent/">
                 <span>03</span>
                 <div class="candidate-nav-link__copy">
-                  <strong>Roadmap</strong>
-                  <small>Next blocks to redesign</small>
+                  <strong>Consent</strong>
+                  <small>Review agreement</small>
                 </div>
               </a>
             </nav>
 
-            <div class="candidate-sidebar__status-card">
-              <span class="candidate-sidebar__status-label">Build status</span>
-              <strong>Stage 1 live</strong>
-              <p>Sidebar and header are now the base frame for the new candidate dashboard.</p>
-              <div class="candidate-sidebar__progress">
-                <span class="candidate-sidebar__progress-bar"></span>
-              </div>
-            </div>
-
-            <div class="candidate-sidebar__note">
-              <span class="floating-label">Current state</span>
-              <ul class="floating-list">
-                <li>Consent page remains active before this screen</li>
-                <li>Old dashboard and old form stay removed</li>
-                <li>New sections will be added here step by step</li>
-              </ul>
+            <div class="candidate-sidebar__footer">
+              <button class="ghost-button candidate-sidebar__signout" type="button" data-candidate-sign-out>
+                Sign Out
+              </button>
             </div>
           </aside>
 
-          <section class="candidate-workspace">
-            <section class="workspace-header reveal reveal-delay-1" id="workspace-overview">
-              <div class="workspace-header__copy">
-                <div class="eyebrow-row">
-                  <span class="eyebrow-badge">Consent Complete</span>
-                  <span class="status-chip">Header with profile is ready</span>
-                </div>
-
-                <p class="personal-greeting" id="personal-greeting">
-                  Welcome back. Your new candidate workspace is taking shape.
-                </p>
-
-                <h1>We are rebuilding the candidate dashboard in a cleaner format.</h1>
-
-                <p class="workspace-header__body">
-                  The first step is now in place: a proper sidebar, a structured header, and a
-                  profile summary section after consent. From here we can add each new module
-                  carefully instead of using the previous layout.
-                </p>
+          <section class="candidate-workspace candidate-workspace--minimal">
+            <header class="candidate-workspace-header reveal reveal-delay-1" id="candidate-workspace-header">
+              <div class="candidate-workspace-header__logos">
+                <img
+                  class="candidate-header-logo candidate-header-logo--primary"
+                  src="/assets/logo/IMG-20251220-WA0001.jpg.jpeg"
+                  alt="One Quick Solutions logo"
+                />
+                <span class="candidate-workspace-header__divider" aria-hidden="true"></span>
+                <img
+                  class="candidate-header-logo candidate-header-logo--secondary"
+                  src="/assets/logo/portal-logo-secondary.png"
+                  alt="OneQuickSolutions HR Portal logo"
+                />
               </div>
 
-              <article class="workspace-profile-card" id="workspace-profile">
-                <div class="workspace-profile-card__top">
-                  <div class="workspace-profile-card__avatar" id="candidate-profile-avatar">C</div>
-                  <div class="workspace-profile-card__identity">
-                    <span class="workspace-profile-card__label">Logged in profile</span>
-                    <h2 id="candidate-profile-name">Candidate</h2>
-                    <p id="candidate-profile-email">candidate@example.com</p>
-                  </div>
+              <div class="candidate-workspace-header__title">
+                <strong>Candidate Workspace</strong>
+                <span>Post-consent dashboard</span>
+              </div>
+
+              <div class="candidate-header-profile">
+                <div class="candidate-header-profile__avatar" id="candidate-profile-avatar">C</div>
+                <div class="candidate-header-profile__copy">
+                  <strong id="candidate-profile-name">Candidate</strong>
+                  <span id="candidate-profile-email">candidate@example.com</span>
                 </div>
+                <span class="candidate-header-profile__status" id="candidate-profile-consent">
+                  Consent verified
+                </span>
+                <button class="ghost-button candidate-header-profile__action" type="button" data-candidate-sign-out>
+                  Sign Out
+                </button>
+              </div>
+            </header>
 
-                <div class="workspace-profile-card__meta">
-                  <span id="candidate-profile-role">Candidate access</span>
-                  <span id="candidate-profile-consent">Consent verified</span>
-                </div>
-
-                <div class="workspace-profile-card__actions">
-                  <a class="ghost-button" href="/candidate/consent/">Review Consent</a>
-                  <button
-                    class="primary-button"
-                    type="button"
-                    data-candidate-sign-out
-                  >
-                    Sign Out
-                  </button>
-                </div>
-              </article>
-            </section>
-
-            <section class="workspace-grid reveal reveal-delay-2" id="workspace-roadmap">
-              <article class="workspace-card workspace-card--accent">
-                <span class="section-kicker">Step 1</span>
-                <h3>Header and sidebar are ready.</h3>
-                <p>
-                  This page now has the first proper dashboard frame after consent, so the
-                  redesign can continue on top of a stable structure.
-                </p>
-              </article>
-
-              <article class="workspace-card">
-                <span class="section-kicker">Step 2</span>
-                <h3>Profile section comes next.</h3>
-                <p>
-                  We can now decide how much profile information should be visible first and
-                  what actions belong in the rebuilt candidate flow.
-                </p>
-              </article>
-
-              <article class="workspace-card">
-                <span class="section-kicker">Step 3</span>
-                <h3>Jobs, forms, and progress later.</h3>
-                <p>
-                  The remaining candidate tools can be redesigned one block at a time after
-                  this new frame is approved.
-                </p>
-              </article>
-            </section>
+            <section class="workspace-canvas reveal reveal-delay-2" aria-label="Workspace canvas"></section>
           </section>
         </div>
       </main>
