@@ -2494,8 +2494,22 @@ body.candidate-body--crm .candidate-crm-topbar__signout {
 }
 
 body.candidate-body--crm .candidate-crm-topbar__status {
+  border: 0;
   background: #e6f3ee;
   color: #0f5b54;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+body.candidate-body--crm .candidate-crm-topbar__status:hover,
+body.candidate-body--crm .candidate-crm-topbar__status:focus-visible {
+  outline: none;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(8, 64, 58, 0.12);
+  background: #f1faf7;
 }
 
 body.candidate-body--crm .candidate-crm-topbar__signout {

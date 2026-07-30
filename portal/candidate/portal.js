@@ -248,7 +248,6 @@ function fillCandidateHeaderProfile(session) {
   const sidebarNameNode = safeQuery("#candidate-sidebar-name");
   const sidebarAvatarNode = safeQuery("#candidate-sidebar-avatar");
   const sidebarTagNode = safeQuery("#candidate-sidebar-tag");
-  const roleNode = safeQuery("#candidate-profile-role");
   const consentNode = safeQuery("#candidate-profile-consent");
   const displayName = String(session?.name || "")
     .trim();
@@ -289,15 +288,41 @@ function fillCandidateHeaderProfile(session) {
       : "Access pending";
   }
 
-  if (roleNode) {
-    roleNode.textContent = "Candidate access";
-  }
-
   if (consentNode) {
     consentNode.textContent = session?.consent === true || session?.consentAcceptedAt
       ? "Consent verified"
       : "Consent pending";
   }
+}
+
+function initializeConsentToggle() {
+  const consentButton = safeQuery("#candidate-profile-consent");
+
+  if (!consentButton) {
+    return;
+  }
+
+  const session = getSavedSession();
+  const hasConsent = session?.consent === true || Boolean(session?.consentAcceptedAt);
+
+  consentButton.addEventListener("click", () => {
+    window.location.assign(candidateConsentPath);
+  });
+
+  if (!hasConsent) {
+    consentButton.textContent = "Consent pending";
+    return;
+  }
+
+  const labels = ["Consent verified", "View consent"];
+  let activeLabelIndex = 0;
+
+  consentButton.textContent = labels[activeLabelIndex];
+
+  window.setInterval(() => {
+    activeLabelIndex = activeLabelIndex === 0 ? 1 : 0;
+    consentButton.textContent = labels[activeLabelIndex];
+  }, 3000);
 }
 
 function setAudience(audience, session = getSavedSession()) {
@@ -1627,6 +1652,7 @@ async function initializeCandidatePortal() {
   fillCandidateHeaderProfile(session);
   setSavedSession(session);
   initializeSignOut();
+  initializeConsentToggle();
   initializeProfileFormLinks();
   initializeAudienceSwitch();
   initializeCandidateProfileDashboard();
