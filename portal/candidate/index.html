@@ -25,29 +25,45 @@
               </div>
             </div>
 
-            <nav class="candidate-sidebar__nav" aria-label="Candidate workspace sections">
-              <a class="candidate-nav-link is-active" href="#candidate-workspace-header">
-                <span>01</span>
-                <div class="candidate-nav-link__copy">
-                  <strong>Overview</strong>
-                  <small>Workspace home</small>
-                </div>
-              </a>
-              <a class="candidate-nav-link" href="#candidate-workspace-header">
-                <span>02</span>
-                <div class="candidate-nav-link__copy">
-                  <strong>Profile</strong>
-                  <small>Account summary</small>
-                </div>
-              </a>
-              <a class="candidate-nav-link" href="/candidate/consent/">
-                <span>03</span>
-                <div class="candidate-nav-link__copy">
-                  <strong>Consent</strong>
-                  <small>Review agreement</small>
-                </div>
-              </a>
-            </nav>
+            <div class="candidate-sidebar__group">
+              <span class="candidate-sidebar__group-title">Main</span>
+              <nav class="candidate-sidebar__nav" aria-label="Candidate workspace sections">
+                <a class="candidate-nav-link is-active" href="#workspace-overview">
+                  <span>OV</span>
+                  <div class="candidate-nav-link__copy">
+                    <strong>Overview</strong>
+                    <small>Workspace home</small>
+                  </div>
+                </a>
+                <a class="candidate-nav-link" href="#workspace-ledger">
+                  <span>PR</span>
+                  <div class="candidate-nav-link__copy">
+                    <strong>Profile Desk</strong>
+                    <small>Account summary</small>
+                  </div>
+                </a>
+                <a class="candidate-nav-link" href="/candidate/consent/">
+                  <span>CO</span>
+                  <div class="candidate-nav-link__copy">
+                    <strong>Consent</strong>
+                    <small>Review agreement</small>
+                  </div>
+                </a>
+              </nav>
+            </div>
+
+            <div class="candidate-sidebar__group">
+              <span class="candidate-sidebar__group-title">Flow</span>
+              <nav class="candidate-sidebar__nav" aria-label="Candidate workspace navigation">
+                <a class="candidate-nav-link" href="#workspace-ledger">
+                  <span>NX</span>
+                  <div class="candidate-nav-link__copy">
+                    <strong>Next Steps</strong>
+                    <small>Modules to connect</small>
+                  </div>
+                </a>
+              </nav>
+            </div>
 
             <div class="candidate-sidebar__footer">
               <button class="ghost-button candidate-sidebar__signout" type="button" data-candidate-sign-out>
@@ -57,27 +73,27 @@
           </aside>
 
           <section class="candidate-workspace candidate-workspace--minimal">
-            <header class="candidate-workspace-header reveal reveal-delay-1" id="candidate-workspace-header">
-              <div class="candidate-workspace-header__logos">
-                <img
-                  class="candidate-header-logo candidate-header-logo--primary"
-                  src="/assets/logo/IMG-20251220-WA0001.jpg.jpeg"
-                  alt="One Quick Solutions logo"
-                />
-                <span class="candidate-workspace-header__divider" aria-hidden="true"></span>
-                <img
-                  class="candidate-header-logo candidate-header-logo--secondary"
-                  src="/assets/logo/portal-logo-secondary.png"
-                  alt="OneQuickSolutions HR Portal logo"
-                />
+            <header class="candidate-crm-header reveal reveal-delay-1" id="workspace-overview">
+              <div class="candidate-crm-header__brand">
+                <div class="candidate-crm-header__logos">
+                  <img
+                    class="candidate-crm-logo candidate-crm-logo--primary"
+                    src="/assets/logo/IMG-20251220-WA0001.jpg.jpeg"
+                    alt="One Quick Solutions logo"
+                  />
+                  <img
+                    class="candidate-crm-logo candidate-crm-logo--secondary"
+                    src="/assets/logo/portal-logo-secondary.png"
+                    alt="OneQuickSolutions HR Portal logo"
+                  />
+                </div>
+                <div class="candidate-crm-header__title">
+                  <strong>Candidate Workspace</strong>
+                  <span>Post-consent dashboard</span>
+                </div>
               </div>
 
-              <div class="candidate-workspace-header__title">
-                <strong>Candidate Workspace</strong>
-                <span>Post-consent dashboard</span>
-              </div>
-
-              <div class="candidate-header-profile">
+              <div class="candidate-crm-header__profile">
                 <div class="candidate-header-profile__avatar" id="candidate-profile-avatar">C</div>
                 <div class="candidate-header-profile__copy">
                   <strong id="candidate-profile-name">Candidate</strong>
@@ -92,7 +108,78 @@
               </div>
             </header>
 
-            <section class="workspace-canvas reveal reveal-delay-2" aria-label="Workspace canvas"></section>
+            <section class="candidate-crm-hero reveal reveal-delay-2">
+              <div class="candidate-crm-hero__copy">
+                <span class="section-kicker">Candidate Control Desk</span>
+                <h1>Manage the rebuilt post-consent candidate flow from one clean desk.</h1>
+                <p>
+                  This CRM-style shell gives us a stable workspace to add profile, job, and
+                  application modules without bringing back the older layout.
+                </p>
+
+                <div class="hero-action-row">
+                  <a class="primary-button large-button" href="/candidate/consent/">Review Consent</a>
+                  <button class="ghost-button large-button" type="button" data-candidate-sign-out>
+                    Sign Out
+                  </button>
+                </div>
+              </div>
+
+              <div class="candidate-crm-hero__stats">
+                <article class="candidate-crm-status-card">
+                  <h3>Workspace status</h3>
+                  <p>Sidebar, header, and workspace desk are ready for the next module build.</p>
+                </article>
+
+                <div class="candidate-crm-stat-grid">
+                  <article class="candidate-crm-stat">
+                    <strong>01</strong>
+                    <span>Header live</span>
+                  </article>
+                  <article class="candidate-crm-stat">
+                    <strong>01</strong>
+                    <span>Sidebar live</span>
+                  </article>
+                  <article class="candidate-crm-stat">
+                    <strong>Next</strong>
+                    <span>Profile block</span>
+                  </article>
+                  <article class="candidate-crm-stat">
+                    <strong>Queue</strong>
+                    <span>Jobs and forms</span>
+                  </article>
+                </div>
+              </div>
+            </section>
+
+            <section class="candidate-crm-ledger reveal reveal-delay-3" id="workspace-ledger">
+              <div class="candidate-crm-ledger__header">
+                <span class="section-kicker">Workspace Ledger</span>
+                <h2>Candidate workspace desk</h2>
+                <p>The next candidate modules will sit inside this CRM-style content area.</p>
+              </div>
+
+              <div class="candidate-crm-filter-row">
+                <input class="candidate-crm-input" type="text" value="Search workspace" readonly />
+                <input class="candidate-crm-input" type="text" value="Profile module" readonly />
+                <button class="ghost-button candidate-crm-filter-button" type="button">Search</button>
+              </div>
+
+              <div class="candidate-crm-placeholder-list">
+                <div class="candidate-crm-placeholder-row">
+                  <strong>Profile module</strong>
+                  <span>Pending redesign hookup</span>
+                </div>
+                <div class="candidate-crm-placeholder-row">
+                  <strong>Jobs module</strong>
+                  <span>Will be connected after profile review</span>
+                </div>
+                <div class="candidate-crm-placeholder-row">
+                  <strong>Applications module</strong>
+                  <span>Will be added in the next desk block</span>
+                </div>
+              </div>
+            </section>
           </section>
         </div>
       </main>
