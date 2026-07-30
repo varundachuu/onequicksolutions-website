@@ -34,29 +34,54 @@
       <main class="candidate-main candidate-dashboard-main">
         <div class="candidate-dashboard-layout">
           <aside class="candidate-sidebar reveal">
-            <div class="candidate-sidebar__intro">
-              <span class="section-kicker">Sidebar</span>
-              <h2>Candidate navigation</h2>
+            <div class="candidate-sidebar__masthead">
+              <span class="candidate-sidebar__eyebrow">Control panel</span>
+              <h2>Candidate workspace rail</h2>
               <p>
-                This is the first rebuilt block after consent. We can now expand each section
-                one by one without bringing back the old pages.
+                A cleaner navigation shell for the rebuilt post-consent experience.
               </p>
+            </div>
+
+            <div class="candidate-sidebar__mini-profile">
+              <div class="candidate-sidebar__mini-avatar" id="candidate-sidebar-avatar">C</div>
+              <div class="candidate-sidebar__mini-copy">
+                <strong id="candidate-sidebar-name">Candidate</strong>
+                <span id="candidate-sidebar-tag">Verified candidate access</span>
+              </div>
             </div>
 
             <nav class="candidate-sidebar__nav" aria-label="Candidate workspace sections">
               <a class="candidate-nav-link is-active" href="#workspace-overview">
                 <span>01</span>
-                <strong>Overview</strong>
+                <div class="candidate-nav-link__copy">
+                  <strong>Overview</strong>
+                  <small>Landing frame after consent</small>
+                </div>
               </a>
               <a class="candidate-nav-link" href="#workspace-profile">
                 <span>02</span>
-                <strong>Profile</strong>
+                <div class="candidate-nav-link__copy">
+                  <strong>Profile</strong>
+                  <small>Identity and account status</small>
+                </div>
               </a>
               <a class="candidate-nav-link" href="#workspace-roadmap">
                 <span>03</span>
-                <strong>Roadmap</strong>
+                <div class="candidate-nav-link__copy">
+                  <strong>Roadmap</strong>
+                  <small>Next blocks to redesign</small>
+                </div>
               </a>
             </nav>
+
+            <div class="candidate-sidebar__status-card">
+              <span class="candidate-sidebar__status-label">Build status</span>
+              <strong>Stage 1 live</strong>
+              <p>Sidebar and header are now the base frame for the new candidate dashboard.</p>
+              <div class="candidate-sidebar__progress">
+                <span class="candidate-sidebar__progress-bar"></span>
+              </div>
+            </div>
 
             <div class="candidate-sidebar__note">
               <span class="floating-label">Current state</span>

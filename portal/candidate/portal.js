@@ -245,6 +245,9 @@ function fillCandidateHeaderProfile(session) {
   const nameNode = safeQuery("#candidate-profile-name");
   const emailNode = safeQuery("#candidate-profile-email");
   const avatarNode = safeQuery("#candidate-profile-avatar");
+  const sidebarNameNode = safeQuery("#candidate-sidebar-name");
+  const sidebarAvatarNode = safeQuery("#candidate-sidebar-avatar");
+  const sidebarTagNode = safeQuery("#candidate-sidebar-tag");
   const roleNode = safeQuery("#candidate-profile-role");
   const consentNode = safeQuery("#candidate-profile-consent");
   const displayName = String(session?.name || "")
@@ -270,6 +273,20 @@ function fillCandidateHeaderProfile(session) {
 
   if (avatarNode) {
     avatarNode.textContent = initials;
+  }
+
+  if (sidebarNameNode) {
+    sidebarNameNode.textContent = resolvedName;
+  }
+
+  if (sidebarAvatarNode) {
+    sidebarAvatarNode.textContent = initials;
+  }
+
+  if (sidebarTagNode) {
+    sidebarTagNode.textContent = session?.consent === true || session?.consentAcceptedAt
+      ? "Verified candidate access"
+      : "Candidate access pending";
   }
 
   if (roleNode) {
