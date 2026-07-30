@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Apply Now</title>
+    <title>Candidate Workspace</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -15,17 +15,16 @@
   <body class="candidate-body">
     <div class="candidate-shell">
       <header class="candidate-topbar reveal">
-        <a class="brand-pill" href="/candidate/" aria-label="Back to candidate workspace">
+        <a class="brand-pill" href="/candidate/" aria-label="Candidate workspace home">
           <span class="brand-mark">C</span>
           <span>
             <strong>Candidate Workspace</strong>
-            <small>Application form</small>
+            <small>Form redesign pending</small>
           </span>
         </a>
 
-        <nav class="topbar-actions" aria-label="Application navigation">
-          <a class="text-link" href="/candidate/">Back to Home</a>
-          <a class="ghost-button" href="#application-form">Continue Form</a>
+        <nav class="topbar-actions" aria-label="Candidate actions">
+          <a class="text-link" href="/candidate/">Candidate Home</a>
           <button class="ghost-button" type="button" id="candidate-sign-out-button">
             Sign Out
           </button>
@@ -36,347 +35,60 @@
         <section class="hero-grid apply-hero">
           <article class="hero-panel reveal">
             <div class="eyebrow-row">
-              <span class="eyebrow-badge">Apply Now</span>
-              <span class="status-chip">Type-based candidate application</span>
+              <span class="eyebrow-badge">Form Removed</span>
+              <span class="status-chip">Waiting for new candidate design</span>
             </div>
 
             <p class="personal-greeting" id="personal-greeting">
-              Keep the details simple, clear, and up to date.
+              This form page is temporarily unavailable.
             </p>
 
-            <h1>One application page for new opportunities and job changes.</h1>
+            <h1>The old candidate profile form has been removed.</h1>
 
             <p class="hero-copy">
-              Start by choosing whether you are a fresher or an experienced candidate.
-              The page will then open the right form for your profile, without requiring
-              a resume upload at this stage.
+              We are redesigning the complete candidate experience, so the previous profile
+              creation form has been cleared out for now. We will add the new version here.
             </p>
+
+            <div class="hero-action-row">
+              <a class="ghost-button large-button" href="/candidate/">Go to Candidate Home</a>
+              <button class="primary-button large-button" type="button" id="candidate-sign-out-button-secondary">
+                Sign Out
+              </button>
+            </div>
           </article>
 
           <aside class="hero-side reveal reveal-delay-1">
             <div class="profile-glance">
-              <p class="mini-kicker">Before you submit</p>
-              <h2>Keep it professional and easy to review.</h2>
+              <p class="mini-kicker">Temporary state</p>
+              <h2>No old application fields remain on this page.</h2>
               <p>
-                A short summary, updated skills, and the right preferred role are enough to
-                make this page useful.
+                This route is being held as a clean placeholder so the redesigned candidate
+                form can be added without the previous flow interfering.
               </p>
             </div>
 
             <div class="floating-card">
-              <span class="floating-label">Helpful reminder</span>
+              <span class="floating-label">Until redesign</span>
               <ul class="floating-list">
-                <li>Freshers can focus on education, projects, and skills</li>
-                <li>Experienced candidates can add current role and notice period</li>
-                <li>Use the summary to explain what kind of opportunity you want</li>
-                <li>Share your resume later only if our team contacts you for a role</li>
+                <li>No old profile form</li>
+                <li>No saved-profile popup</li>
+                <li>No old dashboard flow</li>
               </ul>
             </div>
           </aside>
         </section>
-
-        <section class="section-block reveal reveal-delay-2" id="application-form">
-          <div class="section-heading">
-            <span class="section-kicker">Application Form</span>
-            <h2>Choose your candidate type first.</h2>
-            <p>
-              Select the right path below. Freshers and experienced candidates will see
-              separate application sections after choosing their type. When you submit,
-              your candidate details will be stored in the candidate-details database.
-            </p>
-          </div>
-
-          <form class="application-form" id="application-form-element">
-            <input type="hidden" name="candidateType" id="candidate-type-input" />
-
-            <div
-              class="application-type-picker"
-              id="application-type-picker"
-              role="group"
-              aria-label="Choose candidate type"
-            >
-              <button
-                class="application-type-card"
-                type="button"
-                data-application-type="fresher"
-                aria-pressed="false"
-              >
-                <span class="application-type-card__badge">Fresher</span>
-                <h3>Start with education, projects, and entry-level goals.</h3>
-                <p>
-                  Choose this if you are a student, recent graduate, intern, or early-career
-                  candidate looking for your first strong opportunity.
-                </p>
-                <ul>
-                  <li>Focus on education, certifications, and project strengths</li>
-                  <li>Highlight internships, training, and core skills</li>
-                  <li>Tell us what role you want to start with</li>
-                </ul>
-              </button>
-
-              <button
-                class="application-type-card"
-                type="button"
-                data-application-type="experienced"
-                aria-pressed="false"
-              >
-                <span class="application-type-card__badge">Experienced</span>
-                <h3>Share current role details, impact, and next-move plans.</h3>
-                <p>
-                  Choose this if you already have work experience and want to apply for a
-                  better role, stronger team, or next career step.
-                </p>
-                <ul>
-                  <li>Share current company, role, and total experience</li>
-                  <li>Add notice period, compensation, and relevant achievements</li>
-                  <li>Help us understand the kind of switch you want to make</li>
-                </ul>
-              </button>
-            </div>
-
-            <p class="draft-note application-type-note" id="application-type-note">
-              Select your candidate type to open the correct application form.
-            </p>
-
-            <div class="application-fields-shell" id="application-fields-shell" hidden>
-              <div class="application-section-intro">
-                <span class="section-kicker" id="application-selected-kicker">Selected track</span>
-                <h3 id="application-selected-title">Complete your profile details.</h3>
-                <p id="application-selected-copy">
-                  Choose a candidate type above to continue with the right form.
-                </p>
-              </div>
-
-              <div class="form-grid">
-                <label>
-                  Full Name
-                  <input type="text" name="fullName" placeholder="Enter your full name" />
-                </label>
-
-                <label>
-                  Email Address
-                  <input type="email" name="email" placeholder="Enter your email address" />
-                </label>
-
-                <label>
-                  Phone Number
-                  <input type="tel" name="phone" placeholder="Enter your phone number" />
-                </label>
-
-                <label>
-                  Location
-                  <input type="text" name="location" placeholder="Preferred city or remote" />
-                </label>
-
-                <label>
-                  Preferred Role
-                  <input type="text" name="preferredRole" placeholder="Example: Frontend Developer" />
-                </label>
-
-                <label>
-                  Preferred Work Location
-                  <input type="text" name="preferredWorkLocation" placeholder="Example: Bengaluru / Remote" />
-                </label>
-
-                <label class="full-width">
-                  Key Skills
-                  <input
-                    type="text"
-                    name="skills"
-                    placeholder="Example: JavaScript, React, Communication, SQL"
-                  />
-                </label>
-
-                <label class="full-width">
-                  Professional Summary
-                  <textarea
-                    name="summary"
-                    rows="6"
-                    placeholder="Write a short summary about your profile, strengths, and the kind of role you are looking for."
-                  ></textarea>
-                </label>
-              </div>
-
-              <section class="application-type-section" data-application-section="fresher" hidden>
-                <div class="application-section-intro application-section-intro--nested">
-                  <span class="section-kicker">Fresher Details</span>
-                  <h3>Tell us about your education and learning journey.</h3>
-                  <p>
-                    This section is for fresher candidates who want to highlight academics,
-                    training, certifications, projects, and first-job preferences.
-                  </p>
-                </div>
-
-                <div class="form-grid">
-                  <label>
-                    Highest Qualification
-                    <input type="text" name="highestQualification" placeholder="Example: B.Tech / B.Com / MBA" />
-                  </label>
-
-                  <label>
-                    Specialization
-                    <input type="text" name="specialization" placeholder="Example: Computer Science / Finance" />
-                  </label>
-
-                  <label>
-                    College or Institute
-                    <input type="text" name="collegeName" placeholder="Enter your college or institute name" />
-                  </label>
-
-                  <label>
-                    Graduation Year
-                    <input type="text" name="graduationYear" placeholder="Example: 2026" />
-                  </label>
-
-                  <label>
-                    Internship or Training
-                    <input type="text" name="internshipTraining" placeholder="Example: 2-month frontend internship" />
-                  </label>
-
-                  <label>
-                    Preferred Starting Role
-                    <input type="text" name="fresherPreferredRole" placeholder="Example: Trainee Developer / HR Executive" />
-                  </label>
-
-                  <label class="full-width">
-                    Academic Projects
-                    <textarea
-                      name="projectHighlights"
-                      rows="5"
-                      placeholder="Mention major academic or personal projects, tools used, and what you contributed."
-                    ></textarea>
-                  </label>
-
-                  <label class="full-width">
-                    Certifications and Courses
-                    <textarea
-                      name="certifications"
-                      rows="4"
-                      placeholder="List certifications, online courses, workshops, or important training programs."
-                    ></textarea>
-                  </label>
-                </div>
-              </section>
-
-              <section class="application-type-section" data-application-section="experienced" hidden>
-                <div class="application-section-intro application-section-intro--nested">
-                  <span class="section-kicker">Experienced Details</span>
-                  <h3>Tell us about your current role and next move.</h3>
-                  <p>
-                    This section is for experienced candidates who want to share work history,
-                    role impact, notice period, and what they expect from the next opportunity.
-                  </p>
-                </div>
-
-                <div class="form-grid">
-                  <label>
-                    Current Company
-                    <input type="text" name="currentCompany" placeholder="Enter your current or last company" />
-                  </label>
-
-                  <label>
-                    Current Role
-                    <input type="text" name="currentRole" placeholder="Example: Software Engineer / Recruiter" />
-                  </label>
-
-                  <label>
-                    Total Experience
-                    <input type="text" name="totalExperience" placeholder="Example: 4 years" />
-                  </label>
-
-                  <label>
-                    Relevant Experience
-                    <input type="text" name="relevantExperience" placeholder="Example: 3 years in frontend development" />
-                  </label>
-
-                  <label>
-                    Current CTC
-                    <input type="text" name="currentCtc" placeholder="Example: 5.5 LPA" />
-                  </label>
-
-                  <label>
-                    Expected CTC
-                    <input type="text" name="expectedCtc" placeholder="Example: 8 LPA" />
-                  </label>
-
-                  <label>
-                    Notice Period
-                    <input type="text" name="noticePeriod" placeholder="Example: Immediate / 30 days" />
-                  </label>
-
-                  <label>
-                    Industry or Domain
-                    <input type="text" name="industryDomain" placeholder="Example: SaaS / Recruitment / Banking" />
-                  </label>
-
-                  <label class="full-width">
-                    Key Achievements
-                    <textarea
-                      name="careerAchievements"
-                      rows="5"
-                      placeholder="Mention important achievements, outcomes, leadership, delivery highlights, or impact from your work."
-                    ></textarea>
-                  </label>
-
-                  <label class="full-width">
-                    Reason for Change
-                    <textarea
-                      name="reasonForChange"
-                      rows="4"
-                      placeholder="Explain what kind of role, growth, work culture, or opportunity you are looking for next."
-                    ></textarea>
-                  </label>
-                </div>
-              </section>
-
-              <div class="form-footer">
-                <p class="draft-note" id="draft-note">
-                  Enter your profile details here and submit them to our candidate-details
-                  database. If a company is interested, our team can contact you later and
-                  ask for your resume directly.
-                </p>
-
-                <div class="hero-action-row">
-                  <button class="ghost-button large-button" type="button" id="save-draft-button">
-                    Save Draft
-                  </button>
-                  <button class="primary-button large-button" type="submit">
-                    Submit Application
-                  </button>
-                </div>
-              </div>
-
-              <div class="submit-status" id="submit-status" role="status" aria-live="polite" hidden>
-                Submit your application to see a clear success or error message here.
-              </div>
-            </div>
-          </form>
-        </section>
       </main>
-    </div>
-
-    <div class="modal-backdrop" id="submission-modal" hidden>
-      <div
-        class="modal-card"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="submission-modal-title"
-      >
-        <span class="section-kicker">Profile Saved</span>
-        <h2 id="submission-modal-title">Your candidate details are now stored for job applications.</h2>
-        <p id="submission-modal-copy">
-          Keep your resume updated and ready. Once you are shortlisted, our HR team will contact
-          you by phone and email to collect your latest resume and move the hiring process forward.
-        </p>
-        <div class="hero-action-row">
-          <button class="primary-button large-button" type="button" id="submission-modal-done-button">
-            Done
-          </button>
-        </div>
-      </div>
     </div>
 
     <script src="../../assets/shared/session.js"></script>
     <script src="../portal.js"></script>
+    <script>
+      document
+        .querySelector("#candidate-sign-out-button-secondary")
+        ?.addEventListener("click", () => {
+          document.querySelector("#candidate-sign-out-button")?.click();
+        });
+    </script>
   </body>
 </html>
