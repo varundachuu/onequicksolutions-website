@@ -1090,6 +1090,7 @@ function initializeCandidateRecruitmentWorkspace() {
   const jobModalCopy = safeQuery("#candidate-job-modal-copy");
   const jobModalStatus = safeQuery("#candidate-job-modal-status");
   const jobModalCloseButton = safeQuery("#candidate-job-close-button");
+  const jobModalSignOutButton = safeQuery("#candidate-job-sign-out-button");
   const jobInterestButton = safeQuery("#candidate-job-interest-button");
   const jobApplyButton = safeQuery("#candidate-job-apply-button");
   const jobApplicationForm = safeQuery("#candidate-job-application-form");
@@ -1148,6 +1149,14 @@ function initializeCandidateRecruitmentWorkspace() {
     jobModal.hidden = true;
     document.body.style.overflow = "";
     jobModalStatus.hidden = true;
+  }
+
+  function handleJobModalEscape(event) {
+    if (event.key !== "Escape" || jobModal.hidden) {
+      return;
+    }
+
+    closeJobModal();
   }
 
   function buildJobSummaryCards(job) {
@@ -1615,6 +1624,11 @@ function initializeCandidateRecruitmentWorkspace() {
       closeJobModal();
     }
   });
+  jobModalSignOutButton?.addEventListener("click", () => {
+    closeJobModal();
+    window.portalAuth?.logout?.(candidateLoginPath);
+  });
+  document.addEventListener("keydown", handleJobModalEscape);
 
   markAllNotificationsButton?.addEventListener("click", async () => {
     markAllNotificationsButton.disabled = true;
