@@ -105,6 +105,10 @@ body::before {
   object-fit: contain;
 }
 
+.brand-logo-secondary {
+  max-width: 280px;
+}
+
 .brand-separator {
   color: rgba(18, 48, 74, 0.42);
   font-size: 1.5rem;
@@ -590,6 +594,10 @@ body::before {
 
   .brand-logo {
     max-width: min(160px, 42vw);
+  }
+
+  .brand-logo-secondary {
+    max-width: min(210px, 52vw);
   }
 
   .brand-separator {

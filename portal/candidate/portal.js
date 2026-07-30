@@ -1149,6 +1149,9 @@ function initializeCandidateRecruitmentWorkspace() {
     jobModal.hidden = true;
     document.body.style.overflow = "";
     jobModalStatus.hidden = true;
+    jobModalStatus.textContent = "";
+    jobModalStatus.classList.remove("is-success", "is-error");
+    jobScreeningGrid.innerHTML = "";
   }
 
   function handleJobModalEscape(event) {
@@ -1156,6 +1159,10 @@ function initializeCandidateRecruitmentWorkspace() {
       return;
     }
 
+    closeJobModal();
+  }
+
+  function resetJobModalOnPageRestore() {
     closeJobModal();
   }
 
@@ -1629,6 +1636,11 @@ function initializeCandidateRecruitmentWorkspace() {
     window.portalAuth?.logout?.(candidateLoginPath);
   });
   document.addEventListener("keydown", handleJobModalEscape);
+  window.addEventListener("pageshow", resetJobModalOnPageRestore);
+
+  // Browsers can restore the last-open modal from cached page state.
+  // Force the candidate dashboard back to its clean default view on startup.
+  closeJobModal();
 
   markAllNotificationsButton?.addEventListener("click", async () => {
     markAllNotificationsButton.disabled = true;
