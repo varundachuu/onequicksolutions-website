@@ -241,6 +241,48 @@ function fillCandidateGreeting(session) {
   }
 }
 
+function fillCandidateHeaderProfile(session) {
+  const nameNode = safeQuery("#candidate-profile-name");
+  const emailNode = safeQuery("#candidate-profile-email");
+  const avatarNode = safeQuery("#candidate-profile-avatar");
+  const roleNode = safeQuery("#candidate-profile-role");
+  const consentNode = safeQuery("#candidate-profile-consent");
+  const displayName = String(session?.name || "")
+    .trim();
+  const displayEmail = String(session?.email || "")
+    .trim()
+    .toLowerCase();
+  const resolvedName = displayName || (displayEmail ? displayEmail.split("@")[0] : "Candidate");
+  const initials = resolvedName
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part.charAt(0).toUpperCase())
+    .join("") || "C";
+
+  if (nameNode) {
+    nameNode.textContent = resolvedName;
+  }
+
+  if (emailNode) {
+    emailNode.textContent = displayEmail || "candidate@onequicksolutions.com";
+  }
+
+  if (avatarNode) {
+    avatarNode.textContent = initials;
+  }
+
+  if (roleNode) {
+    roleNode.textContent = "Candidate access";
+  }
+
+  if (consentNode) {
+    consentNode.textContent = session?.consent === true || session?.consentAcceptedAt
+      ? "Consent verified"
+      : "Consent pending";
+  }
+}
+
 function setAudience(audience, session = getSavedSession()) {
   const content = candidateAudiences[audience];
 
@@ -305,14 +347,18 @@ function initializeAudienceSwitch() {
 }
 
 function initializeSignOut() {
-  const signOutButton = safeQuery("#candidate-sign-out-button");
+  const signOutButtons = document.querySelectorAll(
+    "#candidate-sign-out-button, [data-candidate-sign-out]",
+  );
 
-  if (!signOutButton) {
+  if (signOutButtons.length === 0) {
     return;
   }
 
-  signOutButton.addEventListener("click", () => {
-    window.portalAuth?.logout?.(candidateLoginPath);
+  signOutButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      window.portalAuth?.logout?.(candidateLoginPath);
+    });
   });
 }
 
@@ -1546,6 +1592,7 @@ async function initializeCandidatePortal() {
   }
 
   fillCandidateGreeting(session);
+  fillCandidateHeaderProfile(session);
   setSavedSession(session);
   initializeSignOut();
   initializeAudienceSwitch();

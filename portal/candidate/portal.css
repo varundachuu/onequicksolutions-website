@@ -468,6 +468,260 @@ body {
     rgba(255, 255, 255, 0.88);
 }
 
+.candidate-dashboard-main {
+  gap: 0;
+}
+
+.candidate-dashboard-layout {
+  display: grid;
+  grid-template-columns: minmax(260px, 300px) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.workspace-topbar-status {
+  display: inline-flex;
+  align-items: center;
+  min-height: 50px;
+  padding: 0 18px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.62);
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.candidate-sidebar,
+.workspace-header,
+.workspace-card,
+.workspace-profile-card {
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(18px);
+}
+
+.candidate-sidebar {
+  position: sticky;
+  top: 20px;
+  display: grid;
+  gap: 20px;
+  padding: 24px;
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(circle at top right, rgba(209, 155, 72, 0.18), transparent 30%),
+    rgba(255, 255, 255, 0.78);
+}
+
+.candidate-sidebar__intro h2,
+.workspace-card h3,
+.workspace-profile-card h2 {
+  margin: 14px 0 10px;
+  font-family: "Space Grotesk", "Segoe UI", sans-serif;
+  letter-spacing: -0.03em;
+}
+
+.candidate-sidebar__intro h2 {
+  font-size: 1.6rem;
+}
+
+.candidate-sidebar__intro p,
+.candidate-nav-link strong,
+.workspace-header__body,
+.workspace-card p,
+.workspace-profile-card p {
+  line-height: 1.7;
+}
+
+.candidate-sidebar__nav {
+  display: grid;
+  gap: 12px;
+}
+
+.candidate-nav-link {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.84);
+  color: var(--text);
+  text-decoration: none;
+  transition:
+    transform 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.candidate-nav-link span {
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  background: #eef5f8;
+  color: var(--accent-strong);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.candidate-nav-link strong {
+  font-size: 1rem;
+}
+
+.candidate-nav-link:hover,
+.candidate-nav-link:focus-visible,
+.candidate-nav-link.is-active {
+  outline: none;
+  transform: translateY(-2px);
+  border-color: rgba(13, 107, 121, 0.26);
+  box-shadow: 0 18px 32px rgba(17, 49, 72, 0.08);
+}
+
+.candidate-nav-link.is-active {
+  background:
+    radial-gradient(circle at top right, rgba(13, 107, 121, 0.09), transparent 34%),
+    rgba(255, 255, 255, 0.98);
+}
+
+.candidate-sidebar__note {
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.88);
+}
+
+.candidate-workspace {
+  display: grid;
+  gap: 24px;
+}
+
+.workspace-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+  gap: 24px;
+  padding: 30px;
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(circle at top right, rgba(209, 155, 72, 0.2), transparent 28%),
+    linear-gradient(145deg, rgba(9, 45, 63, 0.96) 0%, rgba(20, 62, 85, 0.92) 100%);
+  color: #eef8fb;
+}
+
+.workspace-header h1 {
+  margin: 16px 0 0;
+  font-family: "Space Grotesk", "Segoe UI", sans-serif;
+  font-size: clamp(2.2rem, 4vw, 3.7rem);
+  line-height: 1.02;
+  letter-spacing: -0.05em;
+}
+
+.workspace-header__body {
+  max-width: 680px;
+  margin: 22px 0 0;
+  color: rgba(238, 248, 251, 0.82);
+}
+
+.workspace-profile-card {
+  display: grid;
+  gap: 18px;
+  align-self: start;
+  padding: 24px;
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--text);
+}
+
+.workspace-profile-card__top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.workspace-profile-card__avatar {
+  display: grid;
+  place-items: center;
+  width: 68px;
+  height: 68px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  color: #ffffff;
+  font-family: "Space Grotesk", "Segoe UI", sans-serif;
+  font-size: 1.6rem;
+  font-weight: 800;
+  box-shadow: 0 18px 34px rgba(13, 107, 121, 0.22);
+}
+
+.workspace-profile-card__identity h2 {
+  font-size: 1.45rem;
+}
+
+.workspace-profile-card__identity h2,
+.workspace-profile-card__identity p,
+.workspace-profile-card__label {
+  margin: 0;
+}
+
+.workspace-profile-card__label {
+  color: var(--gold);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.workspace-profile-card__identity p {
+  margin-top: 6px;
+  color: var(--muted);
+}
+
+.workspace-profile-card__meta,
+.workspace-profile-card__actions,
+.workspace-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.workspace-profile-card__meta span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(17, 122, 119, 0.08);
+  border: 1px solid rgba(17, 122, 119, 0.12);
+  color: var(--accent-strong);
+  font-size: 0.84rem;
+  font-weight: 800;
+}
+
+.workspace-profile-card__actions .ghost-button,
+.workspace-profile-card__actions .primary-button {
+  min-height: 48px;
+}
+
+.workspace-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.workspace-card {
+  display: grid;
+  gap: 10px;
+  padding: 24px;
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.workspace-card--accent {
+  background:
+    radial-gradient(circle at top right, rgba(13, 107, 121, 0.09), transparent 34%),
+    rgba(255, 255, 255, 0.92);
+}
+
 .profile-empty-state,
 .profile-dashboard-shell,
 .profile-detail-card,
@@ -1217,6 +1471,9 @@ body {
   }
 
   .hero-grid,
+  .candidate-dashboard-layout,
+  .workspace-header,
+  .workspace-grid,
   .dashboard-filter-form,
   .dashboard-record-grid,
   .dashboard-summary-strip,
@@ -1230,6 +1487,10 @@ body {
   .profile-card-grid,
   .profile-detail-grid--candidate {
     grid-template-columns: 1fr;
+  }
+
+  .candidate-sidebar {
+    position: static;
   }
 }
 
@@ -1264,6 +1525,15 @@ body {
   .hero-action-row,
   .topbar-actions {
     width: 100%;
+  }
+
+  .workspace-profile-card__top {
+    align-items: flex-start;
+  }
+
+  .workspace-profile-card__actions,
+  .workspace-profile-card__meta {
+    flex-direction: column;
   }
 
   .ghost-button,

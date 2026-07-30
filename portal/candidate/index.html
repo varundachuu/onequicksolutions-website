@@ -19,89 +19,138 @@
           <span class="brand-mark">C</span>
           <span>
             <strong>Candidate Workspace</strong>
-            <small>Under redesign</small>
+            <small>Consent completed</small>
           </span>
         </a>
 
         <nav class="topbar-actions" aria-label="Candidate actions">
-          <a class="text-link" href="/">Back to Login</a>
-          <button class="ghost-button" type="button" id="candidate-sign-out-button">
+          <span class="workspace-topbar-status">New dashboard structure in progress</span>
+          <button class="ghost-button" type="button" id="candidate-sign-out-button" data-candidate-sign-out>
             Sign Out
           </button>
         </nav>
       </header>
 
-      <main class="candidate-main">
-        <section class="hero-grid">
-          <article class="hero-panel reveal">
-            <div class="eyebrow-row">
-              <span class="eyebrow-badge">Consent Completed</span>
-              <span class="status-chip">Candidate flow paused for redesign</span>
-            </div>
-
-            <p class="personal-greeting" id="personal-greeting">
-              Welcome back. This candidate area is being redesigned.
-            </p>
-
-            <h1>The candidate workspace is being rebuilt in a new format.</h1>
-
-            <p class="hero-copy">
-              Your consent has already been recorded. We have removed the previous dashboard
-              and profile pages for now so the full candidate journey can be redesigned cleanly.
-            </p>
-
-            <div class="hero-action-row">
-              <a class="ghost-button large-button" href="/">Back to Login</a>
-              <button class="primary-button large-button" type="button" id="candidate-sign-out-button-secondary">
-                Sign Out
-              </button>
-            </div>
-          </article>
-
-          <aside class="hero-side reveal reveal-delay-1">
-            <div class="profile-glance">
-              <p class="mini-kicker">Current status</p>
-              <h2>Old candidate pages are removed.</h2>
+      <main class="candidate-main candidate-dashboard-main">
+        <div class="candidate-dashboard-layout">
+          <aside class="candidate-sidebar reveal">
+            <div class="candidate-sidebar__intro">
+              <span class="section-kicker">Sidebar</span>
+              <h2>Candidate navigation</h2>
               <p>
-                We will replace this section with a new experience, new structure, and a
-                cleaner form flow in the next redesign pass.
+                This is the first rebuilt block after consent. We can now expand each section
+                one by one without bringing back the old pages.
               </p>
             </div>
 
-            <div class="floating-card">
-              <span class="floating-label">What stays active</span>
+            <nav class="candidate-sidebar__nav" aria-label="Candidate workspace sections">
+              <a class="candidate-nav-link is-active" href="#workspace-overview">
+                <span>01</span>
+                <strong>Overview</strong>
+              </a>
+              <a class="candidate-nav-link" href="#workspace-profile">
+                <span>02</span>
+                <strong>Profile</strong>
+              </a>
+              <a class="candidate-nav-link" href="#workspace-roadmap">
+                <span>03</span>
+                <strong>Roadmap</strong>
+              </a>
+            </nav>
+
+            <div class="candidate-sidebar__note">
+              <span class="floating-label">Current state</span>
               <ul class="floating-list">
-                <li>Candidate login</li>
-                <li>Consent verification</li>
-                <li>Secure sign-out</li>
+                <li>Consent page remains active before this screen</li>
+                <li>Old dashboard and old form stay removed</li>
+                <li>New sections will be added here step by step</li>
               </ul>
             </div>
           </aside>
-        </section>
 
-        <section class="section-block cta-banner reveal reveal-delay-2">
-          <div>
-            <span class="section-kicker">Next Step</span>
-            <h2>We will plug in the redesigned candidate workflow here.</h2>
-            <p>
-              This placeholder page is temporary and keeps the post-consent area clean until
-              the new candidate system is ready.
-            </p>
-          </div>
+          <section class="candidate-workspace">
+            <section class="workspace-header reveal reveal-delay-1" id="workspace-overview">
+              <div class="workspace-header__copy">
+                <div class="eyebrow-row">
+                  <span class="eyebrow-badge">Consent Complete</span>
+                  <span class="status-chip">Header with profile is ready</span>
+                </div>
 
-          <a class="ghost-button large-button" href="/">Return to Login</a>
-        </section>
+                <p class="personal-greeting" id="personal-greeting">
+                  Welcome back. Your new candidate workspace is taking shape.
+                </p>
+
+                <h1>We are rebuilding the candidate dashboard in a cleaner format.</h1>
+
+                <p class="workspace-header__body">
+                  The first step is now in place: a proper sidebar, a structured header, and a
+                  profile summary section after consent. From here we can add each new module
+                  carefully instead of using the previous layout.
+                </p>
+              </div>
+
+              <article class="workspace-profile-card" id="workspace-profile">
+                <div class="workspace-profile-card__top">
+                  <div class="workspace-profile-card__avatar" id="candidate-profile-avatar">C</div>
+                  <div class="workspace-profile-card__identity">
+                    <span class="workspace-profile-card__label">Logged in profile</span>
+                    <h2 id="candidate-profile-name">Candidate</h2>
+                    <p id="candidate-profile-email">candidate@example.com</p>
+                  </div>
+                </div>
+
+                <div class="workspace-profile-card__meta">
+                  <span id="candidate-profile-role">Candidate access</span>
+                  <span id="candidate-profile-consent">Consent verified</span>
+                </div>
+
+                <div class="workspace-profile-card__actions">
+                  <a class="ghost-button" href="/candidate/consent/">Review Consent</a>
+                  <button
+                    class="primary-button"
+                    type="button"
+                    data-candidate-sign-out
+                  >
+                    Sign Out
+                  </button>
+                </div>
+              </article>
+            </section>
+
+            <section class="workspace-grid reveal reveal-delay-2" id="workspace-roadmap">
+              <article class="workspace-card workspace-card--accent">
+                <span class="section-kicker">Step 1</span>
+                <h3>Header and sidebar are ready.</h3>
+                <p>
+                  This page now has the first proper dashboard frame after consent, so the
+                  redesign can continue on top of a stable structure.
+                </p>
+              </article>
+
+              <article class="workspace-card">
+                <span class="section-kicker">Step 2</span>
+                <h3>Profile section comes next.</h3>
+                <p>
+                  We can now decide how much profile information should be visible first and
+                  what actions belong in the rebuilt candidate flow.
+                </p>
+              </article>
+
+              <article class="workspace-card">
+                <span class="section-kicker">Step 3</span>
+                <h3>Jobs, forms, and progress later.</h3>
+                <p>
+                  The remaining candidate tools can be redesigned one block at a time after
+                  this new frame is approved.
+                </p>
+              </article>
+            </section>
+          </section>
+        </div>
       </main>
     </div>
 
     <script src="../assets/shared/session.js"></script>
     <script src="./portal.js"></script>
-    <script>
-      document
-        .querySelector("#candidate-sign-out-button-secondary")
-        ?.addEventListener("click", () => {
-          document.querySelector("#candidate-sign-out-button")?.click();
-        });
-    </script>
   </body>
 </html>
