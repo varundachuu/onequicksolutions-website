@@ -5,6 +5,7 @@ const authStorageKey = "portalLogin";
 const approveButton = document.querySelector("#candidate-approve-button");
 const declineButton = document.querySelector("#candidate-decline-button");
 const reviewButton = document.querySelector("#candidate-review-button");
+const consentHomeLink = document.querySelector("#candidate-consent-home-link");
 const consentStatus = document.querySelector("#consent-status");
 const consentName = document.querySelector("#consent-name");
 const consentEmail = document.querySelector("#consent-email");
@@ -70,6 +71,40 @@ function fillCandidateDetails(session) {
       ? `${session.name}, please review and approve candidate data storage before continuing.`
       : `Please review and approve candidate data storage for ${session.email} before continuing.`;
   }
+}
+
+function showApprovedConsentView(session) {
+  if (consentGreeting) {
+    consentGreeting.textContent = session.name
+      ? `${session.name}, your candidate consent is already recorded. You can review it here and return to the dashboard when ready.`
+      : `Your candidate consent is already recorded for ${session.email}. You can review it here and return to the dashboard when ready.`;
+  }
+
+  if (consentHomeLink) {
+    consentHomeLink.href = candidateLandingPath;
+    consentHomeLink.textContent = "Back to Dashboard";
+  }
+
+  if (declineButton) {
+    declineButton.hidden = true;
+  }
+
+  if (approveButton) {
+    approveButton.hidden = true;
+    approveButton.disabled = true;
+  }
+
+  if (reviewButton) {
+    reviewButton.textContent = "Return to Dashboard";
+    reviewButton.addEventListener("click", () => {
+      window.location.assign(candidateLandingPath);
+    });
+  }
+
+  setStatus(
+    "Consent has already been approved for this candidate account. Review the notice and return to the dashboard when ready.",
+    "success",
+  );
 }
 
 async function submitCandidateConsent(session) {
@@ -143,12 +178,14 @@ async function initializeConsentPage() {
     return;
   }
 
-  if (session.consent === true || session.consentAcceptedAt) {
-    window.location.replace(candidateLandingPath);
+  fillCandidateDetails(session);
+
+  const alreadyConsented = session.consent === true || Boolean(session.consentAcceptedAt);
+
+  if (alreadyConsented) {
+    showApprovedConsentView(session);
     return;
   }
-
-  fillCandidateDetails(session);
 
   approveButton?.addEventListener("click", () => {
     submitCandidateConsent(session);
