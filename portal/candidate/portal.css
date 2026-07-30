@@ -1225,6 +1225,220 @@ body {
   text-align: right;
 }
 
+body.candidate-body--crm {
+  background: #edf3f8;
+}
+
+body.candidate-body--crm::before {
+  display: none;
+}
+
+body.candidate-body--crm .candidate-shell--minimal {
+  width: min(100% - 20px, 1720px);
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+body.candidate-body--crm .candidate-dashboard-layout--minimal {
+  grid-template-columns: 320px minmax(0, 1fr);
+  gap: 22px;
+  min-height: calc(100vh - 24px);
+}
+
+body.candidate-body--crm .candidate-sidebar--minimal {
+  min-height: calc(100vh - 24px);
+  padding: 18px;
+  border: 1px solid rgba(16, 29, 56, 0.05);
+  border-radius: 28px;
+  background: #182742;
+  box-shadow: 0 20px 48px rgba(20, 31, 59, 0.12);
+  backdrop-filter: none;
+}
+
+body.candidate-body--crm .candidate-sidebar--minimal::before {
+  display: none;
+}
+
+body.candidate-body--crm .candidate-sidebar__brand {
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: none;
+}
+
+body.candidate-body--crm .candidate-sidebar__group {
+  gap: 14px;
+}
+
+body.candidate-body--crm .candidate-sidebar__group-title {
+  color: rgba(173, 196, 230, 0.72);
+  font-size: 0.9rem;
+  letter-spacing: 0.14em;
+}
+
+body.candidate-body--crm .candidate-nav-link {
+  padding: 18px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: none;
+  transform: none;
+}
+
+body.candidate-body--crm .candidate-nav-link span {
+  width: 44px;
+  height: 44px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #d6ecff;
+  font-size: 0.88rem;
+}
+
+body.candidate-body--crm .candidate-nav-link__copy strong {
+  font-size: 1.05rem;
+}
+
+body.candidate-body--crm .candidate-nav-link__copy small {
+  color: rgba(214, 228, 244, 0.72);
+  font-size: 0.86rem;
+}
+
+body.candidate-body--crm .candidate-nav-link:hover,
+body.candidate-body--crm .candidate-nav-link:focus-visible,
+body.candidate-body--crm .candidate-nav-link.is-active {
+  border-color: rgba(105, 191, 255, 0.18);
+  background: linear-gradient(90deg, #2a5df0 0%, #1692a8 100%);
+  box-shadow: none;
+  transform: none;
+}
+
+body.candidate-body--crm .candidate-nav-link.is-active span,
+body.candidate-body--crm .candidate-nav-link:hover span,
+body.candidate-body--crm .candidate-nav-link:focus-visible span {
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+}
+
+body.candidate-body--crm .candidate-sidebar__footer {
+  padding-top: 8px;
+}
+
+body.candidate-body--crm .candidate-sidebar__signout {
+  min-height: 60px;
+  border-radius: 999px;
+  border-color: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.06);
+  color: #f2f7ff;
+  box-shadow: none;
+}
+
+body.candidate-body--crm .candidate-crm-header {
+  padding: 18px 24px;
+  border: 0;
+  border-radius: 0;
+  background: #1b2741;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+body.candidate-body--crm .candidate-crm-header__brand {
+  gap: 18px;
+}
+
+body.candidate-body--crm .candidate-crm-header__logos {
+  gap: 16px;
+  padding-right: 18px;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.candidate-body--crm .candidate-crm-logo--primary {
+  height: 44px;
+}
+
+body.candidate-body--crm .candidate-crm-logo--secondary {
+  height: 26px;
+}
+
+body.candidate-body--crm .candidate-crm-header__title strong {
+  font-size: 1.15rem;
+}
+
+body.candidate-body--crm .candidate-crm-header__title span {
+  font-size: 0.88rem;
+  color: rgba(214, 228, 244, 0.72);
+}
+
+body.candidate-body--crm .candidate-crm-header__profile {
+  gap: 14px;
+}
+
+body.candidate-body--crm .candidate-header-profile__status {
+  background: rgba(216, 240, 236, 0.08);
+  border-color: rgba(216, 240, 236, 0.14);
+  color: #d8f0ec;
+}
+
+body.candidate-body--crm .candidate-header-profile__action {
+  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: none;
+}
+
+body.candidate-body--crm .candidate-crm-hero {
+  grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
+  gap: 22px;
+  padding: 36px;
+  border: 0;
+  border-radius: 34px;
+  background: #232d45;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+body.candidate-body--crm .candidate-crm-hero__copy h1 {
+  max-width: 720px;
+  font-size: clamp(2.1rem, 3.8vw, 3.7rem);
+}
+
+body.candidate-body--crm .candidate-crm-status-card,
+body.candidate-body--crm .candidate-crm-stat {
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+body.candidate-body--crm .candidate-crm-ledger {
+  padding: 28px 30px;
+  border: 1px solid rgba(17, 49, 72, 0.08);
+  border-radius: 30px;
+  background: #ffffff;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+body.candidate-body--crm .candidate-crm-filter-row {
+  grid-template-columns: minmax(0, 1.3fr) minmax(220px, 0.8fr) auto;
+}
+
+body.candidate-body--crm .candidate-crm-input {
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: none;
+}
+
+body.candidate-body--crm .candidate-crm-filter-button {
+  min-width: 120px;
+  border-radius: 18px;
+  box-shadow: none;
+}
+
+body.candidate-body--crm .candidate-crm-placeholder-row {
+  border-radius: 18px;
+  background: #f7faff;
+  box-shadow: none;
+}
+
 .profile-empty-state,
 .profile-dashboard-shell,
 .profile-detail-card,
@@ -2076,6 +2290,10 @@ body {
   .candidate-crm-header,
   .candidate-crm-hero,
   .candidate-crm-ledger {
+    border-radius: 24px;
+  }
+
+  body.candidate-body--crm .candidate-crm-header {
     border-radius: 24px;
   }
 
