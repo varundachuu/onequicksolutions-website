@@ -90,8 +90,7 @@ function showApprovedConsentView(session) {
   }
 
   if (approveButton) {
-    approveButton.hidden = true;
-    approveButton.disabled = true;
+    approveButton.remove();
   }
 
   if (reviewButton) {
