@@ -1608,6 +1608,18 @@ body.candidate-body--crm .candidate-crm-stat span {
   gap: 22px;
 }
 
+.profile-toolbar-actions {
+  flex-wrap: nowrap;
+  margin-top: 0;
+  overflow-x: auto;
+  max-width: 100%;
+  padding-bottom: 2px;
+}
+
+.profile-toolbar-actions > * {
+  flex: 0 0 auto;
+}
+
 .profile-visibility-badge,
 .danger-button {
   border-color: rgba(180, 51, 71, 0.22);
