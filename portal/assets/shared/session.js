@@ -1,5 +1,30 @@
 (() => {
   const authStorageKey = "portalLogin";
+  const activityStorageKey = "portalLastActivityAt";
+  const inactivityMs = 2 * 60 * 60 * 1000;
+  const serverTouchIntervalMs = 5 * 60 * 1000;
+  let inactivityTimer = null;
+  let lastServerTouchAt = 0;
+  let inactivityLogoutInProgress = false;
+
+  function getLastActivityAt() {
+    const value = Number(window.localStorage.getItem(activityStorageKey));
+    return Number.isFinite(value) && value > 0 ? value : 0;
+  }
+
+  function stopInactivityTracking() {
+    window.clearTimeout(inactivityTimer);
+    inactivityTimer = null;
+  }
+
+  function scheduleInactivityLogout() {
+    stopInactivityTracking();
+    const elapsed = Date.now() - getLastActivityAt();
+    inactivityTimer = window.setTimeout(
+      () => logout("/?session=expired"),
+      Math.max(0, inactivityMs - elapsed),
+    );
+  }
 
   function readSession() {
     const rawSession =
@@ -22,12 +47,61 @@
     const serialized = JSON.stringify(session);
     window.sessionStorage.setItem(authStorageKey, serialized);
     window.localStorage.setItem(authStorageKey, serialized);
+    window.localStorage.setItem(activityStorageKey, String(Date.now()));
     return session;
   }
 
   function clearSession() {
     window.sessionStorage.removeItem(authStorageKey);
     window.localStorage.removeItem(authStorageKey);
+    window.localStorage.removeItem(activityStorageKey);
+    stopInactivityTracking();
+  }
+
+  async function touchServerSession() {
+    if (Date.now() - lastServerTouchAt < serverTouchIntervalMs) {
+      return;
+    }
+
+    lastServerTouchAt = Date.now();
+    const response = await window.fetch("/api/auth/session/touch", {
+      method: "POST",
+      headers: { Accept: "application/json" },
+    });
+
+    if (!response.ok) {
+      throw new Error("Session is no longer active.");
+    }
+  }
+
+  function recordActivity() {
+    if (!readSession() || inactivityLogoutInProgress) {
+      return;
+    }
+
+    window.localStorage.setItem(activityStorageKey, String(Date.now()));
+    scheduleInactivityLogout();
+    touchServerSession().catch(() => logout("/?session=expired"));
+  }
+
+  function startInactivityTracking() {
+    if (!readSession()) {
+      return;
+    }
+
+    if (!getLastActivityAt()) {
+      window.localStorage.setItem(activityStorageKey, String(Date.now()));
+    }
+
+    ["pointerdown", "keydown", "touchstart", "scroll"].forEach((eventName) => {
+      window.addEventListener(eventName, recordActivity, { passive: true });
+    });
+    window.addEventListener("storage", (event) => {
+      if (event.key === activityStorageKey) {
+        scheduleInactivityLogout();
+      }
+    });
+    scheduleInactivityLogout();
   }
 
   function normalizeCredentialToSession(credential, serverSession = null) {
@@ -94,10 +168,16 @@
       return null;
     }
 
+    startInactivityTracking();
+
     return session;
   }
 
   async function logout(redirectPath = "/") {
+    if (inactivityLogoutInProgress) {
+      return;
+    }
+    inactivityLogoutInProgress = true;
     try {
       await window.fetch("/api/auth/logout", {
         method: "POST",
@@ -122,5 +202,6 @@
     readSession,
     requireSession,
     saveSession,
+    startInactivityTracking,
   };
 })();

@@ -166,6 +166,7 @@ Optional:
 ```env
 SESSION_COOKIE_NAME=oqs_portal_session
 SESSION_TTL_DAYS=14
+SESSION_INACTIVITY_MINUTES=120
 CORS_ORIGINS=https://hr.onequicksolutions.com
 ```
 

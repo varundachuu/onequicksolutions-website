@@ -78,6 +78,11 @@ const recruitmentDbName = String(process.env.RECRUITMENT_DB_NAME || "recruitment
 const sessionCookieName = String(process.env.SESSION_COOKIE_NAME || "oqs_portal_session").trim();
 const sessionTtlDays = Math.max(1, Number(process.env.SESSION_TTL_DAYS) || 14);
 const sessionTtlMs = sessionTtlDays * 24 * 60 * 60 * 1000;
+const sessionInactivityMinutes = Math.max(
+  1,
+  Number(process.env.SESSION_INACTIVITY_MINUTES) || 120,
+);
+const sessionInactivityMs = sessionInactivityMinutes * 60 * 1000;
 const secureCookies = String(process.env.NODE_ENV || "").trim().toLowerCase() === "production";
 const allowedOrigins = String(process.env.CORS_ORIGINS || "")
   .split(",")
@@ -1240,12 +1245,17 @@ async function getAuthenticatedRequestContext(req) {
   }
 
   const sessionHash = hashSessionToken(sessionToken);
+  const now = new Date();
+  const inactiveBefore = new Date(now.getTime() - sessionInactivityMs);
   const session = await store.collections.sessions.findOne({
     sessionHash,
-    expiresAt: { $gt: new Date() },
+    expiresAt: { $gt: now },
+    lastSeenAt: { $gt: inactiveBefore },
   });
 
   if (!session) {
+    // Delete expired or idle sessions immediately instead of waiting for MongoDB's TTL monitor.
+    await store.collections.sessions.deleteOne({ sessionHash });
     return null;
   }
 
@@ -1268,8 +1278,8 @@ async function getAuthenticatedRequestContext(req) {
     { _id: session._id },
     {
       $set: {
-        updatedAt: new Date(),
-        lastSeenAt: new Date(),
+        updatedAt: now,
+        lastSeenAt: now,
       },
     },
   );
@@ -3081,6 +3091,18 @@ app.get("/api/auth/session", async (req, res) => {
       lastSeenAt: authContext.session.lastSeenAt || null,
     },
   });
+});
+
+// The browser calls this periodically while a user is actively working so the
+// inactivity limit reflects real interaction, not just data-changing requests.
+app.post("/api/auth/session/touch", async (req, res) => {
+  const authContext = await requireAuthenticatedRole(req, res, null);
+
+  if (!authContext) {
+    return;
+  }
+
+  return res.json({ ok: true, lastSeenAt: new Date().toISOString() });
 });
 
 app.post("/api/auth/logout", async (req, res) => {

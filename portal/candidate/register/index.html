@@ -85,26 +85,32 @@
             />
 
             <label for="register-password">Password</label>
-            <input
-              id="register-password"
-              name="password"
-              type="password"
-              placeholder="Create your password"
-              autocomplete="new-password"
-              minlength="8"
-              required
-            />
+            <div class="password-input-shell">
+              <input
+                id="register-password"
+                name="password"
+                type="password"
+                placeholder="Create your password"
+                autocomplete="new-password"
+                minlength="8"
+                required
+              />
+              <button class="password-toggle" id="register-password-toggle" type="button" aria-label="Show password" aria-pressed="false">Show</button>
+            </div>
 
             <label for="register-confirm-password">Confirm Password</label>
-            <input
-              id="register-confirm-password"
-              name="confirmPassword"
-              type="password"
-              placeholder="Re-enter your password"
-              autocomplete="new-password"
-              minlength="8"
-              required
-            />
+            <div class="password-input-shell">
+              <input
+                id="register-confirm-password"
+                name="confirmPassword"
+                type="password"
+                placeholder="Re-enter your password"
+                autocomplete="new-password"
+                minlength="8"
+                required
+              />
+              <button class="password-toggle" id="register-confirm-password-toggle" type="button" aria-label="Show confirm password" aria-pressed="false">Show</button>
+            </div>
 
             <p class="auth-page-status" id="register-status" role="status" aria-live="polite"></p>
 

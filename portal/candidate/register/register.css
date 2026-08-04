@@ -120,6 +120,36 @@
   transform: translateY(-1px);
 }
 
+.password-input-shell {
+  position: relative;
+}
+
+.password-input-shell input {
+  padding-right: 78px;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  border: 0;
+  border-radius: 8px;
+  padding: 7px 9px;
+  background: transparent;
+  color: var(--accent-strong);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.password-toggle:hover,
+.password-toggle:focus-visible {
+  outline: none;
+  background: rgba(13, 107, 121, 0.1);
+}
+
 .auth-page-status {
   min-height: 24px;
   margin: 4px 0 0;

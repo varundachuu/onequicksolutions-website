@@ -279,6 +279,29 @@ function setStatus(message, kind) {
   }
 }
 
+function validatePasswordMatch({ announce = true } = {}) {
+  const requiresConfirmation = authMode === "register" || authMode === "reset";
+
+  if (!requiresConfirmation || !passwordInput || !confirmPasswordInput) {
+    return true;
+  }
+
+  const password = passwordInput.value;
+  const confirmation = confirmPasswordInput.value;
+  const hasMismatch = confirmation.length > 0 && password !== confirmation;
+
+  confirmPasswordInput.setCustomValidity(hasMismatch ? "Passwords do not match." : "");
+  confirmPasswordInput.setAttribute("aria-invalid", String(hasMismatch));
+
+  if (hasMismatch && announce) {
+    setStatus("Passwords do not match. Please correct the confirmation password.", "error");
+  } else if (!hasMismatch && formStatus?.textContent.includes("Passwords do not match")) {
+    clearStatus();
+  }
+
+  return !hasMismatch;
+}
+
 function normalizeCooldownSeconds(value) {
   const parsed = Number(value);
 
@@ -664,6 +687,17 @@ async function submitAuthForm(event) {
 
   const payload = buildAuthPayload();
 
+  if (!validatePasswordMatch()) {
+    confirmPasswordInput.focus();
+    return;
+  }
+
+  if (authMode === "login" && (!payload.email || !String(payload.password || "").trim())) {
+    setStatus("Enter both your email address and password to log in.", "error");
+    passwordInput.focus();
+    return;
+  }
+
   authRequestInFlight = true;
   submitButton.disabled = true;
   submitButton.textContent = getSubmitLoadingLabel();
@@ -822,6 +856,10 @@ passwordToggleButtons.forEach(({ button, input, label }) => {
     input.type = input.type === "password" ? "text" : "password";
     updatePasswordToggleButton(button, input, label);
   });
+});
+
+[passwordInput, confirmPasswordInput].forEach((input) => {
+  input?.addEventListener("input", () => validatePasswordMatch());
 });
 
 function initializeAuthFromUrl() {

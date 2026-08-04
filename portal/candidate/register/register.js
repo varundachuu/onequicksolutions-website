@@ -1,6 +1,10 @@
 const registerForm = document.querySelector("#candidate-register-form");
 const statusNode = document.querySelector("#register-status");
 const submitButton = document.querySelector("#register-submit-button");
+const passwordInput = document.querySelector("#register-password");
+const confirmPasswordInput = document.querySelector("#register-confirm-password");
+const passwordToggle = document.querySelector("#register-password-toggle");
+const confirmPasswordToggle = document.querySelector("#register-confirm-password-toggle");
 
 function normalizeAuthErrorMessage(message, fallbackMessage) {
   const text = String(message || "").trim();
@@ -24,6 +28,37 @@ function setStatus(message, kind) {
   }
 }
 
+function validatePasswordMatch({ announce = true } = {}) {
+  const password = passwordInput?.value || "";
+  const confirmation = confirmPasswordInput?.value || "";
+  const hasMismatch = confirmation.length > 0 && password !== confirmation;
+
+  confirmPasswordInput?.setCustomValidity(hasMismatch ? "Passwords do not match." : "");
+  confirmPasswordInput?.setAttribute("aria-invalid", String(hasMismatch));
+
+  if (hasMismatch && announce) {
+    setStatus("Passwords do not match. Please correct the confirmation password.", "error");
+  } else if (!hasMismatch && statusNode?.textContent.includes("Passwords do not match")) {
+    setStatus("", "");
+  }
+
+  return !hasMismatch;
+}
+
+function initializePasswordToggle(button, input, label) {
+  button?.addEventListener("click", () => {
+    if (!input) {
+      return;
+    }
+
+    const isVisible = input.type === "text";
+    input.type = isVisible ? "password" : "text";
+    button.textContent = isVisible ? "Show" : "Hide";
+    button.setAttribute("aria-pressed", String(!isVisible));
+    button.setAttribute("aria-label", `${isVisible ? "Show" : "Hide"} ${label}`);
+  });
+}
+
 async function submitRegisterForm(event) {
   event.preventDefault();
   setStatus("", "");
@@ -36,6 +71,11 @@ async function submitRegisterForm(event) {
     password: String(formData.get("password") || ""),
     confirmPassword: String(formData.get("confirmPassword") || ""),
   };
+
+  if (!validatePasswordMatch()) {
+    confirmPasswordInput?.focus();
+    return;
+  }
 
   submitButton.disabled = true;
   submitButton.textContent = "Creating Account...";
@@ -79,3 +119,10 @@ async function submitRegisterForm(event) {
 }
 
 registerForm.addEventListener("submit", submitRegisterForm);
+
+[passwordInput, confirmPasswordInput].forEach((input) => {
+  input?.addEventListener("input", () => validatePasswordMatch());
+});
+
+initializePasswordToggle(passwordToggle, passwordInput, "password");
+initializePasswordToggle(confirmPasswordToggle, confirmPasswordInput, "confirm password");
