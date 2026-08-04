@@ -164,6 +164,7 @@ const consultancyLandingPath = "/consultancy/";
 const candidateLandingPath = "/candidate/";
 const candidateRegisterPath = "/candidate/register/";
 const candidateConsentPath = "/candidate/consent/";
+const candidateApplyPath = "/candidate/apply/";
 const initialUrlParams = new URLSearchParams(window.location.search);
 const authStorageKey = "portalLogin";
 
@@ -565,7 +566,7 @@ function persistLoginSession(result) {
   return window.portalAuth?.saveSession ? window.portalAuth.saveSession(session) : session;
 }
 
-function redirectAfterLogin(result) {
+async function redirectAfterLogin(result) {
   const role = result?.credential?.role;
 
   if (!role) {
@@ -575,9 +576,24 @@ function redirectAfterLogin(result) {
   const session = persistLoginSession(result);
 
   if (role === "candidate") {
-    window.location.href = session?.consent === true
-      ? candidateLandingPath
-      : candidateConsentPath;
+    if (session?.consent !== true) {
+      window.location.href = candidateConsentPath;
+      return true;
+    }
+
+    // A consented candidate without a saved profile must continue the onboarding
+    // form instead of landing on an empty dashboard.
+    try {
+      const profileResponse = await window.fetch("/api/candidate/profile", {
+        headers: { Accept: "application/json" },
+      });
+      window.location.href = profileResponse.ok
+        ? candidateLandingPath
+        : candidateApplyPath;
+    } catch (_error) {
+      // The protected form can recover gracefully if the profile service is unavailable.
+      window.location.href = candidateApplyPath;
+    }
     return true;
   }
 
@@ -737,7 +753,7 @@ async function submitAuthForm(event) {
     confirmPasswordInput.value = "";
     otpInput.value = "";
 
-    if (redirectAfterLogin(result)) {
+    if (await redirectAfterLogin(result)) {
       return;
     }
 

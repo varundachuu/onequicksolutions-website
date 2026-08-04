@@ -427,6 +427,9 @@ function initializeCandidateProfileDashboard() {
   const profileVisibilityBadge = safeQuery("#profile-visibility-badge");
   const profileSummaryTitle = safeQuery("#profile-summary-title");
   const profileSummaryCopy = safeQuery("#profile-summary-copy");
+  const profileCompletion = safeQuery("#profile-completion");
+  const profileCompletionValue = safeQuery("#profile-completion-value");
+  const profileCompletionCopy = safeQuery("#profile-completion-copy");
   const editProfileButton = safeQuery("#edit-profile-button");
   const toggleProfileStatusButton = safeQuery("#toggle-profile-status-button");
   const deleteProfileButton = safeQuery("#delete-profile-button");
@@ -558,6 +561,36 @@ function initializeCandidateProfileDashboard() {
     toggleProfileStatusButton.textContent = profile.isVisibleForHiring
       ? "Deactivate Profile"
       : "Activate Profile";
+
+    const importantFields = [
+      profile.fullName,
+      profile.phone,
+      profile.location,
+      profile.preferredRole,
+      profile.preferredWorkLocation,
+      profile.skills,
+      profile.summary,
+      profile.candidateType === "fresher"
+        ? profile.fresherDetails?.highestQualification
+        : profile.experiencedDetails?.currentCompany,
+      profile.candidateType === "fresher"
+        ? profile.fresherDetails?.collegeName
+        : profile.experiencedDetails?.currentRole,
+      profile.candidateType === "fresher"
+        ? profile.fresherDetails?.graduationYear
+        : profile.experiencedDetails?.noticePeriod,
+    ];
+    const completed = importantFields.filter((value) => String(value || "").trim()).length;
+    const percentage = Math.round((completed / importantFields.length) * 100);
+
+    if (profileCompletion && profileCompletionValue && profileCompletionCopy) {
+      profileCompletion.hidden = false;
+      profileCompletionValue.textContent = `${percentage}% complete`;
+      profileCompletionCopy.textContent =
+        percentage === 100
+          ? "Your key profile sections are complete. Keep details current for hiring visibility."
+          : "Add missing preferences, skills, and type-specific details to strengthen your profile.";
+    }
   }
 
   function populateProfileEditForm(profile) {
@@ -873,6 +906,7 @@ function initializeDraftForm() {
 
   const fields = Array.from(form.elements).filter((element) => element.name);
   let activeApplicationType = "";
+  let formHasUnsavedChanges = false;
 
   function setNoteState(node, message, kind = "") {
     setNodeState(node, message, kind);
@@ -996,8 +1030,41 @@ function initializeDraftForm() {
 
   applicationTypeButtons.forEach((button) => {
     button.addEventListener("click", () => {
-      setApplicationType(button.dataset.applicationType);
+      const nextType = button.dataset.applicationType;
+
+      if (
+        activeApplicationType &&
+        activeApplicationType !== nextType &&
+        !window.confirm(
+          "Changing candidate type switches to a different form. Your current unsaved details will remain in this browser draft. Continue?",
+        )
+      ) {
+        return;
+      }
+
+      setApplicationType(nextType);
+      const existingDraft = JSON.parse(localStorage.getItem(candidateDraftKey) || "{}");
+      localStorage.setItem(
+        candidateDraftKey,
+        JSON.stringify({ ...existingDraft, candidateType: nextType }),
+      );
+      formHasUnsavedChanges = true;
     });
+  });
+
+  fields.forEach((field) => {
+    field.addEventListener("input", () => {
+      formHasUnsavedChanges = true;
+    });
+  });
+
+  window.addEventListener("beforeunload", (event) => {
+    if (!formHasUnsavedChanges) {
+      return;
+    }
+
+    event.preventDefault();
+    event.returnValue = "";
   });
 
   setApplicationType(String(applicationTypeInput?.value || "").trim().toLowerCase(), {
@@ -1016,6 +1083,7 @@ function initializeDraftForm() {
     });
 
     localStorage.setItem(candidateDraftKey, JSON.stringify(draft));
+    formHasUnsavedChanges = false;
     setNoteState(
       draftNote,
       applicationTypeContent[activeApplicationType]?.draftMessage ||
@@ -1092,6 +1160,7 @@ function initializeDraftForm() {
       }
 
       localStorage.removeItem(candidateDraftKey);
+      formHasUnsavedChanges = false;
       setCandidateProfileFlash(
         `${result.message} Your dashboard is ready with the latest quick view details.`,
         "success",
