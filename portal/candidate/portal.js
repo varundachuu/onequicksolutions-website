@@ -459,8 +459,6 @@ function initializeCandidateProfileDashboard() {
     !profileEditTypeNote ||
     !profileEditFieldsShell ||
     !editProfileButton ||
-    !toggleProfileStatusButton ||
-    !deleteProfileButton ||
     !cancelEditProfileButton
   ) {
     return;
@@ -559,9 +557,11 @@ function initializeCandidateProfileDashboard() {
       experiencedQuickView.hidden = profile.candidateType !== "experienced";
     }
 
-    toggleProfileStatusButton.textContent = profile.isVisibleForHiring
-      ? "Deactivate Profile"
-      : "Activate Profile";
+    if (toggleProfileStatusButton) {
+      toggleProfileStatusButton.textContent = profile.isVisibleForHiring
+        ? "Deactivate Profile"
+        : "Activate Profile";
+    }
 
     const importantFields = [
       profile.fullName,
@@ -823,7 +823,7 @@ function initializeCandidateProfileDashboard() {
     }
   });
 
-  toggleProfileStatusButton.addEventListener("click", async () => {
+  toggleProfileStatusButton?.addEventListener("click", async () => {
     if (!currentProfile) {
       return;
     }
@@ -879,7 +879,7 @@ function initializeCandidateProfileDashboard() {
     }
   });
 
-  deleteProfileButton.addEventListener("click", async () => {
+  deleteProfileButton?.addEventListener("click", async () => {
     if (!currentProfile) {
       return;
     }
