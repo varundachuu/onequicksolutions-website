@@ -549,12 +549,14 @@ function initializeCandidateProfileDashboard() {
         : `Profile saved on ${formatPortalDateTime(profile.createdAt)} and last updated on ${formatPortalDateTime(profile.updatedAt)}. It is currently hidden from hiring.`;
     }
 
+    // The dashboard is intentionally a quick view. Complete profile information
+    // is available only in the dedicated edit form.
     if (fresherQuickView) {
-      fresherQuickView.hidden = profile.candidateType !== "fresher";
+      fresherQuickView.hidden = true;
     }
 
     if (experiencedQuickView) {
-      experiencedQuickView.hidden = profile.candidateType !== "experienced";
+      experiencedQuickView.hidden = true;
     }
 
     if (toggleProfileStatusButton) {
@@ -593,7 +595,9 @@ function initializeCandidateProfileDashboard() {
           : "Add missing preferences, skills, and type-specific details to strengthen your profile.";
     }
 
-    renderExpandedProfileDetails(profile.profileData);
+    if (expandedProfileDetails) {
+      expandedProfileDetails.hidden = true;
+    }
   }
 
   function renderExpandedProfileDetails(profileData) {
@@ -732,13 +736,7 @@ function initializeCandidateProfileDashboard() {
       return;
     }
 
-    populateProfileEditForm(currentProfile);
-    profileEditShell.hidden = false;
-    setDashboardStatus("Edit mode opened. Save changes here to overwrite your saved profile.");
-    profileEditShell.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
+    window.location.assign("/candidate/apply/?edit=1");
   });
 
   cancelEditProfileButton.addEventListener("click", () => {
