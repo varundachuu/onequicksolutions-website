@@ -918,7 +918,7 @@ function initializeCandidateProfileDashboard() {
 
       localStorage.removeItem(candidateDraftKey);
       clearSavedSession();
-      window.portalUi?.notify?.("Your candidate profile and login have been deleted successfully.", "success");
+      window.alert("Your candidate profile and login have been deleted successfully.");
       window.location.replace(`${candidateLoginPath}&profile=deleted`);
     } catch (error) {
       deleteProfileButton.disabled = false;

@@ -20,19 +20,6 @@
   --radius-sm: 14px;
 }
 
-html[data-theme="dark"] {
-  --page-bg: #0d1824; --panel: #142333; --panel-strong: #192c3e; --line: rgba(210, 230, 242, .14); --line-strong: rgba(210, 230, 242, .24); --text: #e7f1f7; --muted: #a7c0d1; --accent-soft: #174b51; --hero: #091824; --hero-soft: #123144; --shadow: 0 28px 70px rgba(0,0,0,.32);
-}
-
-html[data-theme="dark"] body { background: linear-gradient(180deg, #0d1824, #111f2d); }
-html[data-theme="dark"] .section-block, html[data-theme="dark"] .account-details div, html[data-theme="dark"] .wizard-section, html[data-theme="dark"] .record-card, html[data-theme="dark"] .review-card { background: var(--panel-strong); }
-html[data-theme="dark"] .wizard-field input, html[data-theme="dark"] .wizard-field select, html[data-theme="dark"] .wizard-field textarea { background: #102130; color: var(--text); }
-
-#portal-notifications { position: fixed; z-index: 1000; right: 20px; bottom: 20px; display: grid; gap: 10px; max-width: min(380px, calc(100vw - 40px)); }
-.portal-toast { padding: 14px 16px; border: 1px solid var(--line-strong); border-left: 4px solid var(--accent); border-radius: 14px; background: var(--panel-strong); box-shadow: var(--shadow); color: var(--text); font-weight: 700; line-height: 1.45; }
-.portal-toast--error { border-left-color: #c94757; }
-.portal-toast--success { border-left-color: var(--success); }
-
 * {
   box-sizing: border-box;
 }
