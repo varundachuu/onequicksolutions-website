@@ -3174,6 +3174,58 @@ app.post("/api/auth/logout", async (req, res) => {
   });
 });
 
+app.get("/api/candidate/account", async (req, res) => {
+  const authContext = await requireAuthenticatedRole(req, res, "candidate");
+  if (!authContext) return;
+
+  const detailsStore = getCandidateDetailsStore();
+  const profile = detailsStore
+    ? await detailsStore.collection.findOne({ email: authContext.credential.email })
+    : null;
+
+  return res.json({
+    ok: true,
+    account: {
+      name: authContext.credential.name || "",
+      email: authContext.credential.email,
+      createdAt: authContext.credential.createdAt || null,
+      lastPasswordUpdatedAt: authContext.credential.lastPasswordUpdatedAt || authContext.credential.lastPasswordResetAt || null,
+      consent: authContext.credential.consent === true,
+      candidateType: profile?.candidateType || null,
+      profileStatus: profile ? getCandidateProfileVisibility(profile).profileStatus : "not_created",
+      profileUpdatedAt: profile?.updatedAt || null,
+    },
+  });
+});
+
+app.patch("/api/candidate/account/password", async (req, res) => {
+  if (!enforceSensitiveRateLimit(req, "candidate-change-password", 8, 15 * 60 * 1000)) {
+    return res.status(429).json({ ok: false, message: "Too many password-change attempts. Please wait and try again." });
+  }
+  const authContext = await requireAuthenticatedRole(req, res, "candidate");
+  if (!authContext) return;
+
+  const currentPassword = String(req.body?.currentPassword || "");
+  const newPassword = String(req.body?.newPassword || "");
+  const confirmPassword = String(req.body?.confirmPassword || "");
+  if (!currentPassword || !newPassword || !confirmPassword) return res.status(400).json({ ok: false, message: "Enter your current password, new password, and confirmation." });
+  if (newPassword.length < 8) return res.status(400).json({ ok: false, message: "New password must be at least 8 characters long." });
+  if (newPassword !== confirmPassword) return res.status(400).json({ ok: false, message: "New password confirmation does not match." });
+  if (currentPassword === newPassword) return res.status(400).json({ ok: false, message: "Choose a new password that differs from your current password." });
+  if (!(await bcrypt.compare(currentPassword, authContext.credential.passwordHash))) return res.status(401).json({ ok: false, message: "Current password is incorrect." });
+
+  const now = new Date();
+  const candidateStore = getCandidateStore();
+  const recruitment = getRecruitmentStore();
+  await candidateStore.collection.updateOne(
+    { _id: authContext.credential._id },
+    { $set: { passwordHash: await bcrypt.hash(newPassword, saltRounds), lastPasswordUpdatedAt: now, updatedAt: now } },
+  );
+  if (recruitment) await recruitment.collections.sessions.deleteMany({ credentialId: authContext.credential._id, role: "candidate" });
+  clearCookie(res, sessionCookieName);
+  return res.json({ ok: true, message: "Password changed successfully. Please log in again on all devices." });
+});
+
 app.get("/api/company/dashboard", async (req, res) => {
   const authContext = await requireAuthenticatedRole(req, res, "company");
 
@@ -6737,9 +6789,10 @@ app.post("/api/auth/forgot-password", async (req, res) => {
   const credential = await store.collection.findOne({ email });
 
   if (!credential) {
-    return res.status(404).json({
-      ok: false,
-      message: "No account found for the selected login type and email.",
+    return res.json({
+      ok: true,
+      message: successMessage,
+      cooldownSeconds: resetOtpCooldownSeconds,
     });
   }
 
@@ -6920,6 +6973,11 @@ app.post("/api/auth/reset-password", async (req, res) => {
       lastPasswordResetAt: now,
     }),
   );
+
+  const recruitment = getRecruitmentStore();
+  if (recruitment && role === "candidate") {
+    await recruitment.collections.sessions.deleteMany({ credentialId: credential._id, role: "candidate" });
+  }
 
   return res.json({
     ok: true,

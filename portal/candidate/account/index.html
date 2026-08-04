@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Candidate Account</title>
+    <link rel="stylesheet" href="../portal.css" />
+  </head>
+  <body class="candidate-body">
+    <main class="candidate-shell account-page">
+      <header class="candidate-topbar">
+        <a class="brand-pill" href="/candidate/"><span class="brand-mark">C</span><span><strong>Candidate Workspace</strong><small>Account settings</small></span></a>
+        <div class="topbar-actions"><a class="ghost-button" href="/candidate/">Back to dashboard</a><button class="ghost-button" id="account-signout" type="button">Sign out</button></div>
+      </header>
+      <section class="section-block"><div class="section-heading"><span class="section-kicker">Account</span><h1>Account settings</h1><p id="account-summary">Loading your account details…</p></div><dl class="account-details" id="account-details"></dl></section>
+      <section class="section-block"><div class="section-heading"><span class="section-kicker">Security</span><h2>Change password</h2><p>Changing your password signs you out on every device.</p></div>
+        <form class="application-form" id="change-password-form">
+          <label>Current password <div class="password-input-shell"><input type="password" name="currentPassword" autocomplete="current-password" required/><button type="button" class="password-toggle" data-toggle="currentPassword">Show</button></div></label>
+          <label>New password <div class="password-input-shell"><input type="password" name="newPassword" autocomplete="new-password" minlength="8" required/><button type="button" class="password-toggle" data-toggle="newPassword">Show</button></div></label>
+          <label>Confirm new password <div class="password-input-shell"><input type="password" name="confirmPassword" autocomplete="new-password" minlength="8" required/><button type="button" class="password-toggle" data-toggle="confirmPassword">Show</button></div></label>
+          <p class="draft-note">Use at least 8 characters and choose a password different from your current password.</p><p id="password-status" class="submit-status" role="status" aria-live="polite" hidden></p><button class="primary-button large-button" type="submit">Change password</button>
+        </form>
+      </section>
+    </main>
+    <script src="../../assets/shared/session.js"></script><script src="./account.js"></script>
+  </body>
+</html>
