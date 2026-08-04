@@ -445,6 +445,7 @@ function initializeCandidateProfileDashboard() {
   const profileEditSections = document.querySelectorAll("[data-profile-edit-section]");
   const fresherQuickView = safeQuery("#fresher-quick-view");
   const experiencedQuickView = safeQuery("#experienced-quick-view");
+  const expandedProfileDetails = safeQuery("#expanded-profile-details");
 
   if (
     !profileDashboardShell ||
@@ -591,6 +592,77 @@ function initializeCandidateProfileDashboard() {
           ? "Your key profile sections are complete. Keep details current for hiring visibility."
           : "Add missing preferences, skills, and type-specific details to strengthen your profile.";
     }
+
+    renderExpandedProfileDetails(profile.profileData);
+  }
+
+  function renderExpandedProfileDetails(profileData) {
+    if (!expandedProfileDetails) {
+      return;
+    }
+
+    expandedProfileDetails.replaceChildren();
+    if (!profileData || typeof profileData !== "object") {
+      expandedProfileDetails.hidden = true;
+      return;
+    }
+
+    const sections = [];
+    const addListSection = (title, records, formatter) => {
+      if (!Array.isArray(records) || records.length === 0) {
+        return;
+      }
+      sections.push({ title, records: records.map(formatter).filter(Boolean) });
+    };
+    const compact = (values) => values.filter(Boolean).join(" · ");
+
+    addListSection("Education history", profileData.education, (record) =>
+      compact([record.qualification, record.degree, record.institution, record.completionYear]),
+    );
+    addListSection("Projects", profileData.projects, (record) =>
+      compact([record.title, record.role, record.technologies]),
+    );
+    addListSection("Certifications", profileData.certifications, (record) =>
+      compact([record.name, record.organization, record.issueDate]),
+    );
+    addListSection("Internship and training", profileData.internships, (record) =>
+      compact([record.organization, record.role, record.type]),
+    );
+    addListSection("Previous employment", profileData.previousEmployment, (record) =>
+      compact([record.company, record.designation, record.startDate, record.endDate]),
+    );
+
+    const currentEmployment = profileData.currentEmployment || {};
+    if (currentEmployment.company || currentEmployment.designation || currentEmployment.currentlyUnemployed) {
+      sections.push({
+        title: "Current employment",
+        records: [
+          currentEmployment.currentlyUnemployed
+            ? "Currently not employed"
+            : compact([currentEmployment.company, currentEmployment.designation, currentEmployment.domain]),
+        ],
+      });
+    }
+
+    if (sections.length === 0) {
+      expandedProfileDetails.hidden = true;
+      return;
+    }
+
+    sections.forEach((section) => {
+      const card = document.createElement("article");
+      const heading = document.createElement("h3");
+      const list = document.createElement("ul");
+      heading.textContent = section.title;
+      section.records.forEach((record) => {
+        const item = document.createElement("li");
+        item.textContent = record;
+        list.append(item);
+      });
+      card.append(heading, list);
+      expandedProfileDetails.append(card);
+    });
+    expandedProfileDetails.hidden = false;
   }
 
   function populateProfileEditForm(profile) {
@@ -1688,7 +1760,9 @@ async function initializeCandidatePortal() {
   initializeProfileFormLinks();
   initializeAudienceSwitch();
   initializeCandidateProfileDashboard();
-  initializeDraftForm();
+  if (!window.candidateProfileWizardActive) {
+    initializeDraftForm();
+  }
   initializeCandidateRecruitmentWorkspace();
 }
 

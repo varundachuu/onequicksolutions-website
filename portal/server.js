@@ -529,6 +529,7 @@ function sanitizeCandidateProfile(profile) {
     skills: profile.skills,
     skillList: Array.isArray(profile.skillList) ? profile.skillList : [],
     summary: profile.summary,
+    profileData: profile.profileData || null,
     fresherDetails: profile.fresherDetails || null,
     experiencedDetails: profile.experiencedDetails || null,
     createdAt: profile.createdAt || null,
@@ -1550,6 +1551,58 @@ function validateCandidateProfileStatusPayload(payload) {
   };
 }
 
+function normalizeProfileRecord(record, fields) {
+  if (!record || typeof record !== "object" || Array.isArray(record)) {
+    return null;
+  }
+
+  return fields.reduce((normalized, field) => {
+    const value = record[field];
+    normalized[field] = typeof value === "boolean" ? value : normalizeTextValue(value).slice(0, 2000);
+    return normalized;
+  }, {});
+}
+
+function normalizeCandidateProfileData(profileData, candidateType) {
+  if (profileData === undefined || profileData === null) {
+    return { profileData: null };
+  }
+  if (typeof profileData !== "object" || Array.isArray(profileData)) {
+    return { error: "Candidate profile details must use a valid structured format." };
+  }
+
+  const lists = ["education", "projects", "certifications", "internships", "previousEmployment"];
+  for (const key of lists) {
+    if (profileData[key] !== undefined && !Array.isArray(profileData[key])) return { error: `${key} must be a list of valid records.` };
+    if (Array.isArray(profileData[key]) && profileData[key].length > 12) return { error: `A maximum of 12 ${key} records is allowed.` };
+  }
+  const normalizeList = (key, fields) => (profileData[key] || []).map((record) => normalizeProfileRecord(record, fields)).filter(Boolean).filter((record) => Object.values(record).some((value) => value === true || String(value).trim()));
+  const personal = normalizeProfileRecord(profileData.personal, ["fullName", "email", "phone", "alternatePhone", "dateOfBirth", "gender", "address", "city", "state", "country", "pinCode"]) || {};
+  const skills = normalizeProfileRecord(profileData.skills, ["primary", "secondary", "tools", "languages"]) || {};
+  const preferences = normalizeProfileRecord(profileData.preferences, ["preferredRole", "secondaryRole", "department", "industry", "workLocation", "willingToRelocate", "workMode", "employmentType", "joiningDate", "internshipInterest", "expectedSalary"]) || {};
+  const education = normalizeList("education", ["qualification", "degree", "specialization", "institution", "board", "startYear", "completionYear", "score", "status"]);
+  const projects = normalizeList("projects", ["title", "description", "role", "technologies", "startDate", "endDate", "url"]);
+  const certifications = normalizeList("certifications", ["name", "organization", "issueDate", "expiryDate", "doesNotExpire", "credentialId", "credentialUrl"]);
+  const internships = normalizeList("internships", ["organization", "role", "type", "startDate", "endDate", "ongoing", "responsibilities", "skillsLearned"]);
+  const previousEmployment = normalizeList("previousEmployment", ["company", "designation", "startDate", "endDate", "employmentType", "industry", "department", "description", "responsibilities", "reasonForLeaving"]);
+  const currentEmployment = normalizeProfileRecord(profileData.currentEmployment, ["currentlyUnemployed", "company", "designation", "startDate", "city", "workMode", "industry", "department", "domain", "employmentType", "responsibilities"]) || {};
+  const experience = normalizeProfileRecord(profileData.experience, ["totalYears", "totalMonths", "relevantYears", "relevantMonths", "primaryDomain", "secondaryDomain", "achievements", "teamSize", "reportingLevel"]) || {};
+  const compensation = normalizeProfileRecord(profileData.compensation, ["currentCtc", "expectedCtc", "currency", "noticePeriod", "servingNotice", "lastWorkingDate", "immediateJoiner", "reasonForChange"]) || {};
+  const validUrl = (value) => !value || /^https?:\/\/[^\s]+$/i.test(value);
+  if ([...projects, ...certifications].some((record) => !validUrl(record.url || record.credentialUrl))) return { error: "Enter valid project or credential URLs." };
+  if (education.some((record) => record.completionYear && Number(record.completionYear) < Number(record.startYear))) return { error: "Education completion year cannot be earlier than start year." };
+  if ([...projects, ...certifications, ...internships, ...previousEmployment].some((record) => record.endDate && record.startDate && record.endDate < record.startDate)) return { error: "An end date cannot be earlier than its start date." };
+  const totalMonths = Number(experience.totalYears || 0) * 12 + Number(experience.totalMonths || 0);
+  const relevantMonths = Number(experience.relevantYears || 0) * 12 + Number(experience.relevantMonths || 0);
+  if (totalMonths < 0 || relevantMonths < 0 || Number(experience.totalMonths || 0) > 11 || Number(experience.relevantMonths || 0) > 11 || relevantMonths > totalMonths) return { error: "Enter valid total and relevant experience values." };
+  if ([compensation.currentCtc, compensation.expectedCtc, preferences.expectedSalary].some((value) => value && (!Number.isFinite(Number(value)) || Number(value) < 0))) return { error: "Salary values must be non-negative numbers." };
+  const primarySkills = String(skills.primary || "").split(",").map((value) => value.trim().toLowerCase()).filter(Boolean);
+  if (primarySkills.length && new Set(primarySkills).size !== primarySkills.length) return { error: "Duplicate primary skills are not allowed." };
+  if (candidateType === "fresher" && education.length && education.some((record) => !record.qualification || !record.institution || !record.startYear)) return { error: "Complete the required qualification, institution, and start year for each education record." };
+  if (candidateType === "experienced" && !currentEmployment.currentlyUnemployed && (currentEmployment.company || currentEmployment.designation) && (!currentEmployment.company || !currentEmployment.designation)) return { error: "Complete both current company and designation." };
+  return { profileData: { personal, skills, preferences, education, projects, certifications, internships, currentEmployment, previousEmployment, experience, compensation } };
+}
+
 function validateCandidateProfilePayload(payload) {
   const candidateType = normalizeTextValue(payload.candidateType).toLowerCase();
   const fullName = normalizeTextValue(payload.fullName);
@@ -1593,6 +1646,12 @@ function validateCandidateProfilePayload(payload) {
     return { error: "Enter your professional summary." };
   }
 
+  const expandedProfile = normalizeCandidateProfileData(payload.profileData, candidateType);
+
+  if (expandedProfile.error) {
+    return { error: expandedProfile.error };
+  }
+
   const baseProfile = {
     candidateType,
     fullName,
@@ -1607,6 +1666,7 @@ function validateCandidateProfilePayload(payload) {
       .map((value) => value.trim())
       .filter(Boolean),
     summary,
+    profileData: expandedProfile.profileData,
   };
 
   if (candidateType === "fresher") {
@@ -6168,6 +6228,9 @@ async function saveCandidateProfileRecord(req, res) {
         skills: validation.skills,
         skillList: validation.skillList,
         summary: validation.summary,
+        // The legacy dashboard editor updates the original field set. Preserve expanded
+        // wizard data when that editor does not send a structured profile payload.
+        profileData: validation.profileData || existingProfile?.profileData || null,
         fresherDetails: validation.fresherDetails,
         experiencedDetails: validation.experiencedDetails,
         submittedAt: now,

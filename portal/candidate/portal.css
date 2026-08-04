@@ -1521,6 +1521,56 @@ body.candidate-body--crm .candidate-crm-stat span {
   line-height: 1.5;
 }
 
+.expanded-profile-details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.expanded-profile-details article {
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.expanded-profile-details h3 { margin: 0 0 12px; font-size: 1rem; }
+.expanded-profile-details ul { display: grid; gap: 8px; padding-left: 18px; margin: 0; color: var(--muted); line-height: 1.5; }
+
+.candidate-wizard { display: grid; gap: 22px; }
+.wizard-progress { display: grid; gap: 8px; padding: 18px; border: 1px solid var(--line); border-radius: var(--radius-md); background: rgba(255,255,255,.78); }
+.wizard-progress > span { color: var(--accent-strong); font-size: .85rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; }
+.wizard-progress > strong { font-size: 1.2rem; }
+.wizard-progress ol { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; padding: 0; margin: 6px 0 0; list-style: none; }
+.wizard-progress li { display: grid; place-items: center; min-height: 34px; padding: 4px; border-radius: 10px; background: #e8eff4; color: var(--muted); font-size: .78rem; font-weight: 800; }
+.wizard-progress li span { display: none; }
+.wizard-progress li.is-active { background: var(--accent); color: #fff; }
+.wizard-progress li.is-complete { background: var(--accent-soft); color: var(--accent-strong); }
+.wizard-section { padding: 22px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: rgba(255,255,255,.82); }
+.wizard-section header { margin-bottom: 18px; }
+.wizard-section h3, .wizard-section h4 { margin: 0; font-family: "Space Grotesk", "Segoe UI", sans-serif; }
+.wizard-section header p { margin: 8px 0 0; color: var(--muted); line-height: 1.6; }
+.wizard-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+.wizard-field { display: grid; gap: 7px; color: var(--text); font-size: .9rem; font-weight: 700; }
+.wizard-field--wide { grid-column: 1 / -1; }
+.wizard-field input, .wizard-field select, .wizard-field textarea { width: 100%; min-height: 46px; padding: 11px 12px; border: 1px solid var(--line-strong); border-radius: 10px; background: #fff; color: var(--text); font: inherit; }
+.wizard-field textarea { min-height: 108px; resize: vertical; }
+.field-error { min-height: 17px; color: #b03a48; font-size: .78rem; }
+.character-count { color: var(--muted); font-size: .76rem; font-weight: 600; text-align: right; }
+.wizard-repeatable { display: grid; gap: 16px; }
+.record-list { display: grid; gap: 14px; }
+.record-card, .review-card { padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: #fff; }
+.record-card__header { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.wizard-link { padding: 0; border: 0; background: transparent; color: var(--accent-strong); font: inherit; font-weight: 800; cursor: pointer; text-decoration: underline; }
+.wizard-link:disabled { opacity: .5; cursor: not-allowed; }
+.wizard-check { display: flex; grid-column: 1 / -1; align-items: center; gap: 9px; font-weight: 700; }
+.wizard-navigation { display: flex; justify-content: space-between; gap: 12px; }
+.wizard-review { display: grid; gap: 14px; }
+.review-card { display: grid; gap: 10px; }
+.review-card ul { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px; padding: 0; margin: 0; list-style: none; color: var(--muted); font-size: .9rem; }
+@media (max-width: 680px) { .wizard-progress ol { display: flex; overflow-x: auto; } .wizard-progress li { min-width: 34px; } .wizard-grid, .review-card ul { grid-template-columns: 1fr; } .wizard-section { padding: 16px; } .wizard-navigation { flex-direction: column-reverse; } .wizard-navigation .primary-button, .wizard-navigation .ghost-button { width: 100%; } }
+@media (max-width: 680px) { .expanded-profile-details { grid-template-columns: 1fr; } }
+
 .profile-empty-state h3,
 .profile-toolbar h3,
 .profile-detail-card h3 {
