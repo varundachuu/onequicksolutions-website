@@ -857,9 +857,6 @@ function initializeDraftForm() {
   const form = safeQuery("#application-form-element");
   const draftNote = safeQuery("#draft-note");
   const submitStatus = safeQuery("#submit-status");
-  const submissionModal = safeQuery("#submission-modal");
-  const submissionModalCopy = safeQuery("#submission-modal-copy");
-  const submissionModalDoneButton = safeQuery("#submission-modal-done-button");
   const saveDraftButton = safeQuery("#save-draft-button");
   const submitButton = form?.querySelector('button[type="submit"]');
   const applicationTypeInput = safeQuery("#candidate-type-input");
@@ -888,32 +885,6 @@ function initializeDraftForm() {
       behavior: "smooth",
       block: "nearest",
     });
-  }
-
-  function closeSubmissionModal() {
-    if (!submissionModal) {
-      return;
-    }
-
-    submissionModal.hidden = true;
-    document.body.style.overflow = "";
-  }
-
-  function openSubmissionModal(profile) {
-    if (!submissionModal || !submissionModalDoneButton) {
-      window.location.href = `${candidateDashboardPath}#profile-dashboard`;
-      return;
-    }
-
-    if (submissionModalCopy) {
-      submissionModalCopy.textContent =
-        `Your candidate details for ${profile?.email || session?.email || "this account"} are stored for job applications. Keep your resume updated and ready. Once you are shortlisted, our HR team will contact you by phone and email to collect the resume and continue the process.`;
-    }
-
-    submissionModal.hidden = false;
-    document.body.style.overflow = "hidden";
-
-    submissionModalDoneButton.focus();
   }
 
   function setApplicationType(type, { preserveNote = false } = {}) {
@@ -1134,7 +1105,9 @@ function initializeDraftForm() {
         `${result.message} Stored in ${result.storage.databaseName}.${result.storage.collectionName}.`,
         "success",
       );
-      openSubmissionModal(result.profile);
+      window.setTimeout(() => {
+        window.location.replace(`${candidateDashboardPath}#profile-dashboard`);
+      }, 700);
     } catch (error) {
       setSubmitStatus(
         normalizeAuthErrorMessage(
@@ -1154,20 +1127,10 @@ function initializeDraftForm() {
     } finally {
       if (submitButton) {
         submitButton.disabled = false;
-        submitButton.textContent = "Submit Application";
+        submitButton.textContent = "Save My Profile";
       }
     }
   });
-
-  submissionModalDoneButton?.addEventListener("click", () => {
-    closeSubmissionModal();
-    window.location.href = `${candidateDashboardPath}#profile-dashboard`;
-  });
-
-  // Browsers can restore the last-open success modal from cached page state.
-  // Always reopen the candidate form in a clean state when this page loads again.
-  closeSubmissionModal();
-  window.addEventListener("pageshow", closeSubmissionModal);
 }
 
 function formatJobDate(value) {

@@ -1,5 +1,6 @@
 const candidateLoginPath = "/?userType=candidate";
 const candidateLandingPath = "/candidate/";
+const candidateProfileFormPath = "/candidate/apply/?newProfile=1";
 const authStorageKey = "portalLogin";
 
 const approveButton = document.querySelector("#candidate-approve-button");
@@ -149,10 +150,13 @@ async function submitCandidateConsent(session) {
     };
 
     saveSession(nextSession);
-    setStatus(`${result.message} Redirecting to your candidate workspace...`, "success");
+    setStatus(
+      `${result.message} Redirecting you to the profile form to choose your candidate type.`,
+      "success",
+    );
 
     window.setTimeout(() => {
-      window.location.replace(candidateLandingPath);
+      window.location.replace(candidateProfileFormPath);
     }, 800);
   } catch (error) {
     setStatus(
