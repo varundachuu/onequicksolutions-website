@@ -6,14 +6,17 @@
     <title>Candidate Account</title>
     <link rel="stylesheet" href="../portal.css" />
   </head>
-  <body class="candidate-body">
-    <main class="candidate-shell account-page">
-      <header class="candidate-topbar">
-        <a class="brand-pill" href="/candidate/"><span class="brand-mark">C</span><span><strong>Candidate Workspace</strong><small>Account settings</small></span></a>
-        <div class="topbar-actions"><a class="ghost-button" href="/candidate/">Back to dashboard</a><button class="ghost-button" id="account-signout" type="button">Sign out</button></div>
+  <body class="candidate-body candidate-body--crm">
+    <div class="candidate-crm-app">
+      <header class="candidate-crm-topbar">
+        <div class="candidate-crm-topbar__brand"><a class="candidate-crm-topbar__logos" href="/candidate/" aria-label="Candidate Workspace"><img class="candidate-crm-topbar__logo candidate-crm-topbar__logo--primary" src="/assets/logo/IMG-20251220-WA0001.jpg.jpeg" alt="One Quick Solutions logo" /><img class="candidate-crm-topbar__logo candidate-crm-topbar__logo--secondary" src="/assets/logo/portal-logo-secondary.png" alt="OneQuickSolutions HR Portal logo" /></a><div class="candidate-crm-topbar__title"><strong>Candidate Workspace</strong></div></div>
+        <div class="candidate-crm-topbar__actions"><a class="candidate-crm-topbar__status" href="/candidate/">Dashboard</a><button class="candidate-crm-topbar__signout" id="account-signout" type="button">Sign Out</button></div>
       </header>
+      <div class="candidate-crm-layout">
+        <aside class="candidate-crm-sidebar" aria-label="Candidate workspace sections"><div class="candidate-crm-sidebar__scroll"><div class="candidate-crm-sidebar__group"><span class="candidate-crm-sidebar__group-title">Main</span><nav class="candidate-crm-sidebar__nav"><a class="candidate-crm-sidebar__link" href="/candidate/"><span class="candidate-crm-sidebar__icon">DB</span><span class="candidate-crm-sidebar__label">Dashboard</span></a></nav></div><div class="candidate-crm-sidebar__group"><span class="candidate-crm-sidebar__group-title">Account</span><nav class="candidate-crm-sidebar__nav"><a class="candidate-crm-sidebar__link is-active" href="/candidate/account/"><span class="candidate-crm-sidebar__icon">AC</span><span class="candidate-crm-sidebar__label">Account Settings</span></a></nav></div></div></aside>
+        <main class="candidate-crm-content candidate-crm-content--dashboard"><div class="account-page">
       <section class="section-block"><div class="section-heading"><span class="section-kicker">Account</span><h1>Account settings</h1><p id="account-summary">Loading your account details…</p></div><dl class="account-details" id="account-details"></dl></section>
-      <section class="section-block account-actions"><div class="section-heading"><span class="section-kicker">Profile controls</span><h2>Profile visibility and deletion</h2><p>Deactivate your profile to stop future hiring visibility. Deletion permanently removes both your profile and login.</p></div><div class="hero-action-row"><button class="ghost-button large-button" id="account-toggle-profile" type="button">Loading profile status…</button><button class="ghost-button large-button danger-button" id="account-delete-profile" type="button">Delete Profile</button></div><p id="account-action-status" class="submit-status" role="status" aria-live="polite" hidden></p></section>
+      <section class="section-block account-actions"><div class="section-heading"><span class="section-kicker">Danger zone</span><h2>Delete profile and account</h2><p>This permanently removes all saved candidate details, login credentials, and active sessions. This cannot be undone.</p></div><div class="hero-action-row"><button class="ghost-button large-button danger-button" id="account-delete-profile" type="button">Delete Profile</button></div><p id="account-action-status" class="submit-status" role="status" aria-live="polite" hidden></p></section>
       <section class="section-block"><div class="section-heading"><span class="section-kicker">Security</span><h2>Change password</h2><p>Changing your password signs you out on every device.</p></div>
         <form class="application-form" id="change-password-form">
           <label>Current password <div class="password-input-shell"><input type="password" name="currentPassword" autocomplete="current-password" required/><button type="button" class="password-toggle" data-toggle="currentPassword">Show</button></div></label>
@@ -22,7 +25,9 @@
           <p class="draft-note">Use at least 8 characters and choose a password different from your current password.</p><p id="password-status" class="submit-status" role="status" aria-live="polite" hidden></p><button class="primary-button large-button" type="submit">Change password</button>
         </form>
       </section>
-    </main>
+      </div></main>
+      </div>
+    </div>
     <script src="../../assets/shared/session.js"></script><script src="./account.js"></script>
   </body>
 </html>
