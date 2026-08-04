@@ -6241,59 +6241,104 @@ async function saveCandidateProfileRecord(req, res) {
   const now = new Date();
   const existingProfile = await detailsStore.collection.findOne(
     { email: validation.email },
-    { projection: { _id: 1, createdAt: 1, isVisibleForHiring: 1, profileStatus: 1, deactivatedAt: 1 } },
+    {
+      projection: {
+        _id: 1,
+        createdAt: 1,
+        isVisibleForHiring: 1,
+        profileStatus: 1,
+        deactivatedAt: 1,
+        profileData: 1,
+      },
+    },
   );
   const visibility = existingProfile
     ? getCandidateProfileVisibility(existingProfile)
     : { isVisibleForHiring: true, profileStatus: "active" };
 
-  await candidateStore.collection.updateOne(
-    { _id: credential._id },
-    {
-      $set: {
-        name: validation.fullName,
-        updatedAt: now,
-      },
-    },
-  );
+  const profileUpdate = {
+    candidateCredentialId: String(credential._id),
+    candidateLoginEmail: credential.email,
+    candidateLoginName: validation.fullName,
+    consent: true,
+    profileStatus: visibility.profileStatus,
+    isVisibleForHiring: visibility.isVisibleForHiring,
+    deactivatedAt: visibility.isVisibleForHiring ? null : existingProfile?.deactivatedAt || now,
+    candidateType: validation.candidateType,
+    fullName: validation.fullName,
+    email: validation.email,
+    phone: validation.phone,
+    location: validation.location,
+    preferredRole: validation.preferredRole,
+    preferredWorkLocation: validation.preferredWorkLocation,
+    skills: validation.skills,
+    skillList: validation.skillList,
+    summary: validation.summary,
+    fresherDetails: validation.fresherDetails,
+    experiencedDetails: validation.experiencedDetails,
+    submittedAt: now,
+    updatedAt: now,
+  };
 
-  await detailsStore.collection.updateOne(
-    { email: validation.email },
-    {
-      $set: {
-        candidateCredentialId: String(credential._id),
-        candidateLoginEmail: credential.email,
-        candidateLoginName: validation.fullName,
-        consent: true,
-        profileStatus: visibility.profileStatus,
-        isVisibleForHiring: visibility.isVisibleForHiring,
-        deactivatedAt: visibility.isVisibleForHiring
-          ? null
-          : existingProfile?.deactivatedAt || now,
-        candidateType: validation.candidateType,
-        fullName: validation.fullName,
-        email: validation.email,
-        phone: validation.phone,
-        location: validation.location,
-        preferredRole: validation.preferredRole,
-        preferredWorkLocation: validation.preferredWorkLocation,
-        skills: validation.skills,
-        skillList: validation.skillList,
-        summary: validation.summary,
-        // The legacy dashboard editor updates the original field set. Preserve expanded
-        // wizard data when that editor does not send a structured profile payload.
-        profileData: validation.profileData || existingProfile?.profileData || null,
-        fresherDetails: validation.fresherDetails,
-        experiencedDetails: validation.experiencedDetails,
-        submittedAt: now,
-        updatedAt: now,
+  // The dashboard editor updates the original field set. It must not erase the
+  // additional details saved through the newer multi-step profile form.
+  if (validation.profileData !== null) {
+    profileUpdate.profileData = validation.profileData;
+  } else if (!existingProfile?.profileData) {
+    profileUpdate.profileData = null;
+  }
+
+  try {
+    await detailsStore.collection.updateOne(
+      { email: validation.email },
+      {
+        $set: profileUpdate,
+        $setOnInsert: {
+          createdAt: now,
+        },
       },
-      $setOnInsert: {
-        createdAt: now,
+      { upsert: true },
+    );
+  } catch (error) {
+    console.error("Candidate profile save failed:", error.message);
+
+    if (error?.code === 11000) {
+      return res.status(409).json({
+        ok: false,
+        message: "A candidate profile already exists with these details. Refresh the page and try again.",
+      });
+    }
+
+    if (isMongoConnectivityError(error)) {
+      resetCandidateDetailsConnection().catch(() => {});
+      scheduleCandidateDetailsReconnect();
+      return res.status(503).json({
+        ok: false,
+        message: "Candidate profile storage is temporarily unavailable. Please try again in a moment.",
+      });
+    }
+
+    return res.status(500).json({
+      ok: false,
+      message: "We could not save your profile changes. Please refresh the page and try again.",
+    });
+  }
+
+  // Keep the login display name aligned with the profile, but never reject a
+  // successfully saved profile because this secondary display-name update fails.
+  try {
+    await candidateStore.collection.updateOne(
+      { _id: credential._id },
+      {
+        $set: {
+          name: validation.fullName,
+          updatedAt: now,
+        },
       },
-    },
-    { upsert: true },
-  );
+    );
+  } catch (error) {
+    console.warn("Candidate login display-name update failed:", error.message);
+  }
 
   const savedProfile = await detailsStore.collection.findOne({ email: validation.email });
   await broadcastCompanyDashboardSnapshot();
